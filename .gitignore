@@ -1,0 +1,8 @@
+composer.phar
+/vendor/
+composer.lock
+
+/build/
+*.cache
+phpunit.xml
+example/vendor

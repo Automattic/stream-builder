@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<phpunit
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+  bootstrap="tests/unit/bootstrap.php"
+  beStrictAboutTestsThatDoNotTestAnything="true"
+  colors="true"
+  cacheResult="false"
+  failOnWarning="true"
+  executionOrder="random"
+  resolveDependencies="true"
+>
+  <php>
+    <ini name="display_errors" value="1"/>
+    <server name="CONFIG_DIR" value="config"/>
+  </php>
+  <coverage includeUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">lib</directory>
+    </include>
+  </coverage>
+
+  <testsuites>
+    <testsuite name="Unit Tests">
+      <directory>tests/unit</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>

@@ -1,0 +1,73 @@
+# yamllint disable rule:line-length
+# yamllint disable rule:braces
+
+name: Code Style
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions: read-all
+
+jobs:
+  build:
+    name: Code style with PHP ${{ matrix.php-version }}
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        php-version:
+          - "7.4"
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
+
+      - name: Cache Composer packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/composer
+          key: composer-${{ matrix.php-version }}-${{ hashFiles('composer.*') }}
+          restore-keys: |
+            composer-${{ matrix.php-version }}-
+            composer-
+
+      - name: Install dependencies
+        run: |
+          composer install --prefer-dist --no-progress
+
+      - name: Validate composer.json
+        run: |
+          composer validate --strict
+
+      - name: Normalize composer.json
+        run: |
+          composer normalize --dry-run --diff
+
+      - name: PHPCS git diff
+        run: ./extras/phpcs-diff --non-interactive --source=origin/main --gh-auth=$GITHUB_TOKEN
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Restore PHP-CS-Fixer cache
+        uses: actions/cache@v3
+        with:
+          path: build/cache/.php_cs.cache
+          key: php-cs-fixer-${{ matrix.php-version }}-${{ hashFiles('composer.*') }}
+          restore-keys: |
+            php-cs-fixer-${{ matrix.php-version }}-
+            php-cs-fixer-
+
+      - name: Run PHP-CS-Fixer
+        run: |
+          mkdir -p build/cache/
+          vendor/bin/php-cs-fixer fix --diff --dry-run --verbose --cache-file=build/cache/.php_cs.cache

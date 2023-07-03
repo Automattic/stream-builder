@@ -1,0 +1,48 @@
+# yamllint disable rule:line-length
+# yamllint disable rule:braces
+
+name: Code Analysis
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions: read-all
+
+jobs:
+  build:
+    name: Static code analysis with PHP ${{ matrix.php-version }}
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        php-version:
+          - "7.4"
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
+
+      - name: Cache Composer packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/composer
+          key: composer-${{ matrix.php-version }}-${{ hashFiles('composer.*') }}
+          restore-keys: |
+            composer-${{ matrix.php-version }}-
+            composer-
+
+      - name: Install dependencies
+        run: |
+          composer install --prefer-dist --no-progress
+
+      - name: Run Psalm
+        run: |
+          php vendor/bin/psalm --output-format=github --long-progress --php-version=${{ matrix.php-version }}

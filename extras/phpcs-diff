@@ -1,0 +1,320 @@
+#!/usr/bin/env php
+<?php
+
+use TumblrExtras\GitDiff\Differs\CLIDiffer;
+use TumblrExtras\GitDiff\Differs\PullRequestDiffer;
+use TumblrExtras\GitDiff\FileDiff;
+use TumblrExtras\GitDiff\GitDiff;
+use TumblrExtras\phpcs\Outputters\OutputterStdout;
+use TumblrExtras\phpcs\PHPCSDiff;
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('memory_limit', '2G');
+
+if (!file_exists(__DIR__ . '/../vendor/squizlabs/php_codesniffer/src/Runner.php')) {
+    echo 'PHPCS not installed' . PHP_EOL;
+    echo 'File not found: ' . __DIR__ . '/../vendor/squizlabs/php_codesniffer/src/Runner.php' . PHP_EOL;
+    exit(1);
+}
+
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/squizlabs/php_codesniffer/autoload.php';
+
+/**
+ * Gets a CLI option
+ *
+ * @param $name
+ * @return bool|mixed|null
+ */
+function get_option($name, $default = null)
+{
+    global $options;
+
+    if (!array_key_exists($name, $options)) {
+        return $default;
+    }
+
+    return $options[$name] ? $options[$name] : true;
+}
+
+// Get CLI options
+$short_opts = array('h');
+$long_opts = array(
+    'source:',
+    'target:',
+    'branch:',
+    'autofix',
+    'staged',
+    'help',
+    'diff-api',
+    'no-colors',
+    'gh-owner:',
+    'gh-repo:',
+    'gh-pr:',
+    'gh-auth:',
+    'gh-host:',
+    'key-path:',
+    'gh-debug',
+    'non-interactive',
+);
+$options = getopt(
+    implode(':', $short_opts),
+    $long_opts
+);
+
+// Setup outputter
+$stdout = new OutputterStdout();
+$stdout->colors = !get_option('no-colors');
+
+// Output help
+if (get_option('help') || get_option('h')) {
+    $stdout->write("PHPCS + git diff tool" . PHP_EOL);
+    $stdout->write("usage: phpcs_diff [options] [phpcs-cli-args]" . PHP_EOL);
+    $stdout->write("    --source            The source commit SHA to diff from, this must be a previous SHA (optional)" . PHP_EOL);
+    $stdout->write("    --target            The target commit SHA to diff to, this must be a later SHA. Optional, uses HEAD if not set (optional)" . PHP_EOL);
+    $stdout->write("    --branch            The branch name to diff from: (optional)" . PHP_EOL);
+    $stdout->write("                        If no source is supplied, the start of the branch will be used as source" . PHP_EOL);
+    $stdout->write("                        If no target supplied, the HEAD of the branch will be used for target" . PHP_EOL);
+    $stdout->write("    --non-interactive   To run in non-interactive mode" . PHP_EOL);
+    $stdout->write(PHP_EOL);
+    $stdout->write("                        If no branch, source, or target supplied, the current diff will be used" . PHP_EOL);
+    $stdout->write(PHP_EOL);
+    $stdout->write("    --autofix           Offer to auto fix files if errors found" . PHP_EOL);
+    $stdout->write(PHP_EOL);
+    $stdout->write("For github integration, comments on pull requests are possible. Supply the following arguments" . PHP_EOL);
+    $stdout->write("    --gh-host           Optional. The github API host name" . PHP_EOL);
+    $stdout->write("    --gh-owner          The github user or organisation name" . PHP_EOL);
+    $stdout->write("    --gh-repo           The github repository name" . PHP_EOL);
+    $stdout->write("    --gh-pr             The github pull request ID" . PHP_EOL);
+    $stdout->write("    --gh-auth           A github access token" . PHP_EOL);
+    $stdout->write("    -h/--help           This help" . PHP_EOL);
+    $stdout->write("    --diff-api          Use the Github API to get a PR diff instead of local git commands." . PHP_EOL);
+    $stdout->write("    [phpcs-cli-args]    All other arguments are passed to phpcs" . PHP_EOL);
+    $stdout->write(PHP_EOL);
+    exit();
+}
+
+// Get the branch options
+$source_sha  = get_option('source');
+$target_sha  = get_option('target');
+$branch      = get_option('branch');
+$staged      = get_option('staged');
+$diff_api    = get_option('diff-api');
+$non_interactive = (bool) get_option('non-interactive');
+
+// Add the github comment plugin
+$gh_host = get_option('gh-host', 'api.github.com');
+$gh_owner = get_option('gh-owner');
+$gh_repo = get_option('gh-repo');
+$gh_pr = get_option('gh-pr');
+$gh_debug = get_option('gh-debug', false);
+
+// Read Auth Key Information (If Needed)
+if (!isset($options['gh-auth']) && get_option('key-path') && $diff_api) {
+
+    $ini_file = $options['key-path'] ?? null;
+
+    if (!$ini_file) {
+        print('A github key file path or dir must be supplied with --key-path or supply an auth token with --gh-auth' . PHP_EOL);
+        exit(1);
+    }
+
+    if (!file_exists($ini_file)) {
+        print('The github key file was not found: ' . $ini_file . PHP_EOL);
+        exit(1);
+    }
+
+    $ini = parse_ini_file($ini_file);
+
+    if (!isset($ini['api_key'])) {
+        print('The github key file is missing the key "api_key": ' . $ini_file . PHP_EOL);
+        exit(1);
+    }
+
+    $options['gh-auth'] = $ini['api_key'];
+}
+
+$gh_auth = get_option('gh-auth');
+
+if (!$gh_pr && $diff_api && $gh_auth) {
+
+    // Diff using GitHub API only
+    $differ_strategy = new PullRequestDiffer(
+        $gh_host,
+        $gh_owner,
+        $gh_repo,
+        $gh_auth,
+        $gh_debug
+    );
+
+    // Get the Github PR ID from the branch name and API
+    $pr_info = $differ_strategy->getPullRequestInfo($branch);
+    $gh_pr = $pr_info['pr_number'] ?? 0;
+    $differ_strategy->setPullRequestNumber($gh_pr);
+    $target_sha = $pr_info['head_sha'];
+    $source_sha = $pr_info['base_sha'];
+    $stdout->write("Found PR Number $gh_pr for branch name $branch" . PHP_EOL);
+} else {
+    // Ensure staged OR commits
+    if ($staged && ($source_sha || $target_sha)) {
+        $stdout->write('You cannot use --staged with --source OR --target' . PHP_EOL);
+        exit(1);
+    }
+
+    if ($branch && $target_sha) {
+        $stdout->write('You cannot specify "branch" and "target"' . PHP_EOL);
+        exit(1);
+    }
+
+    // Diff using the CLI git tool (and exec calls)
+    $differ_strategy = new CLIDiffer($source_sha, $target_sha, $staged);
+
+    // In non-staged mode, check source/target etc
+    if (!$staged) {
+        if ($branch) {
+            $target_sha = exec(sprintf('git rev-parse %s', escapeshellarg($branch)));
+        }
+
+        // If no target supplied, assume HEAD
+        if (!$target_sha && $source_sha) {
+            $target_sha = exec('git rev-parse HEAD');
+        }
+
+        if ($target_sha && !$source_sha) {
+            $source_sha = 'origin/main';
+        }
+    }
+}
+
+/**
+ * Setup PHPCSDiff
+ */
+$phpcs_diff = new PHPCSDiff(
+    dirname(__DIR__) . '/vendor/bin/phpcbf',
+    null,
+    get_option('autofix'),
+    $non_interactive
+);
+$phpcs_diff->addOutputter($stdout);
+
+// Setup differ object
+$differ = new GitDiff($differ_strategy);
+
+// Run the diff
+$files = $differ->diff('(\.php)$');
+
+// Filter out deleted files
+$non_deleted_files = array_filter($files, function (FileDiff $file) {
+    return !$file->isDeleted();
+});
+
+$has_files = !empty($non_deleted_files);
+
+// Ensure we have files to check
+if (!$has_files) {
+    $stdout->write(($has_files ? 'No files to process' : 'No files found from git diff') . PHP_EOL);
+
+    if ($staged) {
+        $stdout->write('Running with --staged, with no staged files' . PHP_EOL);
+    }
+    exit;
+}
+
+// Start timer
+$timer = microtime(true);
+
+/**
+ * Run in full files mode for specific sub dirs. Add directories here where all files underneath should have 0 errors.
+ */
+$full_parse_dirs = [
+    'tests/unit/Tumblr/',
+];
+
+$full_file_reports = $phpcs_diff->get_phpcs_errors($non_deleted_files, $full_parse_dirs, dirname(__DIR__));
+
+$success = true;
+$errored = false;
+
+if (count($full_file_reports) > 0) {
+    $errored = true;
+    $success = false;
+
+    foreach ($full_file_reports as $file => $report) {
+        $stdout->write($report['output']);
+    }
+}
+
+// Filter out files which have no code additions
+// Don't output report twice for same file
+$files_with_additions = array_filter($non_deleted_files, function (FileDiff $file) use ($full_file_reports) {
+    $path = $file->getRealPath();
+    return !empty($file->getAddedLines()) && !isset($full_file_reports[$path]);
+});
+
+$processed_files = [];
+
+if (!empty($files_with_additions)) {
+    // Process file diffs, pass args to phpcs
+    $processed_files = $phpcs_diff->process($files_with_additions, $source_sha, $target_sha, $branch);
+}
+
+// Any errors mean failure
+foreach ($processed_files as $file) {
+    if ($file->errors) {
+        $errored = true;
+        $success = false;
+    }
+
+    if ($file->warnings) {
+        $success = false;
+        continue;
+    }
+}
+
+// If no errors, users can override warnings
+if (!$errored && !$phpcs_diff->override_warnings) {
+    $errored = true;
+} elseif (!$errored && $phpcs_diff->override_warnings) {
+    $success = true;
+}
+
+// Output message to github if failed
+if (isset($github)) {
+
+    $comments = $github->get_github_api()->sendRequest('GET', 'pulls', [], 'reviews');
+    if ($success === false) {
+        $has_comment = false;
+        $message = "Uh-oh, looks like your changes don't conform to our coding standards :cry:";
+
+        foreach ($comments as $comment) {
+            if (isset($comment->body) && strpos($comment->body, $message) !== false) {
+                $has_comment = true;
+                break;
+            }
+        }
+
+        if (!$has_comment) {
+            $message .= PHP_EOL . PHP_EOL;
+
+            $github->write($message, ['commit_id' => $target_sha]);
+        }
+
+        try {
+            $github->send_batched(true, 'COMMENT');
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+            exit(1);
+        }
+    }
+}
+
+$stdout->write(PHP_EOL);
+$stdout->write($success ? 'Success: All files validate' : 'Fail: Some files failed to validate');
+
+// Output time and memory
+$stdout->write(PHP_EOL);
+$stdout->write(sprintf("Time: %.2fms; Memory: %.2fMb" . PHP_EOL, (microtime(true) - $timer) * 1000, memory_get_peak_usage() / 1024 / 1024));
+$stdout->write(PHP_EOL);
+
+exit(!$errored === false ? 1 : 0);

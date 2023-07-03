@@ -1,0 +1,50 @@
+{
+    "name": "automattic/stream-builder",
+    "description": "A library for generating a stream of content from a variety of sources.",
+    "license": "GPL-2.0-or-later",
+    "type": "library",
+    "require": {
+        "php": ">=7.4",
+        "symfony/yaml": "^4.4.44 || ^5.4.23 || ^6.2.10"
+    },
+    "require-dev": {
+        "ext-mbstring": "*",
+        "ergebnis/composer-normalize": "^2.8",
+        "friendsofphp/php-cs-fixer": "^3.18",
+        "infection/infection": ">=0.10.5",
+        "phan/phan": ">=1.1",
+        "php-parallel-lint/php-parallel-lint": "^1.3",
+        "phpstan/phpstan": ">=0.10",
+        "phpunit/phpunit": "^9.5",
+        "slevomat/coding-standard": "^8.3",
+        "squizlabs/php_codesniffer": "^3.5",
+        "vimeo/psalm": ">=2"
+    },
+    "minimum-stability": "stable",
+    "autoload": {
+        "classmap": [
+            "lib/"
+        ],
+        "files": [
+            "lib/Tumblr/StreamBuilder/Constants.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/",
+            "TumblrApp\\": "extras/phpcs/TumblrApp",
+            "TumblrExtras\\": "extras"
+        },
+        "classmap": [
+            "tests",
+            "extras"
+        ]
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "infection/extension-installer": true,
+            "ergebnis/composer-normalize": true
+        }
+    }
+}

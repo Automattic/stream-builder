@@ -1,0 +1,57 @@
+# yamllint disable rule:line-length
+# yamllint disable rule:braces
+
+name: Example App
+
+on:
+  pull_request:
+    paths:
+      - 'example/**'
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Run with PHP ${{ matrix.php-version }}
+    timeout-minutes: 1
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version:
+          - "7.4"
+
+    defaults:
+      run:
+        working-directory: ./example
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
+
+      - name: Cache Composer packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/composer
+          key: composer-${{ matrix.php-version }}-${{ hashFiles('composer.*') }}
+          restore-keys: |
+            composer-${{ matrix.php-version }}-
+            composer-
+
+      - name: Install dependencies
+        run: |
+          composer install --prefer-dist --no-progress
+
+      - name: Start the app
+        run: |
+          php -S localhost:8000 &
+
+      - name: Test the app
+        run: |
+          curl --fail-with-body http://localhost:8000

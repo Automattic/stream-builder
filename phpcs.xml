@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<ruleset name="Tumblr">
+    <description>Tumblr StreamBuilder Coding Standard</description>
+
+    <!-- See: extras/phpcs/TumblrApp/ruleset.xml for the full rule list -->
+    <rule ref="extras/phpcs/TumblrApp"/>
+
+    <arg name="extensions" value="php,tpl" />
+    <arg name="colors" />
+    <arg name="encoding" value="utf-8" />
+    <arg name="report-width" value="auto" />
+    <arg name="filter" value="./extras/phpcs/TumblrApp/Filter.php" />
+    <arg value="p"/>
+
+    <arg name="extensions" value="php" />
+
+    <ini name="memory_limit" value="256M" />
+
+    <exclude-pattern>./extras/*</exclude-pattern>
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+</ruleset>

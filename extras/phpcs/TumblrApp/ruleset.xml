@@ -1,0 +1,217 @@
+<?xml version="1.0"?>
+<ruleset name="TumblrApp">
+    <description>Tumblr App Coding Standard</description>
+    <config name="installed_paths" value="../../../vendor/slevomat/coding-standard" />
+
+    <!-- See http://edorian.github.io/php-coding-standard-generator/#phpcs for explanations -->
+    <rule ref="Generic.Classes.DuplicateClassName"/>
+    <rule ref="Generic.ControlStructures.InlineControlStructure"/>
+
+    <rule ref="Generic.CodeAnalysis.EmptyStatement">
+        <!-- Allow empty catch statements -->
+        <exclude name="Generic.CodeAnalysis.EmptyStatement.DetectedCatch"/>
+    </rule>
+    <rule ref="Generic.CodeAnalysis.EmptyStatement.DetectedIF">
+        <type>warning</type>
+    </rule>
+    <rule ref="Generic.CodeAnalysis.EmptyStatement.DetectedELSEIF">
+        <type>warning</type>
+    </rule>
+    <rule ref="Generic.CodeAnalysis.EmptyStatement.DetectedELSE">
+        <type>warning</type>
+    </rule>
+
+    <rule ref="Generic.CodeAnalysis.JumbledIncrementer"/>
+    <rule ref="Generic.Formatting.SpaceAfterCast"/>
+    <rule ref="Generic.Functions.CallTimePassByReference"/>
+    <rule ref="Generic.Functions.FunctionCallArgumentSpacing" />
+    <rule ref="Generic.Functions.FunctionCallArgumentSpacing.TooMuchSpaceAfterComma" />
+    <rule ref="Generic.NamingConventions.ConstructorName"/>
+    <rule ref="Generic.PHP.DeprecatedFunctions"/>
+    <rule ref="Generic.PHP.LowerCaseConstant"/>
+    <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
+
+    <rule ref="Squiz.Commenting.ClassComment">
+        <exclude name="Squiz.Commenting.ClassComment.TagNotAllowed" />
+        <!-- For unit test classes, the class comment is rarely useful, so we relax the requirement -->
+        <exclude-pattern>tests/unit/*</exclude-pattern>
+    </rule>
+
+    <rule ref="TumblrApp.CodeAnalysis.Constant" />
+
+    <rule ref="TumblrApp.Commenting.FunctionComment">
+        <exclude name="TumblrApp.Commenting.FunctionComment.ParamCommentFullStop" />
+        <exclude name="TumblrApp.Commenting.FunctionComment.SpacingAfterParamName" />
+        <exclude name="TumblrApp.Commenting.FunctionComment.SpacingAfterParamType" />
+        <exclude name="TumblrApp.Commenting.FunctionComment.ThrowsNoFullStop" />
+        <!-- The following is excluding a PHP7 specific rule that requires "string", "int", etc. type hints for method parameters -->
+        <exclude name="TumblrApp.Commenting.FunctionComment.ScalarTypeHintMissing" />
+    </rule>
+
+    <rule ref="TumblrApp.Commenting.FunctionComment.MissingReturn">
+        <!-- This relaxes the @return tag requirement for unit & integration tests. -->
+        <exclude-pattern>tests/unit/*</exclude-pattern>
+    </rule>
+
+    <rule ref="TumblrApp.Commenting.FunctionCommentThrowTag"/>
+    <rule ref="TumblrApp.PHP.ForbiddenFunctions"/>
+    <rule ref="TumblrApp.PHP.SwitchContinue"/>
+
+    <!-- disallow `and` and `or` -->
+    <rule ref="Squiz.Operators.ValidLogicalOperators"/>
+    <rule ref="Squiz.PHP.Eval"/>
+    <rule ref="Squiz.PHP.LowercasePHPFunctions"/>
+    <rule ref="Squiz.PHP.NonExecutableCode"/>
+    <rule ref="Squiz.Scope.MemberVarScope"/>
+    <rule ref="Squiz.Scope.StaticThisUsage"/>
+    <rule ref="Squiz.WhiteSpace.OperatorSpacing">
+        <!-- Unfortunately since we allow arbitrary alignments we have to disable this:
+        $a = [
+            'foo' =>             '1',
+            'super-long-key'     '2',
+            'bar' =>             '3',
+        ];
+        -->
+        <exclude name="Squiz.WhiteSpace.OperatorSpacing.SpacingAfter"/>
+    </rule>
+    <rule ref="Squiz.WhiteSpace.LogicalOperatorSpacing"/>
+    <rule ref="Squiz.WhiteSpace.OperatorSpacing" />
+    <rule ref="Squiz.WhiteSpace.ScopeClosingBrace"/>
+    <rule ref="Squiz.WhiteSpace.ScopeKeywordSpacing"/>
+    <rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace"/>
+
+    <rule ref="PSR1.Classes.ClassDeclaration">
+        <!-- DO NOT ADD CLASSES TO THIS LIST. FILES MUST ONLY CONTAIN 1 CLASS, THIS IS FOR BC PURPOSES -->
+        <exclude-pattern>./extras/phpcs/GitDiff.php</exclude-pattern>
+        <exclude-pattern>./tests/*</exclude-pattern>
+    </rule>
+
+    <rule ref="PSR2">
+
+        <!-- We have many files not in a namespace, and files that shouldn't be -->
+        <exclude name="PSR1.Classes.ClassDeclaration.MissingNamespace" />
+
+        <!-- Disable side effects check, we have too much legacy where this may happen -->
+        <exclude name="PSR1.Files.SideEffects"/>
+
+        <!-- Included in Generic.PHP.LowerCaseKeyword -->
+        <exclude name="Squiz.ControlStructures.LowercaseDeclaration"/>
+
+        <!-- Switch scopes must be indented, this causes them to not be -->
+        <exclude name="PEAR.WhiteSpace.ScopeIndent"/>
+
+        <!-- Static methods with the name of the class are incorrectly interpreted as constructors -->
+        <!-- Our ConstructorNameSniff fixes this issue so we ignore the original -->
+        <exclude name="Generic.NamingConventions.ConstructorName.OldStyle"/>
+
+        <!-- Ignore line length sniff, we have a custom one -->
+        <exclude name="Generic.Files.LineLength"/>
+
+        <!-- Ignore method scope sniff, we have a custom one -->
+        <exclude name="Squiz.Scope.MethodScope"/>
+
+        <!-- Ignore valid default value sniff -->
+        <exclude name="PEAR.Functions.ValidDefaultValue"/>
+
+        <!-- We are overriding the PEAR FunctionDeclaration with a custom Tumblr FunctionDeclaration Sniff -->
+        <exclude name="PEAR.Functions.FunctionDeclaration"/>
+
+        <!-- We override this to our own ControlStructureSpacing Sniff -->
+        <exclude name="PSR2.ControlStructures.ControlStructureSpacing" />
+
+        <!-- remove this once phpcs adds a fix that does not check for user defined functions  -->
+        <exclude name="Squiz.PHP.LowercasePHPFunctions.CallUppercase" />
+
+        <!-- We allow blank lines after `if (...) {` -->
+        <exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingAfterOpen" />
+
+        <!-- We allow blank lines before closing } of an if/else block -->
+        <exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingBeforeClose" />
+
+        <!-- Disable camel case checking on global functions -->
+        <exclude name="Generic.NamingConventions.CamelCapsFunctionName"/>
+
+        <!-- ValidClassName is included in the PSR1 spec, not all our classes conform -->
+        <exclude name="Squiz.Classes.ValidClassName"/>
+
+        <!-- Disable PSR2 method and property name syntax, e.g. no underscore prefix -->
+        <exclude name="PSR2.Classes.PropertyDeclaration"/>
+        <exclude name="PSR2.Methods.MethodDeclaration"/>
+
+        <!-- We override this in a custom sniff -->
+        <exclude name="Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace" />
+
+    </rule>
+
+    <!-- CamelCase method name exclusions -->
+    <rule ref="PSR1.Methods.CamelCapsMethodName">
+        <exclude-pattern>./tests/*</exclude-pattern>
+        <exclude-pattern>./lib/Tumblr/StreamBuilder/*</exclude-pattern>
+    </rule>
+
+    <rule ref="TumblrApp.Arrays.ArrayDeclaration">
+        <!-- Allow multiline with single value, we use this frequently -->
+        <exclude name="TumblrApp.Arrays.ArrayDeclaration.MultiLineNotAllowed"/>
+    </rule>
+
+    <!-- Tumblr has a custom VariableComment sniff that overrides that from Squiz -->
+    <rule ref="TumblrApp.Commenting.VariableComment">
+        <exclude name="TumblrApp.Commenting.VariableComment.IncorrectVarType" />
+        <exclude name="TumblrApp.Commenting.VariableComment.TagNotAllowed" />
+        <exclude name="TumblrApp.Commenting.VariableComment.VarOrder" />
+    </rule>
+
+    <!-- Custom Tumblr rule that prevents naming a test something that doesn't end with 'Test' -->
+    <rule ref="TumblrApp.NamingConventions.TestCaseName" />
+    <rule ref="TumblrApp.NamingConventions.VariableName" />
+    <rule ref="TumblrApp.NamingConventions.NamespaceName" />
+
+    <!-- Recommend short array syntax -->
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax.Found">
+        <message>Short array syntax ("[]") is recommended when declaring arrays</message>
+        <type>warning</type>
+    </rule>
+
+    <rule ref="Generic.PHP.DisallowShortOpenTag" />
+    <rule ref="Internal.NoCodeFound" />
+    <rule ref="Squiz.WhiteSpace.OperatorSpacing.NoSpaceBefore" />
+    <rule ref="Squiz.WhiteSpace.ScopeClosingBrace.ContentBefore" />
+    <rule ref="PSR2.Files.ClosingTag.NotAllowed" />
+
+    <!-- don't allow whitespace before the open tag -->
+    <rule ref="TumblrApp.Files.LeadingWhitespace" />
+
+    <!-- Templates can often have long HTML blobs -->
+    <rule ref="TumblrApp.Files.LineLength">
+        <properties>
+            <property name="absoluteLineLimit" value="150"/>
+        </properties>
+    </rule>
+
+    <rule ref="Generic.WhiteSpace.ScopeIndent.IncorrectExact" />
+    <rule ref="PSR2.Methods.FunctionCallSignature.Indent" />
+    <rule ref="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseParenthesis" />
+    <rule ref="Squiz.ControlStructures.ControlSignature.SpaceAfterKeyword" />
+
+    <!-- https://github.com/slevomat/coding-standard -->
+    <rule ref="SlevomatCodingStandard.Classes.ClassConstantVisibility" />
+    <rule phpcs-only="true" ref="SlevomatCodingStandard.Namespaces.UnusedUses">
+        <properties>
+            <property name="searchAnnotations" value="true"/>
+        </properties>
+    </rule>
+    <rule ref="SlevomatCodingStandard.PHP.ShortList" />
+    <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
+        <properties>
+            <property name="declareOnFirstLine" value="true"/>
+        </properties>
+        <exclude name="SlevomatCodingStandard.TypeHints.DeclareStrictTypes.IncorrectStrictTypesFormat" />
+    </rule>
+    <rule ref="SlevomatCodingStandard.TypeHints.LongTypeHints" />
+    <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing" />
+
+    <rule ref="PSR2.ControlStructures.ElseIfDeclaration">
+        <type>error</type>
+    </rule>
+</ruleset>

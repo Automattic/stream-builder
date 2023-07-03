@@ -1,0 +1,18 @@
+#!/usr/bin/env php
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+$argv[] = '--diff-api';
+$argv[] = '--gh-owner=Automattic';
+$argv[] = '--gh-repo=stream-builder';
+$argv[] = '--gh-host=github.com/api/v3';
+
+$status = 1;
+
+$argv[0] = __DIR__ . '/phpcs-diff';
+$command = implode(' ', $argv);
+
+passthru($command, $status);
+
+exit($status);

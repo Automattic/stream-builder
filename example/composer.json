@@ -1,0 +1,23 @@
+{
+    "name": "automattic/my-awesome-reader",
+    "description": "An example of StreamBuilder implementation by following the Beginner's Guide.",
+    "license": "GPL-2.0-or-later",
+    "type": "project",
+    "require": {
+        "automattic/stream-builder": "@dev"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Automattic\\MyAwesomeReader\\": "src/Automattic/MyAwesomeReader/"
+        }
+    }
+}
