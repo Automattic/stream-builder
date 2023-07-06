@@ -27,6 +27,11 @@ use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamFilterResult;
 use Tumblr\StreamBuilder\StreamFilterState;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function get_class;
+use function array_fill;
+use function count;
+use function is_null;
+use function sprintf;
 use const Tumblr\StreamBuilder\SECONDS_PER_DAY;
 
 /**

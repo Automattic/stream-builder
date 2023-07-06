@@ -27,6 +27,7 @@ use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamInjectors\SingleElementInjector;
 use Tumblr\StreamBuilder\Streams\Stream;
+use function reset;
 
 /**
  * Test for SingleElementInjector

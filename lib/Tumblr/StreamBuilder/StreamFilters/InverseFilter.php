@@ -24,6 +24,8 @@ use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamFilterResult;
 use Tumblr\StreamBuilder\StreamFilterState;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function sprintf;
+use function get_class;
 
 /**
  * A filter which inverts another filter. That is, swaps the retained and released sets.

@@ -22,6 +22,7 @@ namespace Tumblr\StreamBuilder\Exceptions;
 
 use Tumblr\StreamBuilder\Codec\Codec;
 use Tumblr\StreamBuilder\Helpers;
+use function sprintf;
 
 /**
  * This exception is thrown when we are unable to decode from a byte string to get a Templatable object in a @Codec.

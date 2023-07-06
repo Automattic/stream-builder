@@ -20,6 +20,9 @@
 
 namespace Tumblr\StreamBuilder\Exceptions;
 
+use function sprintf;
+use function implode;
+
 /**
  * Exception thrown when we decode a client side cursor and signature is invalid.
  */

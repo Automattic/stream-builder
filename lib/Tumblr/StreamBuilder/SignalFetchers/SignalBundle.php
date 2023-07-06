@@ -23,6 +23,8 @@ namespace Tumblr\StreamBuilder\SignalFetchers;
 use Tumblr\StreamBuilder\Exceptions\TypeMismatchException;
 use Tumblr\StreamBuilder\Helpers;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
+use function array_merge;
+use function sprintf;
 
 /**
  * Immutable bundle of signals.

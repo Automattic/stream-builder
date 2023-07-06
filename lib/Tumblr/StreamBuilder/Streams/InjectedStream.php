@@ -31,6 +31,9 @@ use Tumblr\StreamBuilder\StreamElements\DerivedStreamElement;
 use Tumblr\StreamBuilder\StreamInjectors\StreamInjector;
 use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function is_null;
+use function max;
+use function get_class;
 
 /**
  * Stream which performs an injection of one stream into some other stream.

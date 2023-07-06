@@ -20,6 +20,11 @@
 
 namespace Tumblr\StreamBuilder\EnumerationOptions;
 
+use function sprintf;
+use function is_int;
+use function microtime;
+use function intval;
+
 /**
  * The options we apply to optimize enumeration behavior, currently only supports time range options.
  */

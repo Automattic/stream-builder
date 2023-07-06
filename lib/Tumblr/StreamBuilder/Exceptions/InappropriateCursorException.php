@@ -22,6 +22,8 @@ namespace Tumblr\StreamBuilder\Exceptions;
 
 use Tumblr\StreamBuilder\StreamCursors\StreamCursor;
 use Tumblr\StreamBuilder\Streams\Stream;
+use function sprintf;
+use function get_class;
 
 /**
  * Exception thrown when a cursor is provided for stream enumeration, but the stream

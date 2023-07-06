@@ -22,6 +22,10 @@ namespace Tumblr\StreamBuilder\InjectionAllocators;
 
 use Tumblr\StreamBuilder\InjectionAllocatorResult;
 use Tumblr\StreamBuilder\StreamContext;
+use function get_class;
+use function intval;
+use function end;
+use function reset;
 
 /**
  * An injection allocator which injects uniformly, given a modulus and remainder.

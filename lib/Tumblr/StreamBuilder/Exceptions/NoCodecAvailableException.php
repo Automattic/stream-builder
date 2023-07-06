@@ -20,6 +20,8 @@
 
 namespace Tumblr\StreamBuilder\Exceptions;
 
+use function sprintf;
+
 /**
  * Throw this exception when there's no codec detected to decode an encoded object.
  */

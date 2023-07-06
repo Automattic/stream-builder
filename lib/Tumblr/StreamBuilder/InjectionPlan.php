@@ -22,6 +22,13 @@ namespace Tumblr\StreamBuilder;
 
 use Tumblr\StreamBuilder\Helpers;
 use Tumblr\StreamBuilder\Exceptions\TypeMismatchException;
+use function count;
+use function array_keys;
+use function sort;
+use function is_null;
+use function array_splice;
+use function sprintf;
+use function implode;
 
 /**
  * An injection plan represents a mapping from 0-indexed slots to the injections

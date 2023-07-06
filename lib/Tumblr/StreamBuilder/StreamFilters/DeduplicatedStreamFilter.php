@@ -27,6 +27,9 @@ use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamFilterResult;
 use Tumblr\StreamBuilder\StreamFilterState;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function max;
+use function is_null;
+use function get_class;
 
 /**
  * This removes duplicated stream elements based on their cache keys.

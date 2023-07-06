@@ -27,6 +27,11 @@ use Tumblr\StreamBuilder\StreamElements\ChronologicalStreamElement;
 use Tumblr\StreamBuilder\StreamElements\LeafStreamElement;
 use Tumblr\StreamBuilder\StreamFilters\ChronologicalRangeFilter;
 use Tumblr\StreamBuilder\StreamSerializer;
+use function array_merge;
+use function array_slice;
+use function array_map;
+use function range;
+use function sprintf;
 
 /**
  * Test for {@see ChronologicalRangeFilter}

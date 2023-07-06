@@ -20,6 +20,11 @@
 
 namespace Tumblr\StreamBuilder;
 
+use function time;
+use function intval;
+use function microtime;
+use function get_class;
+
 /**
  * Provides the time, so we can mock it in unit tests to be deterministic. Very helpful!
  */

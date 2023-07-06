@@ -21,6 +21,8 @@
 namespace Tumblr\StreamBuilder\Exceptions;
 
 use Tumblr\StreamBuilder\StreamFilters\StreamFilter;
+use function sprintf;
+use function get_class;
 
 /**
  * Exception thrown when an uncacheable stream filter is used in a context where a cacheable stream filter is required.

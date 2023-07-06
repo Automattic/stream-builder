@@ -28,6 +28,7 @@ use Tumblr\StreamBuilder\Exceptions\TypeMismatchException;
 use Tumblr\StreamBuilder\Interfaces\PostStreamElementInterface;
 use Tumblr\StreamBuilder\StreamElements\DerivedStreamElement;
 use Tumblr\StreamBuilder\StreamRankers\CappedPostRanker;
+use function get_class;
 
 /**
  * CappedRankerTest

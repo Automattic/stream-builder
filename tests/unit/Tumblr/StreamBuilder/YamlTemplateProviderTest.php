@@ -23,6 +23,8 @@ namespace Test\Tumblr\StreamBuilder;
 
 use Tumblr\StreamBuilder\Streams\NullStream;
 use Tumblr\StreamBuilder\YamlTemplateProvider;
+use function count;
+use function in_array;
 
 /**
  * Test for YamlTemplateProvider

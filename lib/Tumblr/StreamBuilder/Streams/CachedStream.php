@@ -28,6 +28,12 @@ use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamCursors\StreamCursor;
 use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function is_null;
+use function min;
+use function microtime;
+use function implode;
+use function md5;
+use function sprintf;
 use const Tumblr\StreamBuilder\SECONDS_PER_MINUTE;
 
 /**

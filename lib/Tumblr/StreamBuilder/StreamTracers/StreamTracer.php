@@ -39,6 +39,8 @@ use Tumblr\StreamBuilder\Streams\Stream;
 use Tumblr\StreamBuilder\Streams\StreamCombiner;
 use Tumblr\StreamBuilder\Streams\StreamMixer;
 use Tumblr\StreamBuilder\Streams\WrapStream;
+use function array_map;
+use function array_merge;
 
 /**
  * A helper which provides context-specific callbacks triggered at various stages of the stream enumeration pipeline.

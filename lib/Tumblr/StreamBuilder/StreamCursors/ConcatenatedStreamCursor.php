@@ -22,6 +22,9 @@ namespace Tumblr\StreamBuilder\StreamCursors;
 
 use InvalidArgumentException;
 use Tumblr\StreamBuilder\StreamContext;
+use function sprintf;
+use function get_class;
+use function is_null;
 
 /**
  * The dedicated stream cursor for ConcatenatedStream.

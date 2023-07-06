@@ -21,6 +21,9 @@
 namespace Tumblr\StreamBuilder\StreamCursors;
 
 use Tumblr\StreamBuilder\StreamContext;
+use function sprintf;
+use function get_class;
+use function is_null;
 
 /**
  * Cursor for InjectedStream

@@ -31,6 +31,9 @@ use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\Streams\ChronologicalStreamMixer;
 use Tumblr\StreamBuilder\Streams\NullStream;
 use Tumblr\StreamBuilder\Streams\Stream;
+use function array_map;
+use function get_class;
+use function array_fill;
 use const Tumblr\StreamBuilder\QUERY_SORT_ASC;
 use const Tumblr\StreamBuilder\QUERY_SORT_DESC;
 

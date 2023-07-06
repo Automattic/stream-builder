@@ -23,6 +23,9 @@ namespace Test\Tumblr\StreamBuilder;
 
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\TimestampProvider;
+use function get_class;
+use function floor;
+use function array_shift;
 
 /**
  * Class FixedSetTimestampProvider

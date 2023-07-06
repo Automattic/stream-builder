@@ -23,6 +23,9 @@ namespace Test\Tumblr\StreamBuilder\StreamCursors;
 
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamCursors\StreamCursor;
+use function max;
+use function sprintf;
+use function get_class;
 
 /**
  * A cursor for testing that uses max() as a combiner.

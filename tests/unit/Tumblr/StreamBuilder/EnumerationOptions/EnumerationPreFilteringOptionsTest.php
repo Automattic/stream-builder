@@ -22,6 +22,7 @@
 namespace Test\Tumblr\StreamBuilder;
 
 use Tumblr\StreamBuilder\EnumerationOptions\EnumerationPreFilteringOptions;
+use function array_keys;
 
 class EnumerationPreFilteringOptionsTest extends \PHPUnit\Framework\TestCase
 {

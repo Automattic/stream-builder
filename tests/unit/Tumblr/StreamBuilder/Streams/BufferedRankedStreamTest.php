@@ -35,6 +35,7 @@ use Tumblr\StreamBuilder\Streams\BufferedRankedStream;
 use Tumblr\StreamBuilder\Streams\NullStream;
 use Tumblr\StreamBuilder\Streams\Stream;
 use Tumblr\StreamBuilder\TransientCacheProvider;
+use function array_map;
 
 /**
  * Class BufferedRankedStreamTest

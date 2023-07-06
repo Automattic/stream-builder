@@ -24,6 +24,7 @@ use Tumblr\StreamBuilder\SignalFetchers\SignalBundle;
 use Tumblr\StreamBuilder\SignalFetchers\SignalFetcher;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function get_class;
 
 /**
  * A StreamRanker that provides its ranking method with signals obtained from the provided signal fetcher.

@@ -27,6 +27,7 @@ use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamCursors\MaxIntCursor;
 use Tumblr\StreamBuilder\StreamCursors\StreamCursor;
 use Tumblr\StreamBuilder\StreamSerializer;
+use function count;
 
 /**
  * Test for FencepostCursor

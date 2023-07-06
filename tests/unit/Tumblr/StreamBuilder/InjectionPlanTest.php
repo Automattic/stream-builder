@@ -25,6 +25,8 @@ use Tumblr\StreamBuilder\InjectionPlan;
 use Tumblr\StreamBuilder\StreamElementInjection;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamResult;
+use function count;
+use function array_keys;
 
 /**
  * Class InjectionPlanTest

@@ -24,6 +24,7 @@ namespace Test\Tumblr\StreamBuilder\StreamElements;
 use Test\Tumblr\StreamBuilder\StreamCursors\MockMaxCursor;
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamElements\LeafStreamElement;
+use function sprintf;
 
 /**
  * A simple StreamElement for testing deserialization, using a cursor that has max() as a combine function.

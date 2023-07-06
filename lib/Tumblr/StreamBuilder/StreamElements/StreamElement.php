@@ -23,6 +23,10 @@ namespace Tumblr\StreamBuilder\StreamElements;
 use Tumblr\StreamBuilder\Helpers;
 use Tumblr\StreamBuilder\StreamCursors\StreamCursor;
 use Tumblr\StreamBuilder\Templatable;
+use function is_null;
+use function get_class;
+use function method_exists;
+use function call_user_func;
 
 /**
  * Things that can be enumerated from streams. Each element may have a cursor if it participates

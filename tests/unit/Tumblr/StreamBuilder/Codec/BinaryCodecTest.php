@@ -29,6 +29,9 @@ use Tumblr\StreamBuilder\StreamCursors\GlobalPositionCursor;
 use Tumblr\StreamBuilder\StreamCursors\MultiCursor;
 use Tumblr\StreamBuilder\StreamCursors\SearchStreamCursor;
 use Tumblr\StreamBuilder\Streams\NullStream;
+use function bin2hex;
+use function hex2bin;
+use function get_class;
 
 /**
  * Class BinaryCodecTest

@@ -25,6 +25,7 @@ use Tumblr\StreamBuilder\InjectionPlan;
 use Tumblr\StreamBuilder\Streams\Stream;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
 use Tumblr\StreamBuilder\Templatable;
+use function microtime;
 
 /**
  * Responsible for computing an injection plan for a given page of a given stream.

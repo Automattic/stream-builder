@@ -25,6 +25,10 @@ use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamCursors\StreamCursor;
 use Tumblr\StreamBuilder\StreamCursors\ProportionalRoundRobinStreamCursor;
 use Tumblr\StreamBuilder\StreamSerializer;
+use function get_class;
+use function min;
+use function sprintf;
+use function intval;
 
 /**
  * Tests for the ProportionalRoundRobinStreamCursor

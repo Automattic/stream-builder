@@ -25,6 +25,7 @@ use Tumblr\StreamBuilder\Codec\BinaryCodec;
 use Tumblr\StreamBuilder\Codec\CacheCodec;
 use Tumblr\StreamBuilder\Codec\Codec;
 use Tumblr\StreamBuilder\Exceptions\NoCodecAvailableException;
+use function get_class;
 
 /**
  * Class CodecTest

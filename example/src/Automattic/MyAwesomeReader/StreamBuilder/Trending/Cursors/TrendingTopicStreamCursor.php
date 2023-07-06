@@ -24,6 +24,7 @@ namespace Automattic\MyAwesomeReader\StreamBuilder\Trending\Cursors;
 use Tumblr\StreamBuilder\Helpers;
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamCursors\StreamCursor;
+use function sprintf;
 
 /**
  * A cursor for trending topics.

@@ -30,6 +30,15 @@ use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamFilters\StreamFilter;
 use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function get_class;
+use function intval;
+use function ceil;
+use function max;
+use function array_map;
+use function is_null;
+use function array_splice;
+use function count;
+use function method_exists;
 
 /**
  * A FilteredStream without the cursor stuff. Useful for debugging!

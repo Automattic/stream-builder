@@ -20,6 +20,8 @@
 
 namespace Tumblr\StreamBuilder\Exceptions;
 
+use function sprintf;
+
 /**
  * Class InappropriateTemplateException
  * When the decode output is not a desired Template object.

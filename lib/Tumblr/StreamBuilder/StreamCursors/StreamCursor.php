@@ -32,6 +32,9 @@ use Tumblr\StreamBuilder\Exceptions\UncombinableCursorException;
 use Tumblr\StreamBuilder\Helpers;
 use Tumblr\StreamBuilder\StreamBuilder;
 use Tumblr\StreamBuilder\Templatable;
+use function is_null;
+use function strlen;
+use function trim;
 
 /**
  * Cursors are monadic containers of opaque stream state used for pagination.

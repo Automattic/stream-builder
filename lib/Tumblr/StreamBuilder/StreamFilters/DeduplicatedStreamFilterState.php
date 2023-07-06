@@ -25,6 +25,19 @@ use Tumblr\StreamBuilder\Exceptions\TypeMismatchException;
 use Tumblr\StreamBuilder\StreamBuilder;
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamFilterState;
+use function array_flip;
+use function max;
+use function get_class;
+use function implode;
+use function sprintf;
+use function md5;
+use function explode;
+use function intval;
+use function count;
+use function asort;
+use function array_reverse;
+use function array_slice;
+use function array_keys;
 
 /**
  * State for the DeduplicatedStreamFilter

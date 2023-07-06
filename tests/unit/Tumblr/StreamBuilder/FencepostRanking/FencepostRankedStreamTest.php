@@ -39,6 +39,12 @@ use Tumblr\StreamBuilder\Interfaces\Credentials;
 use Tumblr\StreamBuilder\Interfaces\Log;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\TransientCacheProvider;
+use function array_map;
+use function is_null;
+use function array_merge;
+use function range;
+use function array_slice;
+use function array_reverse;
 
 /**
  * Test for FencepostRankedStream

@@ -30,6 +30,14 @@ use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\StreamSerializer;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
 use Tumblr\StreamBuilder\StreamWeight;
+use function get_class;
+use function array_values;
+use function array_map;
+use function sprintf;
+use function array_reverse;
+use function count;
+use function array_pop;
+use function is_null;
 
 /**
  * A StreamMixer which draws elements randomly in the requested proportions.

@@ -25,6 +25,7 @@ use Tumblr\StreamBuilder\CacheProvider;
 use Tumblr\StreamBuilder\Codec\CacheCodec;
 use Tumblr\StreamBuilder\Helpers;
 use Tumblr\StreamBuilder\StreamCursors\MultiCursor;
+use function serialize;
 
 /**
  * Class CacheCodecTest

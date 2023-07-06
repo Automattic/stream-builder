@@ -26,6 +26,9 @@ use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamRankers\DitheringRanker;
 use Tumblr\StreamBuilder\StreamSerializer;
+use function sqrt;
+use function log;
+use function array_search;
 
 class DitheringRankerTest extends \PHPUnit\Framework\TestCase
 {

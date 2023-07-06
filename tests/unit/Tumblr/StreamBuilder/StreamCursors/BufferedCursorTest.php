@@ -32,6 +32,7 @@ use Tumblr\StreamBuilder\StreamCursors\StreamCursor;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamSerializer;
 use Tumblr\StreamBuilder\TransientCacheProvider;
+use function is_null;
 
 /**
  * Tests for BufferedCursor

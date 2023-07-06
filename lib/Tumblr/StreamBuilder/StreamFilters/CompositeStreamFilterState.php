@@ -25,6 +25,10 @@ use Tumblr\StreamBuilder\Helpers;
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamFilterState;
 use Tumblr\StreamBuilder\StreamSerializer;
+use function is_null;
+use function implode;
+use function get_class;
+use function sprintf;
 
 /**
  * The state of a composite filter containing at least one stateful constituent.

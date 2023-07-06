@@ -30,6 +30,8 @@ use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamInjectors\StreamInjector;
 use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function is_null;
+use function max;
 
 /**
  * Abstract Multi-Cursor mixer, combining injections with a mixing strategy (and attempting to do the heavy lifting of making sense of cursors).

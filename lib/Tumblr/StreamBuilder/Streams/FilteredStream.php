@@ -31,6 +31,13 @@ use Tumblr\StreamBuilder\StreamFilters\StreamFilter;
 use Tumblr\StreamBuilder\StreamFilterState;
 use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function get_class;
+use function intval;
+use function ceil;
+use function max;
+use function is_null;
+use function array_splice;
+use function count;
 
 /**
  * A FilteredStream encapsulates the act of filtering a stream using a provided filter predicate.

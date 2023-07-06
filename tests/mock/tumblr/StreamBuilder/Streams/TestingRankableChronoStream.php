@@ -30,6 +30,12 @@ use Tumblr\StreamBuilder\StreamCursors\StreamCursor;
 use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\Streams\Stream;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function usort;
+use function is_null;
+use function count;
+use function array_slice;
+use function get_class;
+use function array_map;
 
 /**
  * Stream for testing fencepost ranking.

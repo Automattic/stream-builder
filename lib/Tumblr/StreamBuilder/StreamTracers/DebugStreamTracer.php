@@ -22,6 +22,10 @@ namespace Tumblr\StreamBuilder\StreamTracers;
 
 use Tumblr\StreamBuilder\Helpers;
 use Tumblr\StreamBuilder\Identifiable;
+use function sprintf;
+use function date;
+use function is_resource;
+use function fwrite;
 
 /**
  * A tracer which saves debugging info to an output array.

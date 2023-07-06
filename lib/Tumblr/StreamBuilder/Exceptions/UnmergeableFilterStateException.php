@@ -21,6 +21,8 @@
 namespace Tumblr\StreamBuilder\Exceptions;
 
 use Tumblr\StreamBuilder\StreamFilterState;
+use function sprintf;
+use function get_class;
 
 /**
  * Exception thrown when an attempt is made to merge two filter states which cannot be merged.

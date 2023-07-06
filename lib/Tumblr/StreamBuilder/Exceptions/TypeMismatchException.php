@@ -20,6 +20,11 @@
 
 namespace Tumblr\StreamBuilder\Exceptions;
 
+use function is_object;
+use function get_class;
+use function gettype;
+use function sprintf;
+
 /**
  * An exception thrown when the type of an argument (or value) falls outside an allowable domain.
  */

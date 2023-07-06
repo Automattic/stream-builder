@@ -21,6 +21,7 @@
 namespace Tumblr\StreamBuilder\StreamInjectors;
 
 use Tumblr\StreamBuilder\Exceptions\TypeMismatchException;
+use function array_map;
 
 /**
  * A stream injector which composed by an array of injectors.

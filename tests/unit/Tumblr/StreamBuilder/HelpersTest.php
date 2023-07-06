@@ -24,6 +24,7 @@ namespace Test\Tumblr\StreamBuilder;
 use stdClass;
 use Tests\Unit\Tumblr\StreamBuilder\TestUtils;
 use Tumblr\StreamBuilder\Helpers;
+use function strlen;
 
 /**
  * Class HelpersTest
@@ -99,9 +100,9 @@ class HelpersTest extends \PHPUnit\Framework\TestCase
      */
     public function test_verify_reordered_elements()
     {
-        $o1 = new stdClass();
-        $o2 = new stdClass();
-        $o3 = new stdClass();
+        $o1 = new \stdClass();
+        $o2 = new \stdClass();
+        $o3 = new \stdClass();
 
         $this->assertTrue(Helpers::verify_reordered_elements([], []));
         $this->assertTrue(Helpers::verify_reordered_elements([ $o1 ], [ $o1 ]));
@@ -122,9 +123,9 @@ class HelpersTest extends \PHPUnit\Framework\TestCase
      */
     public function test_omit_element()
     {
-        $o1 = new stdClass();
-        $o2 = new stdClass();
-        $o3 = new stdClass();
+        $o1 = new \stdClass();
+        $o2 = new \stdClass();
+        $o3 = new \stdClass();
 
         $this->assertSame([], Helpers::omit_element([], $o1));
         $this->assertSame([], Helpers::omit_element([ $o1 ], $o1));

@@ -22,6 +22,7 @@ namespace Tumblr\StreamBuilder;
 
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamInjectors\StreamInjector;
+use function sprintf;
 
 /**
  * A StreamInjection that has a pre-computed result. Unless you need to defer computation of your injection, you should use this.

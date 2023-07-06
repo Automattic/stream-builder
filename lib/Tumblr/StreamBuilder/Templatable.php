@@ -20,6 +20,8 @@
 
 namespace Tumblr\StreamBuilder;
 
+use function get_class;
+
 /**
  * Ability to convert something into a template and recover a stream object from a template.
  *

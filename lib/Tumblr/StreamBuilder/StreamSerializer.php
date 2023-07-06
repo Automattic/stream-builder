@@ -21,6 +21,10 @@
 namespace Tumblr\StreamBuilder;
 
 use Tumblr\StreamBuilder\Exceptions\InvalidStreamArrayException;
+use function key_exists;
+use function method_exists;
+use function call_user_func;
+use function in_array;
 
 /**
  * Provide stream serialization and deserialization service.

@@ -25,6 +25,7 @@ use Tumblr\StreamBuilder\Helpers;
 use Tumblr\StreamBuilder\Templatable;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function microtime;
 
 /**
  * Abstraction over a thing that fetches signals

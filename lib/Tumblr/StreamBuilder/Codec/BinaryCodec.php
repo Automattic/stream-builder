@@ -27,6 +27,19 @@ use Tumblr\StreamBuilder\Exceptions\InvalidTemplateException;
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamSerializer;
 use Tumblr\StreamBuilder\Templatable;
+use function hex2bin;
+use function md5;
+use function openssl_cipher_iv_length;
+use function gzdeflate;
+use function openssl_encrypt;
+use function substr;
+use function strlen;
+use function hash_equals;
+use function openssl_decrypt;
+use function gzinflate;
+use function sprintf;
+use function base64_encode;
+use function hash;
 
 /**
  * Class BinaryCodec

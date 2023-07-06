@@ -24,6 +24,7 @@ namespace Test\Tumblr\StreamBuilder;
 use Tumblr\StreamBuilder\SignalFetchers\SignalBundleBuilder;
 use Tumblr\StreamBuilder\StreamElements\LeafStreamElement;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
+use function count;
 
 /**
  * Tests for SignalBundleBuilder

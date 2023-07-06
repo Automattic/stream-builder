@@ -22,6 +22,7 @@
 namespace Test\Tumblr\StreamBuilder;
 
 use Tumblr\StreamBuilder\ProportionalMixture;
+use function range;
 
 /**
  * Class ProportionalMixtureTest
