@@ -1,0 +1,42 @@
+# yamllint disable rule:line-length
+# yamllint disable rule:braces
+
+name: Mutation Testing
+
+on:
+  pull_request:
+jobs:
+  build:
+    name: Mutatation testing with PHP ${{ matrix.php-version }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version:
+          - "8.2"
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: pcov
+
+      - name: Cache Composer packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/composer
+          key: composer-${{ matrix.php-version }}-${{ hashFiles('composer.*') }}
+          restore-keys: |
+            composer-${{ matrix.php-version }}-
+            composer-
+
+      - name: Install dependencies
+        run: |
+          composer install --prefer-dist --no-progress
+
+      - name: Run Infection
+        run: |
+          vendor/bin/infection --threads=$(nproc) --show-mutations --no-interaction --only-covered --only-covering-test-cases

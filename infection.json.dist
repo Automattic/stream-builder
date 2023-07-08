@@ -1,0 +1,19 @@
+{
+    "$schema": "vendor/infection/infection/resources/schema.json",
+    "source": {
+        "directories": [
+            "lib"
+        ]
+    },
+    "mutators": {
+        "global-ignoreSourceCodeByRegex": [
+            "Assert::.*",
+            ".*->getLog\\(\\)->.*",
+            "\\$this->trace_event.*",
+            "\\$tracer->.*_.*\\(.*",
+            ".*add_debug_info.*",
+            "parent::__construct\\(.*"
+        ],
+        "MethodCallRemoval": true
+    }
+}
