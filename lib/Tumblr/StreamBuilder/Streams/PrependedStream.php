@@ -32,6 +32,12 @@ use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
  * Stream which takes exactly two streams. First stream should have a limit count.
  * So the enumeration will act like it consumes a certain count of elements of the first stream, then will consume the second stream.
  * An easy way to prepend one stream with another, if you want to show a banner at the "top" or something like that.
+ *
+ * If it sounds like a {@see ConcatenatedStream}, you're not wrong: but there's a very subtle difference. The first
+ * Stream is always prepended (when a null cursor is provided, i.e. on the first page) and the number of elements
+ * returned from the first Stream does not affect the {$count} requested from the second Stream! So if you ask for
+ * count=10, and we prepend two things, you will get 12 elements back. Prepending is special and allowed to violate the
+ * rules for {$count}.
  */
 class PrependedStream extends Stream
 {
