@@ -1,5 +1,20 @@
 # StreamBuilder
 
+StreamBuilder is Tumblr's custom framework we use to power the dashboard and most of the feeds on the platform. The primary architecture centers around “streams” of content. In our implementation, those streams can be posts from a blog, a list of blogs you’re following, posts using a specific tag, or posts relating to a search. These are separate kinds of streams, which can be mixed together, filtered based on certain criteria, ranked for relevancy or engagement likelihood, and more.
+
+On the Tumblr dashboard today you can see how there are posts from blogs you follow, mixed with posts from tags you follow, mixed with blog recommendations. Each of those is a separate stream, with its own logic, but sharing this same framework. We inject those recommendations at certain intervals, filter posts based on who you’re blocking, and rank the posts for relevancy if you have the “Best stuff first” setting enabled. Those are all examples of the functionality StreamBuilder affords for us.
+
+What's included in this repo:
+
+- The full framework library of code that we use today, on Tumblr, to power almost every feed of content you see on the platform.
+- A YAML syntax for composing streams of content, and how to filter, inject, and rank them.
+- Abstractions for programmatically composing, filtering, ranking, injecting, and debugging streams.
+- Abstractions for composing streams together—such as with carousels, for streams-within-streams.
+- An abstraction for cursor-based pagination for complex stream templates.
+- Unit tests covering the public interface for the library and most of the underlying code.
+
+We're still working to add more documentation and examples. Check out [the announcement post on the Tumblr Engineering blog](https://engineering.tumblr.com/post/722102563011493888/streambuilder-our-open-source-framework-for) for more info.
+
 Get started by reading the [StreamBuilder Beginner's Guide](docs/StreamBuilder-Beginners-Guide.md). We also have an example app in the `example/` folder to try!
 
 ## Installation
