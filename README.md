@@ -38,3 +38,18 @@ If you are making a major refactor, changing interfaces, or any other breaking c
 Once approved, we will merge your PR and publish a new version. You can then update the version number in your `composer.json` file and deploy your changes.
 
 All breaking changes will be published as a major version. If you are using a major version, you will need to update your code to use the new interfaces. We don't expect that to occur often.
+
+## Creating a new release
+
+**Only applies to Automatticians**
+
+1. Merged the PR you want to ship? No? Head back to the Contributing section.
+2. Head over to https://github.com/Automattic/stream-builder/releases and click "Draft a new release".
+3. Select "Choose a tag" and create a new version if you haven't already. Not a breaking change? Increment the minor version by 0.0.1. Breaking change? Increment the major version by 0.1.0.
+4. Make sure you are targeting the `main` branch.
+5. Click generate release notes. This will generate a list of all the PRs merged since the last release.
+6. Hit the green "Publish release" button.
+
+Are you a Tumblr employee? You can now update the version number in the `Tumblr/composer.json` file and deploy your changes.
+
+Release often! We want to make sure we are shipping new features and bug fixes as often as possible. We don't want to get into a situation where we are shipping a lot of changes at once.
