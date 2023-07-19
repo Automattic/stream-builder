@@ -41,7 +41,7 @@ All breaking changes will be published as a major version. If you are using a ma
 
 ## Creating a new release
 
-**Only applies to Automatticians**
+**Only applies to Automatticians with repository write permissions**
 
 1. Merge your change via a PR in this repository; see the Contributing section.
 2. Head over to https://github.com/Automattic/stream-builder/releases and click "Draft a new release".
