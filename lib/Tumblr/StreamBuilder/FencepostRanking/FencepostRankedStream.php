@@ -706,8 +706,9 @@ abstract class FencepostRankedStream extends Stream
         $ps_gap_in_seconds = ($current_ms - $previous_fencepost_ms ?? 0) / 1000;
         // Track when last_ts is missing, putting 1 second as a placeholder
         [$op, $gap] = $previous_fencepost_ms ? ['reload', $ps_gap_in_seconds] : ['unknown', 1];
-        StreamBuilder::getDependencyBag()->getLog()
-            ->histogramTick('dashboard_visit_gap', $op, $gap);
+
+        $log = StreamBuilder::getDependencyBag()->getLog();
+        $log->histogramTick('dashboard_visit_gap', $op, $gap);
 
         // Only track candidate counts when reload interval is greater than 2 minutes or when last_visit is unknown
         if ($ps_gap_in_seconds > SECONDS_PER_MINUTE * 2) {
@@ -729,10 +730,8 @@ abstract class FencepostRankedStream extends Stream
                 $per_blog_count_string = Helpers::json_encode($uniq_blog_ids);
             } catch (\JsonException $e) {
                 $per_blog_count_string = '';
-                $log = StreamBuilder::getDependencyBag()->getLog();
                 $log->exception($e, $this->get_identity());
             }
-            $log = StreamBuilder::getDependencyBag()->getLog();
             $log->debug('dashboard_candidates', [
                 $current_ms,
                 $previous_fencepost_ms,
