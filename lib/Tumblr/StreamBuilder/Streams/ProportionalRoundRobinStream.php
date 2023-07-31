@@ -162,7 +162,7 @@ final class ProportionalRoundRobinStream extends Stream
             } catch (\Exception $e) {
                 $log = StreamBuilder::getDependencyBag()->getLog();
                 $log->exception($e, $this->get_identity());
-                // keep enumerate main stream
+                // keep enumerating the stream despite the exception
                 $minor_stream_result = new StreamResult(true, []);
             }
             $minor_elements[$stream_index] = $minor_stream_result->get_elements();
