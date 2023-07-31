@@ -729,6 +729,8 @@ abstract class FencepostRankedStream extends Stream
                 $per_blog_count_string = Helpers::json_encode($uniq_blog_ids);
             } catch (\JsonException $e) {
                 $per_blog_count_string = '';
+                $log = StreamBuilder::getDependencyBag()->getLog();
+                $log->exception($e, $this->get_identity());
             }
             $log = StreamBuilder::getDependencyBag()->getLog();
             $log->debug('dashboard_candidates', [
