@@ -254,6 +254,10 @@ abstract class StreamCursor extends Templatable
                     }
                 } catch (\Exception $e) {
                     $exception = $e;
+
+                    // we might encounter more than one exception, we want to log them all.
+                    $log = StreamBuilder::getDependencyBag()->getLog();
+                    $log->exception($e);
                 }
             }
         }

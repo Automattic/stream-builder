@@ -226,6 +226,8 @@ abstract class CachedStream extends WrapStream
         try {
             $json = Helpers::json_decode($result);
         } catch (\Exception $e) {
+            $log = StreamBuilder::getDependencyBag()->getLog();
+            $log->exception($e, $this->get_identity());
             return null;
         }
         $context = new StreamContext($json, []);

@@ -22,6 +22,7 @@ namespace Tumblr\StreamBuilder\Streams;
 
 use Tumblr\StreamBuilder\EnumerationOptions\EnumerationOptions;
 use Tumblr\StreamBuilder\InjectionPlan;
+use Tumblr\StreamBuilder\StreamBuilder;
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamCursors\MultiCursor;
 use Tumblr\StreamBuilder\StreamElements\ChronologicalStreamElement;
@@ -87,7 +88,9 @@ final class ChronologicalStreamMixer extends StreamMixer
             try {
                 $stream_results = $stream->enumerate($count, $cursor->cursor_for_stream($stream), $tracer, $option);
             } catch (\Exception $e) {
-                // swallow exception and keep enumerating other streams
+                // keep enumerating other streams and log exception
+                $log = StreamBuilder::getDependencyBag()->getLog();
+                $log->exception($e, $this->get_identity());
                 $stream_results = new StreamResult(true, []);
             }
             foreach ($stream_results->get_elements() as $stream_element) {
