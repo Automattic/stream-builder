@@ -21,6 +21,7 @@
 namespace Tumblr\StreamBuilder\Streams;
 
 use Tumblr\StreamBuilder\EnumerationOptions\EnumerationOptions;
+use Tumblr\StreamBuilder\StreamBuilder;
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamCursors\StreamCursor;
 use Tumblr\StreamBuilder\StreamRankers\StreamRanker;
@@ -61,7 +62,10 @@ final class RankedStream extends WrapStream
         try {
             $ranked_elems = $this->ranker->rank($elems, $tracer);
         } catch (\Exception $e) {
-            // ranker failure been swallowed and return original sequence
+            $log = StreamBuilder::getDependencyBag()->getLog();
+            $log->exception($e, $this->get_identity());
+
+            // return original sequence if the ranker fails
             return $res;
         }
         return new StreamResult($res->is_exhaustive(), $ranked_elems);

@@ -24,6 +24,7 @@ use Tumblr\StreamBuilder\EnumerationOptions\EnumerationOptions;
 use Tumblr\StreamBuilder\Exceptions\InappropriateCursorException;
 use Tumblr\StreamBuilder\Exceptions\InvalidStreamArrayException;
 use Tumblr\StreamBuilder\Exceptions\TypeMismatchException;
+use Tumblr\StreamBuilder\StreamBuilder;
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamCursors\ProportionalRoundRobinStreamCursor;
 use Tumblr\StreamBuilder\StreamCursors\StreamCursor;
@@ -159,7 +160,9 @@ final class ProportionalRoundRobinStream extends Stream
                 $minor_stream_result =
                     $stream->enumerate($ct, $cursor->get_minor_stream_cursor($stream_index), $tracer, $option);
             } catch (\Exception $e) {
-                // swallow minor stream's exception and keep enumerate main stream
+                $log = StreamBuilder::getDependencyBag()->getLog();
+                $log->exception($e, $this->get_identity());
+                // keep enumerating the stream despite the exception
                 $minor_stream_result = new StreamResult(true, []);
             }
             $minor_elements[$stream_index] = $minor_stream_result->get_elements();

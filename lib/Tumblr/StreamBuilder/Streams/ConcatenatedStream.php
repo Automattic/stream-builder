@@ -135,6 +135,8 @@ class ConcatenatedStream extends Stream
                             $option = new EnumerationOptions($last_ts, null);
                         } catch (\Exception $e) {
                             // Skip new EnumerationOptions, if fetch element's timestamp failed
+                            $log = StreamBuilder::getDependencyBag()->getLog();
+                            $log->exception($e, $this->get_identity());
                         }
                     }
                 }
