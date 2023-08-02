@@ -95,7 +95,6 @@ class StreamCursorSerializerTest extends \PHPUnit\Framework\TestCase
     {
         if ($exception) {
             $this->expectExceptionLog();
-            $this->assertNotNull($exception);
         }
 
         $cursor = StreamCursorSerializer::decodeCursor($cursor, $user_id === null ? null : (string) $user_id);
