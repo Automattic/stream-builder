@@ -7,6 +7,7 @@
   colors="true"
   cacheResult="false"
   failOnWarning="true"
+  failOnRisky="true"
   executionOrder="random"
   resolveDependencies="true"
 >
