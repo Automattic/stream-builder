@@ -109,7 +109,7 @@ class StreamCursorSerializerTest extends \PHPUnit\Framework\TestCase
      */
     private function expectExceptionLog()
     {
-        $this->log->expects($this->any())->method('exception');
+        $this->log->expects($this->atLeastOnce())->method('exception');
     }
 
     /**
