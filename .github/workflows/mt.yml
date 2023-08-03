@@ -42,6 +42,8 @@ jobs:
           vendor/bin/phpunit --coverage-xml=build/logs/coverage-xml --log-junit=build/logs/junit.xml --coverage-clover=build/logs/clover.xml
 
       - name: Upload test coverage
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
 
