@@ -40,4 +40,4 @@ jobs:
       - name: Run Infection
         run: |
           vendor/bin/phpunit --coverage-xml=build/logs/coverage-xml --log-junit=build/logs/junit.xml --coverage-clover=build/logs/clover.xml
-          vendor/bin/infection --coverage=build/logs --threads=$(nproc) --show-mutations --no-interaction --only-covered --only-covering-test-cases
+          vendor/bin/infection --coverage=build/logs --threads=$(nproc) --show-mutations --no-interaction --only-covered --only-covering-test-cases --skip-initial-tests
