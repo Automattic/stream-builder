@@ -122,9 +122,9 @@ final class FencepostCursor extends StreamCursor
     }
 
     /**
-     * @return StreamCursor
+     * @return StreamCursor|null
      */
-    public function get_tail_cursor(): StreamCursor
+    public function get_tail_cursor(): ?StreamCursor
     {
         return $this->tail_cursor;
     }

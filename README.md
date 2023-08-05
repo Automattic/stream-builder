@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/Automattic/stream-builder/badge.svg)](https://coveralls.io/github/Automattic/stream-builder)
+
 # StreamBuilder
 
 StreamBuilder is Tumblr's custom framework we use to power the dashboard and most of the feeds on the platform. The primary architecture centers around “streams” of content. In our implementation, those streams can be posts from a blog, a list of blogs you’re following, posts using a specific tag, or posts relating to a search. These are separate kinds of streams, which can be mixed together, filtered based on certain criteria, ranked for relevancy or engagement likelihood, and more.
