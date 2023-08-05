@@ -7,6 +7,7 @@
     },
     "mutators": {
         "global-ignoreSourceCodeByRegex": [
+            ".*log->exception.*",
             "Assert::.*",
             ".*->getLog\\(\\)->.*",
             "\\$this->trace_event.*",

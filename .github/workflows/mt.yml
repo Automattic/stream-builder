@@ -5,6 +5,10 @@ name: Mutation Testing
 
 on:
   pull_request:
+  push:
+    branches:
+      - main
+
 jobs:
   build:
     name: Mutatation testing with PHP ${{ matrix.php-version }}
@@ -37,6 +41,17 @@ jobs:
         run: |
           composer install --prefer-dist --no-progress
 
-      - name: Run Infection
+      - name: Collect test coverage
         run: |
-          vendor/bin/infection --threads=$(nproc) --show-mutations --no-interaction --only-covered --only-covering-test-cases
+          vendor/bin/phpunit --coverage-xml=build/logs/coverage-xml --log-junit=build/logs/junit.xml --coverage-clover=build/logs/clover.xml
+
+      - name: Upload test coverage
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
+
+      - name: Run Infection
+        if: github.event_name == 'pull_request'
+        run: |
+          vendor/bin/infection --coverage=build/logs --threads=$(nproc) --show-mutations --no-interaction --only-covered --only-covering-test-cases --skip-initial-tests
