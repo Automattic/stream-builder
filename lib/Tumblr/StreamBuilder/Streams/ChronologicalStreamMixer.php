@@ -102,7 +102,7 @@ final class ChronologicalStreamMixer extends StreamMixer
         }
 
         // magic pre-fetcher!
-        StreamElement::pre_fetch_all($res); // changed this
+        StreamElement::pre_fetch_all($res);
 
         usort($res, function (StreamElement $el_1, StreamElement $el_2) {
             $el_1 = $el_1->get_original_element();
