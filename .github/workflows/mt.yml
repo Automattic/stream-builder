@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    name: Mutatation testing with PHP ${{ matrix.php-version }}
+    name: Mutation testing with PHP ${{ matrix.php-version }}
     runs-on: ubuntu-latest
 
     strategy:
