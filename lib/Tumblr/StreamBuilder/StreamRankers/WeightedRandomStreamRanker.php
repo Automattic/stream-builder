@@ -51,8 +51,12 @@ class WeightedRandomStreamRanker extends StreamRanker
         foreach ($valid_elements as $element) {
             /** @var RecommendationLeafStreamElementTrait $original_element */
             $original_element = $element->get_original_element();
-            // calculate sampling score
-            $r = pow(mt_rand() / $max_rand, (1 / $original_element->get_score()));
+            if ($original_element->get_score() === 0.0) {
+                $r = 0;
+            } else {
+                // calculate sampling score
+                $r = pow(mt_rand() / $max_rand, (1 / $original_element->get_score()));
+            }
             $H[strval($r)] = $element;
         }
         // sort by key in descending order
