@@ -460,7 +460,8 @@ stream_filter:
     - _type: Component\Trending\StreamBuilder\StreamFilters\EmptyTopicStreamElement
 stream:
   _type: Tumblr\StreamBuilder\Streams\RankedStream
-  ranker: Tumblr\StreamBuilder\StreamRankers\RandomRanker
+  ranker: 
+    _type: Tumblr\StreamBuilder\StreamRankers\RandomRanker
   inner:
     _type: Component\Trending\StreamBuilder\Streams\TrendingTopicStream
 ```
