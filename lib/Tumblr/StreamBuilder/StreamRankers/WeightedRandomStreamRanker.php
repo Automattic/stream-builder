@@ -46,24 +46,17 @@ class WeightedRandomStreamRanker extends StreamRanker
 
         // weighted sampling array, $H: ['sampling score' => $stream_element]
         $H = [];
-        $max_rand = mt_getrandmax();
         /** @var StreamElement $element */
         foreach ($valid_elements as $element) {
-            /** @var RecommendationLeafStreamElementTrait $original_element */
-            $original_element = $element->get_original_element();
-            $score = $original_element->get_score();
-            if ($score == 0.0) {
-                $score = 0.001;
-            }
             // calculate sampling score
-            $r = pow(mt_rand() / $max_rand, (1 / $score));
+            $r = $this->get_element_random_score($element);
 
             // store the element in $H, using $r as key.
             $key = strval($r);
             if (array_key_exists($key, $H)) {
                 // We don't want to replace an element that was previously added to $H.
                 // so we append the element id, if the key already exists.
-                $key = sprintf('%s_%s', $key, $original_element->get_element_id());
+                $key = sprintf('%s_%s', $key, $element->get_element_id());
             }
             $H[$key] = $element;
         }
@@ -72,6 +65,23 @@ class WeightedRandomStreamRanker extends StreamRanker
         krsort($H);
         $ranked_elements = array_values($H);
         return array_merge($ranked_elements, $not_valid_elements);
+    }
+
+    /**
+     * @param StreamElement $element Stream element to rank randomly
+     * @return float|int|object
+     */
+    protected function get_element_random_score(StreamElement $element)
+    {
+        /** @var RecommendationLeafStreamElementTrait $original_element */
+        $original_element = $element->get_original_element();
+        $max_rand = mt_getrandmax();
+        $score = $original_element->get_score();
+        if ($score == 0.0) {
+            $score = 0.001;
+        }
+        // calculate sampling score
+        return pow(mt_rand() / $max_rand, (1 / $score));
     }
 
     /**

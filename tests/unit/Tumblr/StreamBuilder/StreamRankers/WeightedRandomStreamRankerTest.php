@@ -112,9 +112,6 @@ class WeightedRandomStreamRankerTest extends \PHPUnit\Framework\TestCase
         $ranked_elements = $this->ranker->rank($stream_elements);
         mt_srand(0);
         $weighted_score = array_map(function ($score) {
-            if ($score === 0.0) {
-                return 0;
-            }
             return pow(mt_rand() / mt_getrandmax(), (1 / $score));
         }, $bid2score);
         // sort by value in descending order
