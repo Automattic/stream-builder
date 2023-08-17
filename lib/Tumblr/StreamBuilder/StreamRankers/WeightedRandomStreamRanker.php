@@ -51,14 +51,23 @@ class WeightedRandomStreamRanker extends StreamRanker
         foreach ($valid_elements as $element) {
             /** @var RecommendationLeafStreamElementTrait $original_element */
             $original_element = $element->get_original_element();
-            if ($original_element->get_score() === 0.0) {
-                $r = 0;
-            } else {
-                // calculate sampling score
-                $r = pow(mt_rand() / $max_rand, (1 / $original_element->get_score()));
+            $score = $original_element->get_score();
+            if ($score == 0.0) {
+                $score = 0.001;
             }
-            $H[strval($r)] = $element;
+            // calculate sampling score
+            $r = pow(mt_rand() / $max_rand, (1 / $score));
+
+            // store the element in $H, using $r as key.
+            $key = strval($r);
+            if (array_key_exists($key, $H)) {
+                // We don't want to replace an element that was previously added to $H.
+                // so we append the element id, if the key already exists.
+                $key = sprintf('%s_%s', $key, $original_element->get_element_id());
+            }
+            $H[$key] = $element;
         }
+
         // sort by key in descending order
         krsort($H);
         $ranked_elements = array_values($H);
