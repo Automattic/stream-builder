@@ -194,7 +194,7 @@ class HelpersTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\JsonException::class);
         $this->expectExceptionMessage('Recursion detected');
         $json_obj = [];
-        $json_obj["foo"] =& $json_obj;
+        $json_obj["foo"] = &$json_obj;
         Helpers::json_encode($json_obj);
     }
 
