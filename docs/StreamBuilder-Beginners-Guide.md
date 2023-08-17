@@ -23,6 +23,7 @@ We also have more detailed explanation of the functionalities for individual hig
     - [What if we want to rank the topics?](#what-if-we-want-to-rank-the-topics)
     - [What if we want to inject some manual topic?](#what-if-we-want-to-inject-some-manual-topic)
 - [Appendix](#appendix)
+  - [Template Files](TemplateFiles.md)
   - [Stream](#stream)
   - [Templatable](#templatable)
   - [Identifiable](#identifiable)
