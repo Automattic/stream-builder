@@ -85,7 +85,7 @@ stream:
 
 You can see that the primary `_type` of our template is an `InjectedStream`. We now have an `injector` property which defines the `_type` of the injector that we're using along with some required properties for the Injector.
 
-First we have the injector `allocator` which determins _where_ in the stream, we'll be injecting our data. In this case, we will always insert our data at positions 0, 5, and 10.
+First we have the injector `allocator` which determines _where_ in the stream, we'll be injecting our data. In this case, we will always insert our data at positions 0, 5, and 10.
 
 Last, we hae the injector `inner` which defines the stream class that returns the actual data we're injecting.
 
