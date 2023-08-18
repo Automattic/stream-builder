@@ -34,7 +34,7 @@ stream_filter:
 
 Notice how we've essentially wrapped our original `NullStream` so it's _inside_ the `FilteredStream`. 
 
-The primary `_type` property of our file is now the `FilteredStream` and our `NullStream` is inside the filter under the `stream:` property. The `FilteredStream` also has an additional `stream_filter` property which defines the class we're using to handle the actual filtering.
+The primary `_type` property of our file is now the `FilteredStream` and our `NullStream` is inside the filtered stream under the `stream:` property. The `FilteredStream` also has an additional `stream_filter` property which defines the class we're using to handle the actual filtering.
 
 **NOTE: It's important to see that any template file property that's defining a stream class must have a `_type` property.**
 
@@ -44,20 +44,24 @@ Let's digress for just a moment to talk about template file properties that are 
 
 Most stream classes support varying properties, some required, some optional. Most of the required properties are things like `_type`, `stream`, `inner`, etc.
 
-At this point, the easiest way to see the options available is to look at the class definition for the stream type.
+At this point, the easiest way to see the options available is to look at the `from_template` method of the class for the stream type.
 
-Let's look at the [`FilteredStream`](https://github.com/Automattic/stream-builder/blob/main/lib/Tumblr/StreamBuilder/Streams/FilteredStream.php#L86) as an example:
+Let's look at the [`FilteredStream`](https://github.com/Automattic/stream-builder/blob/main/lib/Tumblr/StreamBuilder/Streams/FilteredStream.php#L129) as an example:
 
 ```
-public function __construct(
-        Stream $inner,
-        StreamFilter $filter,
-        string $identity,
-        int $retry_count = null,
-        float $overfetch_ratio = null,
-        bool $skip_filters = false,
-        bool $slice_result = true
-    ) {
+public static function from_template(StreamContext $context): self {
+	// ...
+
+	return new self(
+            $stream,
+            $filter,
+            $context->get_current_identity(),
+            $context->get_optional_property('retry_count'),
+            $context->get_optional_property('overfetch_ratio'),
+            $skip_filters,
+            $context->get_optional_property('slice_result', true)
+        );
+}
 ```
 
 The basic rule of thumb is that constructor parameters that have default values (like `retry_count`, `overfetch_ratio`, `skip_filters`, `slice_result`) are all optional. The other parameters (like `inner`) are required.
