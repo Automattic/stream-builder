@@ -4,7 +4,7 @@ As you've probably seen in the [Beginner's Guide](StreamBuilder-Beginners-Guide.
 
 Larger template files may seem intimidating at first. This document is to help describe the basics of template files so you can start crafting your own.
 
-We're reference a few different types of stream classes here but we won't go into too much detail about how they work in this document. Please refer to the Beginner's Guide for some basics about different stream types.
+We're referencing a few different types of stream classes here but we won't go into too much detail about how they work in this document. Please refer to the Beginner's Guide for some basics about different stream types.
 
 ## Your First Template File
 
