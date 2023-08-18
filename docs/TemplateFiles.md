@@ -87,7 +87,7 @@ You can see that the primary `_type` of our template is an `InjectedStream`. We 
 
 First we have the injector `allocator` which determines _where_ in the stream, we'll be injecting our data. In this case, we will always insert our data at positions 0, 5, and 10.
 
-Last, we hae the injector `inner` which defines the stream class that returns the actual data we're injecting.
+Last, we have the injector `inner` which defines the stream class that returns the actual data we're injecting.
 
 After the injector, we have the stream that we're injecting data _into_ which is the same filtered stream we had before. Notice how that portion is unchanged except that the indentation has shifted to the right.
 
