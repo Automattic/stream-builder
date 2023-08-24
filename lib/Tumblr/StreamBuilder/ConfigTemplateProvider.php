@@ -20,6 +20,18 @@
 
 namespace Tumblr\StreamBuilder;
 
+use function is_null;
+use function is_readable;
+use function file_get_contents;
+use function preg_replace;
+use function ltrim;
+use function str_replace;
+use function explode;
+use function count;
+use function scandir;
+use function sprintf;
+use function is_dir;
+
 /**
  * Template provider that reads templates in a separate config space.
  */

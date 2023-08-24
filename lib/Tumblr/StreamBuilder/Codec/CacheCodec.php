@@ -28,6 +28,10 @@ use Tumblr\StreamBuilder\Helpers;
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamSerializer;
 use Tumblr\StreamBuilder\Templatable;
+use function serialize;
+use function utf8_encode;
+use function unserialize;
+use function sprintf;
 
 /**
  * Class CacheCodec

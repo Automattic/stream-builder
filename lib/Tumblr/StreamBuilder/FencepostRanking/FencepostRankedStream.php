@@ -33,6 +33,13 @@ use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\Streams\Stream;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
 use Tumblr\StreamBuilder\TimestampProvider;
+use function get_class;
+use function sprintf;
+use function array_slice;
+use function array_map;
+use function array_count_values;
+use function is_null;
+use function count;
 use const Tumblr\StreamBuilder\SECONDS_PER_MINUTE;
 
 /**

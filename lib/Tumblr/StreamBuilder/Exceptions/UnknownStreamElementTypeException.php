@@ -21,6 +21,7 @@
 namespace Tumblr\StreamBuilder\Exceptions;
 
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
+use function sprintf;
 
 /**
  * Exception throw when the stream element type is not defined.

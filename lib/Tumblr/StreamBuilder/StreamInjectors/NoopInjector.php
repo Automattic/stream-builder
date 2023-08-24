@@ -24,6 +24,7 @@ use Tumblr\StreamBuilder\InjectionPlan;
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\Streams\Stream;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function get_class;
 
 /**
  * Injector which injects nothing. Can be useful for debugging.

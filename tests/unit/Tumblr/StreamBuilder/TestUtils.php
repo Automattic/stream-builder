@@ -21,6 +21,14 @@
 
 namespace Tests\Unit\Tumblr\StreamBuilder;
 
+use function gettype;
+use function is_resource;
+use function is_object;
+use function get_object_vars;
+use function is_array;
+use function array_keys;
+use function sort;
+
 class TestUtils
 {
     /**

@@ -20,6 +20,9 @@
 
 namespace Tumblr\StreamBuilder;
 
+use function is_array;
+use function sprintf;
+
 /**
  * Context passed along in deserialize process, stores necessary meta data for stream generation.
  * Template array description can be found in Templatable.

@@ -32,6 +32,14 @@ use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\Streams\ProportionalRoundRobinStream;
 use Tumblr\StreamBuilder\Streams\Stream;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function range;
+use function array_map;
+use function max;
+use function sprintf;
+use function array_slice;
+use function is_null;
+use function count;
+use function array_fill;
 
 /**
  * Tests for the ProportionalRoundRobinStream

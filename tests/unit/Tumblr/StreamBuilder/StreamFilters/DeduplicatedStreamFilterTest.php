@@ -36,6 +36,10 @@ use Tumblr\StreamBuilder\Streams\FilteredStream;
 use Tumblr\StreamBuilder\Streams\Stream;
 use Tumblr\StreamBuilder\StreamSerializer;
 use Tumblr\StreamBuilder\TransientCacheProvider;
+use function is_null;
+use function array_map;
+use function sprintf;
+use function md5;
 
 /**
  * Class DeduplicatedStreamFilterTest

@@ -30,6 +30,7 @@ use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\Streams\RoundRobinStreamMixer;
 use Tumblr\StreamBuilder\Streams\Stream;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function array_map;
 
 /**
  * Class RoundRobinStreamMixerTest

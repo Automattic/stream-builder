@@ -24,6 +24,16 @@ use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamElements\LeafStreamElement;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function asort;
+use function array_keys;
+use function array_merge;
+use function array_push;
+use function mt_rand;
+use function mt_getrandmax;
+use function sqrt;
+use function log;
+use function cos;
+use function pi;
 
 /**
  * Re-orders LeafStreamElements by adding normally distributed random noise to the initial rank,

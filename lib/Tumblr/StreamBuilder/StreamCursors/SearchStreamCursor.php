@@ -22,6 +22,8 @@ namespace Tumblr\StreamBuilder\StreamCursors;
 
 use Tumblr\StreamBuilder\Helpers;
 use Tumblr\StreamBuilder\StreamContext;
+use function sprintf;
+use function intval;
 
 /**
  * A cursor for the search stream.

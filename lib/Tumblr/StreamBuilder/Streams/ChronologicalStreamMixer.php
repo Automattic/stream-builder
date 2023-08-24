@@ -31,6 +31,12 @@ use Tumblr\StreamBuilder\StreamInjectors\StreamInjector;
 use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\StreamSerializer;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function usort;
+use function count;
+use function array_slice;
+use function get_class;
+use function array_map;
+use function sprintf;
 use const Tumblr\StreamBuilder\QUERY_SORT_ASC;
 use const Tumblr\StreamBuilder\QUERY_SORT_DESC;
 

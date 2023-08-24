@@ -21,6 +21,9 @@
 namespace Tumblr\StreamBuilder;
 
 use Tumblr\StreamBuilder\Streams\Stream;
+use function abs;
+use function floatval;
+use function get_class;
 
 /**
  * Struct containing a Stream and Weight.

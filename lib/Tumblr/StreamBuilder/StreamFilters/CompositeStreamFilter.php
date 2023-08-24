@@ -27,6 +27,13 @@ use Tumblr\StreamBuilder\StreamFilterResult;
 use Tumblr\StreamBuilder\StreamFilterState;
 use Tumblr\StreamBuilder\StreamSerializer;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function implode;
+use function get_class;
+use function array_map;
+use function sprintf;
+use function count;
+use function array_merge;
+use function is_null;
 
 /**
  * A filter which combines multiple filters, retaining only those elements which are retained by all of them.

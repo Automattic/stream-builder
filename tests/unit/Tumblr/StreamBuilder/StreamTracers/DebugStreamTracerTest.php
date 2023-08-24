@@ -24,6 +24,10 @@ namespace Test\Tumblr\StreamBuilder\StreamTracers;
 use Tumblr\StreamBuilder\Streams\Stream;
 use Tumblr\StreamBuilder\StreamTracers\DebugStreamTracer;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function fopen;
+use function rewind;
+use function fread;
+use function fclose;
 
 /**
  * Class DebugStreamTracerTest

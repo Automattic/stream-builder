@@ -24,6 +24,9 @@ use Tumblr\StreamBuilder\SignalFetchers\SignalBundle;
 use Tumblr\StreamBuilder\SignalFetchers\SignalFetcher;
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
+use function usort;
+use function sprintf;
+use function strtolower;
 use const Tumblr\StreamBuilder\QUERY_SORT_ASC;
 use const Tumblr\StreamBuilder\QUERY_SORT_DESC;
 

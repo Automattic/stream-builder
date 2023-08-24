@@ -21,6 +21,7 @@
 namespace Tumblr\StreamBuilder\Exceptions;
 
 use Tumblr\StreamBuilder\Helpers;
+use function sprintf;
 
 /**
  * Exception thrown when Stream Array is not valid

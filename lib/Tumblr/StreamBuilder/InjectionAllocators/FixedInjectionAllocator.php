@@ -21,6 +21,10 @@
 namespace Tumblr\StreamBuilder\InjectionAllocators;
 
 use Tumblr\StreamBuilder\StreamContext;
+use function is_int;
+use function sort;
+use function array_unique;
+use function get_class;
 
 /**
  * An allocator which just uses the slots you tell it to. Slots outside the page boundary are ignored.

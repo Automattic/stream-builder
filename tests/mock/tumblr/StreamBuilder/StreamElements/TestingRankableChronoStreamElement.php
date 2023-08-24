@@ -25,6 +25,7 @@ use Test\Tumblr\StreamBuilder\StreamCursors\TestingChronoCursor;
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamElements\ChronologicalStreamElement;
 use Tumblr\StreamBuilder\StreamElements\LeafStreamElement;
+use function sprintf;
 
 /**
  * A stream element for {@see TestingRankableChronoStream}

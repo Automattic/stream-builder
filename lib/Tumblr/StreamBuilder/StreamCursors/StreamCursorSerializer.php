@@ -21,6 +21,12 @@
 namespace Tumblr\StreamBuilder\StreamCursors;
 
 use Tumblr\StreamBuilder\StreamBuilder;
+use function reset;
+use function sprintf;
+use function trim;
+use function array_map;
+use function array_merge;
+use function is_null;
 
 /**
  * Helper to decode/encode StreamCursors.

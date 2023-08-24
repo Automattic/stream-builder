@@ -25,6 +25,7 @@ use Tumblr\StreamBuilder\Helpers;
 use Tumblr\StreamBuilder\SignalFetchers\SignalBundle;
 use Tumblr\StreamBuilder\StreamElements\LeafStreamElement;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
+use function array_merge;
 
 /**
  * Test for SignalBundle.

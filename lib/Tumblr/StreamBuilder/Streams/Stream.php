@@ -27,6 +27,9 @@ use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
 use Tumblr\StreamBuilder\Templatable;
+use function sprintf;
+use function array_map;
+use function microtime;
 
 /**
  * An enumerable source of elements which exposes opaque internal state through cursors.

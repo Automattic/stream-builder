@@ -21,6 +21,8 @@
 namespace Tumblr\StreamBuilder\Exceptions;
 
 use Tumblr\StreamBuilder\StreamCursors\StreamCursor;
+use function sprintf;
+use function get_class;
 
 /**
  * Exception thrown when an attempt is made to combine two cursors which cannot be combined.

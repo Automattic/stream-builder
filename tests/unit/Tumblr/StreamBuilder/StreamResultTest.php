@@ -29,6 +29,8 @@ use Tumblr\StreamBuilder\StreamElements\DerivedStreamElement;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\Streams\Stream;
+use function count;
+use function get_class;
 
 /**
  * Class StreamResultTest

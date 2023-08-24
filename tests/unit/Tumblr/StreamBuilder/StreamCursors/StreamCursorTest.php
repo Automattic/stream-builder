@@ -30,6 +30,9 @@ use Tumblr\StreamBuilder\Exceptions\NoCodecAvailableException;
 use Tumblr\StreamBuilder\Helpers;
 use Tumblr\StreamBuilder\StreamCursors\MultiCursor;
 use Tumblr\StreamBuilder\StreamCursors\StreamCursor;
+use function str_repeat;
+use function get_class;
+use function sprintf;
 
 /**
  * Class StreamCursorTest

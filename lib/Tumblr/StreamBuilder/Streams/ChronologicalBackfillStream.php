@@ -27,6 +27,9 @@ use Tumblr\StreamBuilder\StreamCursors\StreamCursor;
 use Tumblr\StreamBuilder\StreamElements\DerivedStreamElement;
 use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function is_null;
+use function count;
+use function get_class;
 use const Tumblr\StreamBuilder\SECONDS_PER_HOUR;
 
 /**

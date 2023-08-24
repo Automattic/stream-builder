@@ -22,6 +22,10 @@ namespace Tumblr\StreamBuilder;
 
 use Tumblr\StreamBuilder\Helpers;
 use Tumblr\StreamBuilder\Exceptions\TypeMismatchException;
+use function is_int;
+use function count;
+use function sprintf;
+use function implode;
 
 /**
  * A structure representing the result of a allocating operation, containing the allocated output array

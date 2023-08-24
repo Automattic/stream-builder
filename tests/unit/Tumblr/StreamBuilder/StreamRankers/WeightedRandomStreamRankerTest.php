@@ -25,6 +25,15 @@ use Test\Mock\Tumblr\StreamBuilder\StreamElements\MockedPostRefElement;
 use Tests\mock\tumblr\StreamBuilder\StreamElements\MockedRecommendationStreamElement;
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamRankers\WeightedRandomStreamRanker;
+use function array_push;
+use function array_shift;
+use function mt_srand;
+use function array_map;
+use function pow;
+use function mt_rand;
+use function mt_getrandmax;
+use function arsort;
+use function array_keys;
 
 /**
  * Class WeightedRandomStreamRanker

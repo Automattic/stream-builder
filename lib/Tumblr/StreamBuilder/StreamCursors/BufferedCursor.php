@@ -26,6 +26,13 @@ use Tumblr\StreamBuilder\StreamBuilder;
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamSerializer;
+use function array_values;
+use function array_intersect_key;
+use function implode;
+use function get_class;
+use function is_null;
+use function md5;
+use function sprintf;
 
 /**
  * Cursor used by overfetching streams, to remember enumerated but not-yet-used elements.

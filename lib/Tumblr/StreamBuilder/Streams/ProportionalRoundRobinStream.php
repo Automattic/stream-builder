@@ -33,6 +33,15 @@ use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\StreamSerializer;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function count;
+use function is_null;
+use function is_int;
+use function array_shift;
+use function floor;
+use function get_class;
+use function array_map;
+use function sprintf;
+use function intval;
 
 /**
  * A round-robin "mixer" that mixes secondary streams in a particular sequence and proportion.

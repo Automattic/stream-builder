@@ -21,6 +21,7 @@
 namespace Tumblr\StreamBuilder;
 
 use Tumblr\StreamBuilder\Exceptions\UnmergeableFilterStateException;
+use function is_null;
 
 /**
  * A StreamFilterState is like a cursor for a StreamFilter, allowing it to maintain its own state.

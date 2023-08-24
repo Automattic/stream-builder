@@ -25,6 +25,9 @@ use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\Streams\Stream;
 use Tumblr\StreamBuilder\StreamSerializer;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function is_null;
+use function count;
+use function sprintf;
 
 /**
  * This composite injector is quite like PushdownCompositeInjector, combining an array of injector's plan by priority.

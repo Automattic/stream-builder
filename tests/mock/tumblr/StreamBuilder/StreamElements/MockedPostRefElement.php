@@ -26,6 +26,7 @@ use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamCursors\SearchStreamCursor;
 use Tumblr\StreamBuilder\StreamElements\ChronologicalStreamElement;
 use Tumblr\StreamBuilder\StreamElements\LeafStreamElement;
+use function sprintf;
 
 /**
  * A mocked version of PostRefElement

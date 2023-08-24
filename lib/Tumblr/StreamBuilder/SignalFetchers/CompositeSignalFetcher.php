@@ -24,6 +24,9 @@ use Tumblr\StreamBuilder\Exceptions\TypeMismatchException;
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamSerializer;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function get_class;
+use function array_map;
+use function sprintf;
 
 /**
  * A SignalFetcher that composes a number of other signal fetchers.

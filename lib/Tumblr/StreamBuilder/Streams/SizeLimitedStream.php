@@ -30,6 +30,13 @@ use Tumblr\StreamBuilder\StreamElements\DerivedStreamElement;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function sprintf;
+use function is_null;
+use function array_slice;
+use function array_map;
+use function count;
+use function get_class;
+use function method_exists;
 
 /**
  * Use this stream to limit the overall elements can be enumerated from a stream.

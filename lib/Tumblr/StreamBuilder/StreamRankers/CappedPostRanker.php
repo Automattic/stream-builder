@@ -25,6 +25,16 @@ use Tumblr\StreamBuilder\Interfaces\User;
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
 use Tumblr\StreamBuilder\Exceptions\TypeMismatchException;
+use function get_class;
+use function is_subclass_of;
+use function array_key_exists;
+use function is_null;
+use function strval;
+use function current;
+use function array_search;
+use function array_slice;
+use function array_reverse;
+use function array_push;
 
 /**
  * This ranker has two main goals:

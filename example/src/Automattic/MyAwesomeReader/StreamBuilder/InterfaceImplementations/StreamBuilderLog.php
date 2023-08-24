@@ -22,6 +22,7 @@
 namespace Automattic\MyAwesomeReader\StreamBuilder\InterfaceImplementations;
 
 use Tumblr\StreamBuilder\Interfaces\Log;
+use function var_dump;
 
 /**
  * A simple implementation of Log.

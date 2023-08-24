@@ -26,6 +26,8 @@ use Tumblr\StreamBuilder\StreamFilterResult;
 use Tumblr\StreamBuilder\StreamFilterState;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
 use Tumblr\StreamBuilder\Templatable;
+use function count;
+use function microtime;
 
 /**
  * A predicate usable in filtering streams.

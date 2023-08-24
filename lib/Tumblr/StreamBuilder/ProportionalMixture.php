@@ -20,6 +20,11 @@
 
 namespace Tumblr\StreamBuilder;
 
+use function array_sum;
+use function mt_rand;
+use function mt_getrandmax;
+use function count;
+
 /**
  * A utility class for managing a distribution over several buckets, each with a relative real-valued weight.
  */

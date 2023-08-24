@@ -29,6 +29,7 @@ use Tumblr\StreamBuilder\StreamCursors\MultiCursor;
 use Tumblr\StreamBuilder\StreamElements\DerivedStreamElement;
 use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\Streams\StreamCombiner;
+use function array_map;
 
 /**
  * Class StreamCombinerTest

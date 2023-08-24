@@ -22,6 +22,11 @@ namespace Tumblr\StreamBuilder\InjectionAllocators;
 
 use Tumblr\StreamBuilder\InjectionAllocatorResult;
 use Tumblr\StreamBuilder\StreamContext;
+use function max;
+use function min;
+use function get_class;
+use function mt_getrandmax;
+use function mt_rand;
 
 /**
  * A purely random allocator which, with some uniform probability, allocates a slot for injection.

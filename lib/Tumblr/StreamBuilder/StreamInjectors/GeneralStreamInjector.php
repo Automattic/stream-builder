@@ -29,6 +29,9 @@ use Tumblr\StreamBuilder\StreamCursors\StreamCursorSerializer;
 use Tumblr\StreamBuilder\StreamElementInjection;
 use Tumblr\StreamBuilder\Streams\Stream;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function count;
+use function array_shift;
+use function array_map;
 
 /**
  * A general injector which enumerates elements from the inner stream and injects to a main stream with

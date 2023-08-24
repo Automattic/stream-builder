@@ -21,6 +21,7 @@
 namespace Tumblr\StreamBuilder\StreamCursors;
 
 use Tumblr\StreamBuilder\StreamContext;
+use function sprintf;
 
 /**
  * Class MaxIntCursor

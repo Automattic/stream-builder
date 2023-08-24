@@ -20,6 +20,29 @@
 
 namespace Tumblr\StreamBuilder;
 
+use function base64_encode;
+use function base64_decode;
+use function strtr;
+use function pack;
+use function gethostname;
+use function getmypid;
+use function md5;
+use function uniqid;
+use function sprintf;
+use function spl_object_hash;
+use function array_intersect_key;
+use function count;
+use function array_keys;
+use function array_values;
+use function get_class;
+use function explode;
+use function end;
+use function intval;
+use function microtime;
+use function json_encode;
+use function is_numeric;
+use function json_decode;
+
 /**
  * Static helper functions used in various places within the StreamBuilder framework.
  */

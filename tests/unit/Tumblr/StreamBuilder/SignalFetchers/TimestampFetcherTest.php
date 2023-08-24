@@ -28,6 +28,7 @@ use Tumblr\StreamBuilder\StreamElements\LeafStreamElement;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\Streams\Stream;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function sprintf;
 
 /**
  * Tests for TimestampFetcher

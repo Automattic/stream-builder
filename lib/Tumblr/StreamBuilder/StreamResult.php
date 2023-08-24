@@ -25,6 +25,12 @@ use Tumblr\StreamBuilder\StreamCursors\StreamCursor;
 use Tumblr\StreamBuilder\StreamElements\DerivedStreamElement;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\Streams\Stream;
+use function count;
+use function array_merge;
+use function get_class;
+use function array_map;
+use function sprintf;
+use function implode;
 
 /**
  * Returned from calls to enumerate streams. A possibly-exhaustive sequence of elements.

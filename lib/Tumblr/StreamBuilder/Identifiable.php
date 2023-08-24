@@ -20,6 +20,9 @@
 
 namespace Tumblr\StreamBuilder;
 
+use function get_class;
+use function sprintf;
+
 /**
  * Interface Identifiable
  * An identifiable class should contain an identity which identifies the uniqueness of that instance.

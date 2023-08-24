@@ -22,6 +22,13 @@ namespace Tumblr\StreamBuilder\InjectionAllocators;
 
 use Tumblr\StreamBuilder\InjectionAllocatorResult;
 use Tumblr\StreamBuilder\StreamContext;
+use function get_class;
+use function floor;
+use function mt_rand;
+use function mt_getrandmax;
+use function array_rand;
+use function array_fill;
+use function sort;
 
 /**
  * A probabilistic (but non-independent) allocator which allocates along the expected value of the provided probability.

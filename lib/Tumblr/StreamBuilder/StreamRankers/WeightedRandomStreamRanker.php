@@ -24,6 +24,16 @@ use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamElements\RecommendationLeafStreamElementTrait;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function mt_getrandmax;
+use function pow;
+use function mt_rand;
+use function strval;
+use function krsort;
+use function array_values;
+use function array_merge;
+use function in_array;
+use function class_uses;
+use function array_push;
 
 /**
  * Ranks StreamElements using a weighted random sampling algorithm.

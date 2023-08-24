@@ -20,6 +20,9 @@
 
 namespace Tumblr\StreamBuilder;
 
+use function is_null;
+use function time;
+
 /**
  * A CacheProvider that just stores into an in-memory array. Mostly for testing!
  */

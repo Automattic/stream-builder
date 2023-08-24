@@ -28,6 +28,7 @@ use Tumblr\StreamBuilder\StreamElements\DerivedStreamElement;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function is_null;
 
 /**
  * Essentially just a StreamMixer without the injection logic.

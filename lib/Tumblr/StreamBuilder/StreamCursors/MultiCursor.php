@@ -25,6 +25,11 @@ use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\Streams\Stream;
 use Tumblr\StreamBuilder\StreamSerializer;
+use function is_null;
+use function get_class;
+use function sprintf;
+use function implode;
+use function count;
 
 /**
  * A cursor which represents the conjunction of disparate states for disparate streams. Typically returned by a StreamMixer

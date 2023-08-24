@@ -23,6 +23,9 @@ namespace Test\Tumblr\StreamBuilder;
 
 use Tumblr\StreamBuilder\ConfigTemplateProvider;
 use Tumblr\StreamBuilder\TemplateProvider;
+use function count;
+use function sort;
+use function array_map;
 
 /**
  * Tests for TemplateProvider

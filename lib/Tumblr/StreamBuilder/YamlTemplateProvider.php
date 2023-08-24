@@ -21,6 +21,12 @@
 namespace Tumblr\StreamBuilder;
 
 use Symfony\Component\Yaml\Yaml;
+use function array_keys;
+use function ltrim;
+use function str_replace;
+use function preg_replace;
+use function get_class;
+use function sprintf;
 
 /**
  * Stream template stored as YAML.

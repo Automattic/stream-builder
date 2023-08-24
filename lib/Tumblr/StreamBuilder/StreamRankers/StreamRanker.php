@@ -26,6 +26,8 @@ use Tumblr\StreamBuilder\Helpers;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
 use Tumblr\StreamBuilder\Templatable;
+use function count;
+use function microtime;
 
 /**
  * A ranker for stream elements.

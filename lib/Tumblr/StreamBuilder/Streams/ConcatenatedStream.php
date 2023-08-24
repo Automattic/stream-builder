@@ -31,6 +31,14 @@ use Tumblr\StreamBuilder\StreamElements\DerivedStreamElement;
 use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\StreamSerializer;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function array_filter;
+use function count;
+use function array_slice;
+use function get_class;
+use function array_map;
+use function is_array;
+use function sprintf;
+use function method_exists;
 
 /**
  * This concatenates elements from streams in order. Will not enumerate a next stream until

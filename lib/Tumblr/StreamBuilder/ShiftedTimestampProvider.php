@@ -20,6 +20,11 @@
 
 namespace Tumblr\StreamBuilder;
 
+use function time;
+use function intval;
+use function microtime;
+use function get_class;
+
 /**
  * Class ShiftedTimestampProvider
  */

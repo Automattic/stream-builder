@@ -106,7 +106,7 @@ class StreamBuilderTest extends \PHPUnit\Framework\TestCase
      */
     public static function overrideStreamBuilderInit(?DependencyBag $dependency_bag)
     {
-        $reflection_class = new ReflectionClass(StreamBuilder::class);
+        $reflection_class = new \ReflectionClass(StreamBuilder::class);
         $reflection_property = $reflection_class->getProperty('dependency_bag');
         $reflection_property->setAccessible(true);
         $reflection_property->setValue($dependency_bag);

@@ -24,6 +24,7 @@ namespace Test\Tumblr\StreamBuilder;
 use Tumblr\StreamBuilder\StreamElementInjection;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamInjectors\StreamInjector;
+use function strval;
 
 /**
  * Class StreamElementInjectionTest

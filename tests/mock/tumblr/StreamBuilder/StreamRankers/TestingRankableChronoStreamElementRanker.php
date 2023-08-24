@@ -25,6 +25,8 @@ use Test\Tumblr\StreamBuilder\StreamElements\TestingRankableChronoStreamElement;
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamRankers\StreamRanker;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function usort;
+use function get_class;
 
 /**
  * A ranker for chrono stream elements

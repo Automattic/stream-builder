@@ -23,6 +23,8 @@ namespace Tumblr\StreamBuilder\StreamRankers;
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function shuffle;
+use function get_class;
 
 /**
  * By far the best-performing ranker you'll ever see.

@@ -26,6 +26,13 @@ use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamCursors\StreamCursor;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\Templatable;
+use function get_class;
+use function is_null;
+use function array_map;
+use function sort;
+use function implode;
+use function strval;
+use function sprintf;
 
 /**
  * A fencepost represents a persisted view of a partially-ranked/saved stream segment.

@@ -23,6 +23,9 @@ namespace Tumblr\StreamBuilder;
 use Tumblr\StreamBuilder\Helpers;
 use Tumblr\StreamBuilder\Exceptions\TypeMismatchException;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
+use function count;
+use function sprintf;
+use function implode;
 
 /**
  * A structure representing the result of a filtering operation, containing both the elements that were

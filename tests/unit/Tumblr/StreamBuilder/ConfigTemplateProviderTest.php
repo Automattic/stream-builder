@@ -25,6 +25,7 @@ use ReflectionClass;
 use Tumblr\StreamBuilder\ConfigTemplateProvider;
 use Tumblr\StreamBuilder\Exceptions\TemplateNotFoundException;
 use Tumblr\StreamBuilder\Streams\NullStream;
+use function sort;
 
 /**
  * Tests for ConfigTemplateProvider
@@ -38,7 +39,7 @@ class ConfigTemplateProviderTest extends \PHPUnit\Framework\TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $yaml_template_reflector = new ReflectionClass(\Tumblr\StreamBuilder\YamlTemplateProvider::class);
+        $yaml_template_reflector = new \ReflectionClass(\Tumblr\StreamBuilder\YamlTemplateProvider::class);
         $yaml_template_property = $yaml_template_reflector->getProperty('context_provider');
         $yaml_template_property->setAccessible(true);
         $yaml_template_property->setValue([

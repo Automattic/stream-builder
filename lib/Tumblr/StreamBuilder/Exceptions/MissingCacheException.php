@@ -20,6 +20,8 @@
 
 namespace Tumblr\StreamBuilder\Exceptions;
 
+use function sprintf;
+
 /**
  * Exception thrown when we are not able to fetch cache.
  */

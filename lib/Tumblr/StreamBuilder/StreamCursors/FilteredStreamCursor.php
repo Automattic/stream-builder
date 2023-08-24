@@ -25,6 +25,9 @@ use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamFilterState;
 use Tumblr\StreamBuilder\StreamSerializer;
+use function get_class;
+use function is_null;
+use function sprintf;
 
 /**
  * This represents the combination pagination state of a filter and an inner stream.

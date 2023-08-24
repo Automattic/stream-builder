@@ -28,6 +28,8 @@ use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\Streams\ChronologicalBackfillStream;
 use Tumblr\StreamBuilder\Streams\NullStream;
 use Tumblr\StreamBuilder\Streams\Stream;
+use function array_map;
+use function strval;
 use const Tumblr\StreamBuilder\SECONDS_PER_HOUR;
 
 /**

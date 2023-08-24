@@ -23,6 +23,10 @@ namespace Tumblr\StreamBuilder\FencepostRanking;
 use Tumblr\StreamBuilder\Helpers;
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamCursors\StreamCursor;
+use function max;
+use function is_null;
+use function sprintf;
+use function get_class;
 
 /**
  * Cursor for a FencepostRankedStream

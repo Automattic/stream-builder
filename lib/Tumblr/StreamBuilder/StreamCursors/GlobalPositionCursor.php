@@ -22,6 +22,8 @@ namespace Tumblr\StreamBuilder\StreamCursors;
 
 use Tumblr\StreamBuilder\Exceptions\UncombinableCursorException;
 use Tumblr\StreamBuilder\StreamContext;
+use function sprintf;
+use function get_class;
 
 /**
  * This is a wrapper for StreamCursor that keeps track of the position of the cursor.

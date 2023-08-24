@@ -32,6 +32,9 @@ use Tumblr\StreamBuilder\Streams\ConcatenatedStream;
 use Tumblr\StreamBuilder\Streams\NullStream;
 use Tumblr\StreamBuilder\Streams\SizeLimitedStream;
 use Tumblr\StreamBuilder\Streams\Stream;
+use function array_slice;
+use function get_class;
+use function count;
 
 /**
  * Class ConcatenatedStreamTest
@@ -116,7 +119,7 @@ class ConcatenatedStreamTest extends \PHPUnit\Framework\TestCase
      */
     public function test_concatenating()
     {
-        $stream_field = (new ReflectionClass(get_class($this->concatenated_stream)))->getProperty("streams");
+        $stream_field = (new \ReflectionClass(get_class($this->concatenated_stream)))->getProperty("streams");
         $stream_field->setAccessible(true);
         $this->assertSame(3, count($stream_field->getValue($this->concatenated_stream)));
     }
@@ -127,7 +130,7 @@ class ConcatenatedStreamTest extends \PHPUnit\Framework\TestCase
     public function test_concatenating_with_null()
     {
         $concatenated_stream = new ConcatenatedStream([$this->stream1, $this->stream2, $this->stream3, $this->null_stream], "concatenatedStream2");
-        $stream_field = (new ReflectionClass(get_class($concatenated_stream)))->getProperty("streams");
+        $stream_field = (new \ReflectionClass(get_class($concatenated_stream)))->getProperty("streams");
         $stream_field->setAccessible(true);
         $this->assertSame(3, count($stream_field->getValue($concatenated_stream)));
     }

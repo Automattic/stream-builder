@@ -32,6 +32,11 @@ use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamRankers\StreamRanker;
 use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function is_null;
+use function array_merge;
+use function min;
+use function count;
+use function get_class;
 
 /**
  * A stream which overfetches and ranks another stream, remembering unused items in a buffer for future pages.

@@ -21,6 +21,20 @@
 namespace Tumblr\StreamBuilder;
 
 use Tumblr\StreamBuilder\Exceptions\TemplateNotFoundException;
+use function in_array;
+use function is_dir;
+use function scandir;
+use function is_file;
+use function is_readable;
+use function substr;
+use function strlen;
+use function sprintf;
+use function basename;
+use function array_unique;
+use function array_merge;
+use function array_values;
+use function strcasecmp;
+use function is_array;
 
 /**
  * Provide stream templates.

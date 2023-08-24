@@ -26,6 +26,10 @@ use Tumblr\StreamBuilder\Helpers;
 use Tumblr\StreamBuilder\StreamBuilder;
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamSerializer;
+use function sha1;
+use function intval;
+use function is_null;
+use function sprintf;
 
 /**
  * FencepostProvider that uses a CacheProvider for "persistence".

@@ -24,6 +24,13 @@ use Tumblr\StreamBuilder\Exceptions\TypeMismatchException;
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamSerializer;
+use function ksort;
+use function max;
+use function implode;
+use function get_class;
+use function is_null;
+use function sprintf;
+use function intval;
 
 /**
  * Cursor used by the ProportionalRoundRobinStream.

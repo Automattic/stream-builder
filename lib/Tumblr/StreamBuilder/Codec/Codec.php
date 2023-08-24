@@ -26,6 +26,8 @@ use Tumblr\StreamBuilder\Exceptions\NoCodecAvailableException;
 use Tumblr\StreamBuilder\Helpers;
 use Tumblr\StreamBuilder\NullCacheProvider;
 use Tumblr\StreamBuilder\Templatable;
+use function strlen;
+use function strpos;
 
 /**
  * Class Codec

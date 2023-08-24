@@ -53,15 +53,15 @@ $config
             'space_before_parenthesis' => false,
         ],
         'array_indentation' => true,
-        'native_function_invocation' => false, /*[
+        'native_function_invocation' => [
             'include' => ['@internal'],
             'scope' => 'namespaced',
-        ],*/
-        'global_namespace_import' => false, /*[
-            'import_classes' => true,
-            'import_constants' => true,
+        ],
+        'global_namespace_import' => [
+            'import_classes' => false,
+            'import_constants' => false,
             'import_functions' => true,
-        ],*/
+        ],
         'declare_equal_normalize' => ['space' => 'none'],
         'blank_line_after_opening_tag' => false,
         'linebreak_after_opening_tag' => false,

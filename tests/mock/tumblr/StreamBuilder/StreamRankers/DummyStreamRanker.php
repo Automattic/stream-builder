@@ -24,6 +24,7 @@ namespace Test\Tumblr\StreamBuilder\StreamRankers;
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamRankers\StreamRanker;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function get_class;
 
 /**
  * This is a streamRanker just for testing purpose. It will not rank anything, but return the same input StreamElements array.

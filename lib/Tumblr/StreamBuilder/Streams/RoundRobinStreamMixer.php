@@ -26,6 +26,18 @@ use Tumblr\StreamBuilder\StreamCursors\MultiCursor;
 use Tumblr\StreamBuilder\StreamInjectors\StreamInjector;
 use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function sprintf;
+use function gettype;
+use function array_reverse;
+use function count;
+use function in_array;
+use function array_pop;
+use function array_filter;
+use function ksort;
+use function array_merge;
+use function array_slice;
+use function max;
+use function array_map;
 
 /**
  * This stream mixer performs a round robin based stream mixing strategy.

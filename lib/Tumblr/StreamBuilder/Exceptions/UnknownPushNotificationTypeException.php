@@ -20,6 +20,8 @@
 
 namespace Tumblr\StreamBuilder\Exceptions;
 
+use function sprintf;
+
 /**
  * Exception throw when the push notification element type is not defined.
  */

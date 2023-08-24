@@ -20,6 +20,8 @@
 
 namespace Tumblr\StreamBuilder\FencepostRanking;
 
+use function is_null;
+
 /**
  * Thing that provides fenceposts, obviously.
  */

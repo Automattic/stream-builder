@@ -27,6 +27,7 @@ use Tumblr\StreamBuilder\StreamCursors\StreamCursor;
 use Tumblr\StreamBuilder\StreamRankers\StreamRanker;
 use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function get_class;
 
 /**
  * A Stream which allows reranking of elements. It only ranks within a page to avoid skipping.

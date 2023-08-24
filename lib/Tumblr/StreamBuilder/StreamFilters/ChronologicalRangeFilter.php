@@ -23,6 +23,8 @@ namespace Tumblr\StreamBuilder\StreamFilters;
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamElements\ChronologicalStreamElement;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
+use function is_null;
+use function get_class;
 
 /**
  * Filter which releases chronological elements falling outside the specified range of timestamps.

@@ -26,6 +26,7 @@ use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamFilters\StreamElementFilter;
 use Tumblr\StreamBuilder\StreamFilters\StreamFilter;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function get_class;
 
 /**
  * Class StreamElementFilterTestCase

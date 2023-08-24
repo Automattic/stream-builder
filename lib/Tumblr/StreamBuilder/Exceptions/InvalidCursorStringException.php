@@ -20,6 +20,8 @@
 
 namespace Tumblr\StreamBuilder\Exceptions;
 
+use function sprintf;
+
 /**
  * Exception thrown when we cannot parse the cursor string to array.
  */

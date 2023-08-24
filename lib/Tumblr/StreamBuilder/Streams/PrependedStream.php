@@ -27,6 +27,10 @@ use Tumblr\StreamBuilder\StreamCursors\StreamCursor;
 use Tumblr\StreamBuilder\StreamElements\DerivedStreamElement;
 use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function is_null;
+use function sprintf;
+use function array_map;
+use function get_class;
 
 /**
  * Stream which takes exactly two streams. First stream should have a limit count.

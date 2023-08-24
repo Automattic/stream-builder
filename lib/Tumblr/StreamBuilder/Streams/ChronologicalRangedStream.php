@@ -25,6 +25,9 @@ use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamCursors\StreamCursor;
 use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
+use function time;
+use function is_null;
+use function get_class;
 
 /**
  * A Stream which enumerates with chronological enumeration options
