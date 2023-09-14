@@ -191,5 +191,4 @@ final class CacheFencepostProvider extends FencepostProvider
         StreamBuilder::getDependencyBag()->getLog()
             ->superRateTick('fencepost_ops', ['op' => 'cache', 'action' => 'set_fp']);
     }
-
 }
