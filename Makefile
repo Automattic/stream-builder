@@ -1,7 +1,7 @@
 .PHONY: ci test prerequisites
 
 # Leave out a window to specify PHP executable with `make PHP=/path/to/php`
-PHP=$(shell which php)
+PHP=/opt/homebrew/bin/php #$(shell which php)
 
 # Default parallelism
 JOBS=$(shell nproc)
@@ -29,7 +29,7 @@ PSALM=vendor/bin/psalm
 PSALM_ARGS=--show-info=false
 
 # Composer
-COMPOSER=$(PHP) $(shell which composer)
+COMPOSER=php composer.phar #$(PHP) $(shell which composer)
 
 # Infection
 INFECTION=vendor/bin/infection

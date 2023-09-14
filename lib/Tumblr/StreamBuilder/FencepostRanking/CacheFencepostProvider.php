@@ -38,12 +38,18 @@ final class CacheFencepostProvider extends FencepostProvider
     private $cache;
 
     /**
+     * @var int TTL in seconds. Defaults to 1 week.
+     */
+    private $ttl_seconds;
+
+    /**
      * CacheFencepostProvider constructor.
      * @param CacheProvider $cache Provider of cache
      */
-    public function __construct(CacheProvider $cache)
+    public function __construct(CacheProvider $cache, int $ttl_seconds = 0)
     {
         $this->cache = $cache;
+        $this->ttl_seconds = $ttl_seconds;
     }
 
     /**
@@ -95,7 +101,8 @@ final class CacheFencepostProvider extends FencepostProvider
         $this->cache->set(
             CacheProvider::OBJECT_TYPE_FENCEPOST_ID,
             self::cachekey_fence($fence_id),
-            $timestamp_ms
+            $timestamp_ms,
+            $this->ttl_seconds
         );
         StreamBuilder::getDependencyBag()->getLog()
             ->superRateTick('fencepost_ops', ['op' => 'cache', 'action' => 'set_ts']);
