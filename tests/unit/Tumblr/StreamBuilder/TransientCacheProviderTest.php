@@ -21,6 +21,8 @@
 
 namespace Tumblr\StreamBuilder;
 
+use Tumblr\StreamBuilder\Exceptions\MissingCacheException;
+
 /**
  * Override the time() method call in TransientCacheProvider.
  * @return int
@@ -156,5 +158,21 @@ class TransientCacheProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(['foo' => 'c', 'bar' => 'd'], $tcp->get_multi(CacheProvider::OBJECT_TYPE_CURSOR, ['foo', 'bar', 'baz']));
         $this->assertSame(['foo' => 'c', 'bar' => 'd'], $tcp->get_multi(CacheProvider::OBJECT_TYPE_CURSOR, ['foo', 'bar', 'baz'], $m2));
         $this->assertSame(['baz' => 'baz'], $m2);
+    }
+
+    /**
+     * Make sure keys are properly deleted.
+     * @return void
+     */
+    public function test_delete()
+    {
+        $tcp = new TransientCacheProvider();
+        $tcp->set(CacheProvider::OBJECT_TYPE_FILTER, 'foo', 'a');
+        $this->assertSame('a', $tcp->get(CacheProvider::OBJECT_TYPE_FILTER, 'foo'));
+        $tcp->delete(CacheProvider::OBJECT_TYPE_FILTER, 'foo');
+        $this->assertNull($tcp->get(CacheProvider::OBJECT_TYPE_FILTER, 'foo'));
+
+        $this->expectException(MissingCacheException::class);
+        $tcp->delete(CacheProvider::OBJECT_TYPE_FILTER, 'foo');
     }
 }
