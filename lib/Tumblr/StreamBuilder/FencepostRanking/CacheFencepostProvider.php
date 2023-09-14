@@ -125,6 +125,19 @@ final class CacheFencepostProvider extends FencepostProvider
     /**
      * @inheritDoc
      */
+    public function delete_fencepost_epoch(string $user_id)
+    {
+        $this->cache->delete(
+            CacheProvider::OBJECT_TYPE_FENCEPOST_EPOCH,
+            self::cachekey_fence($user_id)
+        );
+        StreamBuilder::getDependencyBag()->getLog()
+            ->superRateTick('fencepost_ops', ['op' => 'cache', 'action' => 'delete_epoch']);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function get_fencepost_epoch(string $user_id)
     {
         StreamBuilder::getDependencyBag()->getLog()

@@ -34,7 +34,7 @@ use Tumblr\StreamBuilder\TransientCacheProvider;
 class CacheFencepostProviderTest extends \PHPUnit\Framework\TestCase
 {
     /** @var CacheFencepostProvider */
-    private $fencepost_provder;
+    private $fencepost_provider;
     /** @var CacheProvider */
     private $cache_provider;
 
@@ -44,7 +44,7 @@ class CacheFencepostProviderTest extends \PHPUnit\Framework\TestCase
     protected function setUp(): void
     {
         $this->cache_provider = new TransientCacheProvider();
-        $this->fencepost_provder = new CacheFencepostProvider($this->cache_provider);
+        $this->fencepost_provider = new CacheFencepostProvider($this->cache_provider);
     }
 
     /**
@@ -52,7 +52,7 @@ class CacheFencepostProviderTest extends \PHPUnit\Framework\TestCase
      */
     public function test_get_latest_timestamp__missing()
     {
-        $this->assertNull($this->fencepost_provder->get_latest_timestamp('foo'));
+        $this->assertNull($this->fencepost_provider->get_latest_timestamp('foo'));
     }
 
     /**
@@ -61,7 +61,7 @@ class CacheFencepostProviderTest extends \PHPUnit\Framework\TestCase
     public function test_set_latest_timestamp__bad()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->fencepost_provder->set_latest_timestamp('foo', -1);
+        $this->fencepost_provider->set_latest_timestamp('foo', -1);
     }
 
     /**
@@ -69,8 +69,8 @@ class CacheFencepostProviderTest extends \PHPUnit\Framework\TestCase
      */
     public function test_set_latest_timestamp__good()
     {
-        $this->fencepost_provder->set_latest_timestamp('foo', 12345);
-        $this->assertEquals(12345, $this->fencepost_provder->get_latest_timestamp('foo'));
+        $this->fencepost_provider->set_latest_timestamp('foo', 12345);
+        $this->assertEquals(12345, $this->fencepost_provider->get_latest_timestamp('foo'));
     }
 
     /**
@@ -78,7 +78,7 @@ class CacheFencepostProviderTest extends \PHPUnit\Framework\TestCase
      */
     public function test_get_latest_fencepost__missing_timestamp()
     {
-        $this->assertNull($this->fencepost_provder->get_latest_fencepost('foo'));
+        $this->assertNull($this->fencepost_provider->get_latest_fencepost('foo'));
     }
 
     /**
@@ -86,8 +86,8 @@ class CacheFencepostProviderTest extends \PHPUnit\Framework\TestCase
      */
     public function test_get_latest_fencepost__missing_fencepost()
     {
-        $this->fencepost_provder->set_latest_timestamp('foo', 12345);
-        $this->assertNull($this->fencepost_provder->get_latest_fencepost('foo'));
+        $this->fencepost_provider->set_latest_timestamp('foo', 12345);
+        $this->assertNull($this->fencepost_provider->get_latest_fencepost('foo'));
     }
 
     /**
@@ -96,9 +96,9 @@ class CacheFencepostProviderTest extends \PHPUnit\Framework\TestCase
     public function test_get_latest_fencepost__good()
     {
         $fencepost = new Fencepost([ new MockMaxStreamElement(0, 'wat', new MockMaxCursor(0)) ], new MockMaxCursor(1));
-        $this->fencepost_provder->set_latest_timestamp('foo', 12345);
-        $this->fencepost_provder->set_fencepost('foo', 12345, $fencepost);
-        $this->assertEquals($fencepost, $this->fencepost_provder->get_latest_fencepost('foo'));
+        $this->fencepost_provider->set_latest_timestamp('foo', 12345);
+        $this->fencepost_provider->set_fencepost('foo', 12345, $fencepost);
+        $this->assertEquals($fencepost, $this->fencepost_provider->get_latest_fencepost('foo'));
     }
 
     /**
@@ -106,7 +106,7 @@ class CacheFencepostProviderTest extends \PHPUnit\Framework\TestCase
      */
     public function test_get_fencepost__negative_timestamp()
     {
-        $this->assertNull($this->fencepost_provder->get_fencepost('foo', -1));
+        $this->assertNull($this->fencepost_provider->get_fencepost('foo', -1));
     }
 
     /**
@@ -114,7 +114,7 @@ class CacheFencepostProviderTest extends \PHPUnit\Framework\TestCase
      */
     public function test_get_fencepost__missing()
     {
-        $this->assertNull($this->fencepost_provder->get_fencepost('foo', 12345));
+        $this->assertNull($this->fencepost_provider->get_fencepost('foo', 12345));
     }
 
     /**
@@ -124,7 +124,7 @@ class CacheFencepostProviderTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $fencepost = new Fencepost([new MockMaxStreamElement(0, 'wat', new MockMaxCursor(0))], new MockMaxCursor(1));
-        $this->fencepost_provder->set_fencepost('foo', -1, $fencepost);
+        $this->fencepost_provider->set_fencepost('foo', -1, $fencepost);
     }
 
     /**
@@ -134,7 +134,7 @@ class CacheFencepostProviderTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $fencepost = new Fencepost([new MockMaxStreamElement(0, 'wat', new MockMaxCursor(0))], new MockMaxCursor(1));
-        $this->fencepost_provder->set_latest_fencepost('foo', -1, $fencepost);
+        $this->fencepost_provider->set_latest_fencepost('foo', -1, $fencepost);
     }
 
     /**
@@ -143,10 +143,10 @@ class CacheFencepostProviderTest extends \PHPUnit\Framework\TestCase
     public function test_set_latest_fencepost__good()
     {
         $fencepost = new Fencepost([new MockMaxStreamElement(0, 'wat', new MockMaxCursor(0))], new MockMaxCursor(1));
-        $this->fencepost_provder->set_latest_fencepost('foo', 12345, $fencepost);
-        $this->assertEquals(12345, $this->fencepost_provder->get_latest_timestamp('foo'));
-        $this->assertEquals($fencepost, $this->fencepost_provder->get_fencepost('foo', 12345));
-        $this->assertEquals($fencepost, $this->fencepost_provder->get_latest_fencepost('foo'));
+        $this->fencepost_provider->set_latest_fencepost('foo', 12345, $fencepost);
+        $this->assertEquals(12345, $this->fencepost_provider->get_latest_timestamp('foo'));
+        $this->assertEquals($fencepost, $this->fencepost_provider->get_fencepost('foo', 12345));
+        $this->assertEquals($fencepost, $this->fencepost_provider->get_latest_fencepost('foo'));
     }
 
     /**
@@ -154,12 +154,26 @@ class CacheFencepostProviderTest extends \PHPUnit\Framework\TestCase
      */
     public function test_set_get_fencepost_epoch()
     {
-        $null_epoch = $this->fencepost_provder->get_fencepost_epoch('1234');
-        $this->fencepost_provder->set_fencepost_epoch('1234', 9874564560);
-        $epoch = $this->fencepost_provder->get_fencepost_epoch('1234');
+        $null_epoch = $this->fencepost_provider->get_fencepost_epoch('1234');
+        $this->fencepost_provider->set_fencepost_epoch('1234', 9874564560);
+        $epoch = $this->fencepost_provider->get_fencepost_epoch('1234');
         $this->assertNull($null_epoch);
         $this->assertEquals(9874564560, $epoch);
-        $this->fencepost_provder->set_fencepost_epoch('1234', 9874564570);
-        $this->assertEquals(9874564570, $this->fencepost_provder->get_fencepost_epoch('1234'));
+        $this->fencepost_provider->set_fencepost_epoch('1234', 9874564570);
+        $this->assertEquals(9874564570, $this->fencepost_provider->get_fencepost_epoch('1234'));
+    }
+
+    /**
+     * @return void
+     */
+    public function test_set_delete_get_fencepost_epoch()
+    {
+        $null_epoch = $this->fencepost_provider->get_fencepost_epoch('1234');
+        $this->fencepost_provider->set_fencepost_epoch('1234', 9874564560);
+        $epoch = $this->fencepost_provider->get_fencepost_epoch('1234');
+        $this->assertNull($null_epoch);
+        $this->assertEquals(9874564560, $epoch);
+        $this->fencepost_provider->delete_fencepost_epoch('1234');
+        $this->assertNull($this->fencepost_provider->get_fencepost_epoch('1234'));
     }
 }
