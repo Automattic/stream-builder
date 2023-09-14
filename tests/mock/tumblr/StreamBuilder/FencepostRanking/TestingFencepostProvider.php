@@ -113,6 +113,9 @@ final class TestingFencepostProvider extends FencepostProvider
         return $this->epoch_cutoff[$user_id] ?? null;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function delete_fencepost_epoch(string $user_id)
     {
         if (isset($this->epoch_cutoff[$user_id])) {
