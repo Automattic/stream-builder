@@ -127,7 +127,6 @@ final class BufferedCursor extends StreamCursor
             }
             $json = Helpers::json_encode($buffer_templates);
             $buffer_key = sprintf('bufcur_%s', md5($json));
-            // TODO: configure TTL here too?
             $this->cache_provider->set(CacheProvider::OBJECT_TYPE_BUFFERED_STREAM_ELEMENTS, $buffer_key, $json);
             $base['b'] = $buffer_key;
         }

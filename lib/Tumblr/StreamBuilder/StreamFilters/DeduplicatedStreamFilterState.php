@@ -146,7 +146,6 @@ class DeduplicatedStreamFilterState extends StreamFilterState
             $packed_items = implode('.', array_keys($this->seen_items_set));
             $cache_key = sprintf('%s%s', static::CACHE_KEY_PREFIX, md5($packed_items));
 
-            // TODO: set a configurable TTL?
             $this->cache_provider->set(CacheProvider::OBJECT_TYPE_DEDUPLICATED_FILTER_STATE_MEMORY, $cache_key, $packed_items);
             $output['c'] = $cache_key;
         }
