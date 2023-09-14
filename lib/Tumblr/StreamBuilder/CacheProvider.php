@@ -108,4 +108,12 @@ interface CacheProvider
      * @return void
      */
     public function set_multi(int $object_type, array $key_value_pairs, int $ttl_seconds = 0);
+
+    /**
+     * Delete the key-value pair for a given key in the specified cache.
+     * @param int $object_type The type of object being cached, use of the OBJECT_TYPE_* constants.
+     * @param string $key
+     * @return mixed
+     */
+    public function delete(int $object_type, string $key);
 }
