@@ -59,4 +59,14 @@ class NullCacheProviderTest extends \PHPUnit\Framework\TestCase
         $result = $provider->set_multi(123, ['whatever' => 'yay']);
         $this->assertNull($result);
     }
+
+    /**
+     * Test delete
+     */
+    public function test_delete()
+    {
+        $provider = new NullCacheProvider();
+        $provider->delete(123, 'whatever');
+        $this->assertTrue(true);
+    }
 }

@@ -59,4 +59,12 @@ final class NullCacheProvider implements CacheProvider
     {
         // bye, not setting
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function delete(int $object_type, string $key)
+    {
+        // no-op
+    }
 }

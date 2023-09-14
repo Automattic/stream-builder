@@ -95,6 +95,7 @@ final class CacheCodec extends Codec
                 );
         }
         $encoded = sprintf('%s%s', self::CACHE_PREFIX, Helpers::get_uuid());
+        // TODO: Configure TTL?
         $this->cache_provider->set($this->cache_type, $encoded, $serialized);
         return $encoded;
     }

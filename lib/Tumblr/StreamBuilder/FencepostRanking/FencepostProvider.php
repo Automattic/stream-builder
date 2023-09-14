@@ -20,6 +20,8 @@
 
 namespace Tumblr\StreamBuilder\FencepostRanking;
 
+use Tumblr\StreamBuilder\Exceptions\MissingCacheException;
+
 /**
  * Thing that provides fenceposts, obviously.
  */

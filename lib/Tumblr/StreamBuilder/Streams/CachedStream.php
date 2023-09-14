@@ -140,6 +140,8 @@ abstract class CachedStream extends WrapStream
 
         // Step 3: Cache the inner_stream enumeration result.
         $cache_value = $this->serialize($inner_result);
+
+        // TODO: Should we just not cache if empty? Making the TTLs progressively shorter could explain the spikes.
         if ($inner_result->get_size() === 0) {
             // make empty result's cache ttl shorter.
             // max at 15 min
