@@ -45,6 +45,7 @@ final class CacheFencepostProvider extends FencepostProvider
     /**
      * CacheFencepostProvider constructor.
      * @param CacheProvider $cache Provider of cache
+     * @param int $ttl_seconds Default cached value TTL in seconds.
      */
     public function __construct(CacheProvider $cache, int $ttl_seconds = 0)
     {
