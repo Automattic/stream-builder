@@ -38,7 +38,7 @@ final class CacheFencepostProvider extends FencepostProvider
     private $cache;
 
     /**
-     * @var int TTL in seconds. Defaults to 1 week.
+     * @var int Default cached value TTL in seconds.
      */
     private $ttl_seconds;
 
