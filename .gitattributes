@@ -1,0 +1,8 @@
+/.*                   export-ignore
+/Makefile             export-ignore
+/*.dist               export-ignore
+/psalm.xml            export-ignore
+/tests                export-ignore
+
+# Test with:
+# git archive --format=tar HEAD | tar t
