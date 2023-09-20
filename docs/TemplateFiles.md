@@ -136,6 +136,6 @@ The Ranker stream also has an `inner` property which contains our filtered strea
 
 ## The End
 
-As you can see, stream-builder template files are extremely powerful. We can do very elaborate combinations of streams just using the various, built-in stream-builder classes.
+As you can see, StreamBuilder template files are extremely powerful. We can do very elaborate combinations of streams just using the various, built-in StreamBuilder classes.
 
 Hopefully having some examples will make it easier to create your own templates.
