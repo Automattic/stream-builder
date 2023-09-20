@@ -5,6 +5,7 @@
 /tests                export-ignore
 /example              export-ignore
 /extras               export-ignore
+/config               export-ignore
 
 # Test with:
 # git archive --format=tar HEAD | tar t
