@@ -18,6 +18,12 @@ That's it! It doesn't do much, but that's an entire template file which uses the
 
 In this case, all we've done is define the type (with the `_type:` property) of the stream. The type of a stream will always be a PHP class. It may be one of the built-in classes or it may be a custom class you've written yourself.
 
+A more realistic example which uses a custom stream class might be:
+
+```
+_type: MyApplication\Streams\MyStream
+```
+
 ## Expanding Our Template
 
 YAML files handle hierarchy through indentation. That means, as we build on our template file, we will keep indenting our primary stream so it gets pushed further to the right.
@@ -27,7 +33,7 @@ Let's update our initial template to have a filter as an example:
 ```
 _type: Tumblr\StreamBuilder\Streams\FilteredStream
 stream:
-	_type: Tumblr\StreamBuilder\Streams\NullStream
+	_type: MyApplication\Streams\MyStream
 stream_filter:
 	_type: MyApplication\StreamFilters\MyFilter
 ```
@@ -78,11 +84,11 @@ injector:
     _type: Tumblr\StreamBuilder\InjectionAllocators\GlobalFixedInjectionAllocator
     positions: [0, 5, 10]
   inner:
-    _type: MyApplication\StreamInjectors\MyInjector
+    _type: MyApplication\StreamInjectors\MyAdStream
 stream:
 	_type: Tumblr\StreamBuilder\Streams\FilteredStream
 	stream:
-		_type: Tumblr\StreamBuilder\Streams\NullStream
+		_type: MyApplication\Streams\MyStream
 	stream_filter:
 		_type: MyApplication\StreamFilters\MyFilter
 ```
@@ -91,7 +97,7 @@ You can see that the primary `_type` of our template is an `InjectedStream`. We 
 
 First we have the injector `allocator` which determines _where_ in the stream, we'll be injecting our data. In this case, we will always insert our data at positions 0, 5, and 10.
 
-Last, we have the injector `inner` which defines the stream class that returns the actual data we're injecting.
+Last, we have the injector `inner` which defines the stream class that returns the actual data we're injecting. In this example, we have a pretend stream for injecting ads into our primary stream.
 
 After the injector, we have the stream that we're injecting data _into_ which is the same filtered stream we had before. Notice how that portion is unchanged except that the indentation has shifted to the right.
 
@@ -109,7 +115,7 @@ injector:
     _type: Tumblr\StreamBuilder\InjectionAllocators\GlobalFixedInjectionAllocator
     positions: [0, 5, 10]
   inner:
-    _type: MyApplication\StreamInjectors\MyInjector
+    _type: MyApplication\StreamInjectors\MyAdStream
 stream:
 	_type: Tumblr\StreamBuilder\Streams\RankedStream
 	ranker: 
@@ -117,7 +123,7 @@ stream:
 	inner:
 		_type: Tumblr\StreamBuilder\Streams\FilteredStream
 		stream:
-			_type: Tumblr\StreamBuilder\Streams\NullStream
+			_type: MyApplication\Streams\MyStream
 		stream_filter:
 			_type: MyApplication\StreamFilters\MyFilter
 ```
@@ -130,4 +136,6 @@ The Ranker stream also has an `inner` property which contains our filtered strea
 
 ## The End
 
-Hopefully having some examples will make it easier to create your own templates. Feel free to update this document if you have thoughts on how to make it more useful.
+As you can see, StreamBuilder template files are extremely powerful. We can do very elaborate combinations of streams just using the various, built-in StreamBuilder classes.
+
+Hopefully having some examples will make it easier to create your own templates.
