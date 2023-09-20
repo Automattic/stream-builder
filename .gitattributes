@@ -1,8 +1,10 @@
 /.*                   export-ignore
 /Makefile             export-ignore
 /*.dist               export-ignore
-/psalm.xml            export-ignore
+/phpcs.xml            export-ignore
 /tests                export-ignore
+/example              export-ignore
+/extras               export-ignore
 
 # Test with:
 # git archive --format=tar HEAD | tar t
