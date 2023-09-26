@@ -2,7 +2,7 @@
 
 This is an example app of MyAwesomeReader implementing StreamBuilder.
 
-Please note this example isn't bundled with the distribution archive: please make a local git clone.
+Please note this example isn't bundled with the released archives: please make a local git clone.
 
 In this example, we implement an endpoint for trending topics that uses a `Stream`, `StreamElement`, and a `Cursor`.
 
