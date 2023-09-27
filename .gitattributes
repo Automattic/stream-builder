@@ -1,0 +1,11 @@
+/.*                   export-ignore
+/Makefile             export-ignore
+/*.dist               export-ignore
+/phpcs.xml            export-ignore
+/tests                export-ignore
+/example              export-ignore
+/extras               export-ignore
+/config               export-ignore
+
+# Test with:
+# git archive --format=tar HEAD | tar t

@@ -54,7 +54,7 @@ As an example of how to use StreamBuilder, we will implement an endpoint to retr
 
 Let's also assume the returned array is a simple `string[]` which contains trending topics as strings.
 
-We also have an example demo application in the `example/` folder which implements a lot of what we're going to discuss here -- so check that out!
+We also have an example demo application in the `example/` folder which implements a lot of what we're going to discuss here -- so check that out! You must clone the Git repository to work with the example, as released archives do not include example code.
 
 ### Integrating StreamBuilder with your codebase
 
