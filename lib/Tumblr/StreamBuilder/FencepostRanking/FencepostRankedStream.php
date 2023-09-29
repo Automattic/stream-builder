@@ -703,7 +703,7 @@ abstract class FencepostRankedStream extends Stream
         int $current_ms,
         int $previous_fencepost_ms = null
     ): void {
-        $ps_gap_in_seconds = ($current_ms - $previous_fencepost_ms ?? 0) / 1000;
+        $ps_gap_in_seconds = ($current_ms - ($previous_fencepost_ms ?? 0)) / 1000;
         // Track when last_ts is missing, putting 1 second as a placeholder
         [$op, $gap] = $previous_fencepost_ms ? ['reload', $ps_gap_in_seconds] : ['unknown', 1];
 

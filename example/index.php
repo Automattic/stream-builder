@@ -20,7 +20,7 @@
  */
 
 // require our app bootstrap, which includes StreamBuilder
-require_once 'src/Automattic/MyAwesomeReader/bootstrap.php';
+require_once __DIR__ . '/src/Automattic/MyAwesomeReader/bootstrap.php';
 
 // init our application
 $app = new \Automattic\MyAwesomeReader\App();
