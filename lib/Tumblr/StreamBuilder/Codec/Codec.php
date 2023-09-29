@@ -81,11 +81,11 @@ abstract class Codec
     }
 
     /**
-     * Encode a templatable object.
-     * @param Templatable $obj The object to encode.
+     * Encode an object.
+     * @param mixed $obj The object to encode.
      * @return string The encoded bytes string.
      */
-    abstract public function encode(Templatable $obj): string;
+    abstract public function encode($obj): string;
 
     /**
      * Decode an encoded templatable object.
