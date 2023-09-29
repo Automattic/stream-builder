@@ -176,8 +176,6 @@ abstract class StreamCursor extends Templatable
 
         $cursor_size = strlen($encoded);
         $context = $context ?? 'unknown';
-        StreamBuilder::getDependencyBag()->getLog()
-            ->histogramTick('cursor_size', $context, ($cursor_size / 1000.0));
 
         if (($cache_provider instanceof CacheProvider) && ($cursor_size > $cache_size_threshold)) {
             StreamBuilder::getDependencyBag()->getLog()
@@ -190,7 +188,13 @@ abstract class StreamCursor extends Templatable
             $encoded = $cache_codec->encode($cursor);
             // base64 url encode cache encoded as well, to line up with binary codec encoded logic.
             $encoded = Helpers::base64UrlEncode($encoded);
+
+            // Update the cursor size
+            $cursor_size = strlen($encoded);
         }
+
+        StreamBuilder::getDependencyBag()->getLog()
+            ->histogramTick('cursor_size', $context, ($cursor_size / 1000.0));
 
         return $encoded;
     }
