@@ -189,8 +189,10 @@ abstract class StreamCursor extends Templatable
             // base64 url encode cache encoded as well, to line up with binary codec encoded logic.
             $encoded = Helpers::base64UrlEncode($encoded);
 
-            // Update the cursor size
-            $cursor_size = strlen($encoded);
+            // This is an implementation detail, but the CacheCodec does not base64 encode the payload before
+            // writing to cache, so the original cursor_size is misleading. Base64 encoding can increase the
+            // payload size by 33%.
+            $cursor_size = strlen(Helpers::json_encode($cursor->to_template()));
         }
 
         StreamBuilder::getDependencyBag()->getLog()
