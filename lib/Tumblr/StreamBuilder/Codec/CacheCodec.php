@@ -42,7 +42,7 @@ final class CacheCodec extends Codec
     public const SERIALIZATION_TYPE_JSON = 'JSON';
 
     /**
-     * Cache content from a serialized JSON object
+     * Cache content from an already-serialized string of JSON.
      * @var string
      */
     public const SERIALIZATION_TYPE_JSON_STRING = 'JSON_STRING';
