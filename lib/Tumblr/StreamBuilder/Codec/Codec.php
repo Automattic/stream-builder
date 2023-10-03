@@ -82,7 +82,7 @@ abstract class Codec
 
     /**
      * Encode an object.
-     * @param mixed $obj The object to encode.
+     * @param Templatable|string $obj The object to encode, or pre-encoded object.
      * @return string The encoded bytes string.
      */
     abstract public function encode($obj): string;
