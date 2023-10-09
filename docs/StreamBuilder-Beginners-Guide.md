@@ -559,15 +559,14 @@ class CachedTrendingTopicStream extends \Tumblr\StreamBuilder\Streams\CachedStre
 	public static function from_template( \Tumblr\StreamBuilder\StreamContext $context ) {
 		$inner             = $context->deserialize_required_property( 'inner' );
 		// There are built-in cache providers or you may want to use your own, custom provider.
-		$cache_provider    = new \MyApplication\CacheProviders\MyCacheProvider();
+		$cache_provider    = $context->get_cache_provider();
 		$cache_object_type = 0;
-		$default_count     = $context->get_meta_by_key( 'count' ) ?? 20;
 		return new self(
 			$inner,
 			$cache_provider,
 			$cache_object_type,
 			$context->get_required_property( 'cache_ttl' ),
-			$context->get_optional_property( 'candidate_count', $default_count ),
+			$context->get_optional_property( 'candidate_count', 20 ),
 			$context->get_current_identity(),
 		);
 	}
