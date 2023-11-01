@@ -118,8 +118,8 @@ class PHPCSDiff
 
     /**
      * @param $phpcbf_path - Path the the PHPCS binary/phar/command
-     * @param null $phpcs_standard - The PHPCS standard to use
-     * @param bool|true $allow_fix - Offer to autofix the violatingfile
+	 * @param null $phpcs_standard - The PHPCS standard to use
+	 * @param bool|true $allow_fix - Offer to autofix the violatingfile
      * @param bool $non_interactive True for non-interactive mode, false for interactive mode
      */
     public function __construct($phpcbf_path, $phpcs_standard = null, $allow_fix = true, bool $non_interactive = false)
@@ -131,8 +131,8 @@ class PHPCSDiff
     }
 
     /**
-     * Adds an outputter to the outputter stack
-     *
+	 * Adds an outputter to the outputter stack
+	 *
      * @param OutputterInterface $outputter
      */
     public function addOutputter(OutputterInterface $outputter)

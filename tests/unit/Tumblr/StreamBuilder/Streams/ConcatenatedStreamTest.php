@@ -118,8 +118,8 @@ class ConcatenatedStreamTest extends \PHPUnit\Framework\TestCase
     {
         $stream_field = (new ReflectionClass(get_class($this->concatenated_stream)))->getProperty("streams");
         $stream_field->setAccessible(true);
-		$value = $stream_field->getValue($this->concatenated_stream);
-		$value_count = is_countable($value) ? count($value) : 0;
+        $value = $stream_field->getValue($this->concatenated_stream);
+        $value_count = is_countable($value) ? count($value) : 0;
         $this->assertSame(3, $value_count);
     }
 
@@ -131,8 +131,8 @@ class ConcatenatedStreamTest extends \PHPUnit\Framework\TestCase
         $concatenated_stream = new ConcatenatedStream([$this->stream1, $this->stream2, $this->stream3, $this->null_stream], "concatenatedStream2");
         $stream_field = (new ReflectionClass(get_class($concatenated_stream)))->getProperty("streams");
         $stream_field->setAccessible(true);
-		$value = $stream_field->getValue($this->concatenated_stream);
-		$value_count = is_countable($value) ? count($value) : 0;
+        $value = $stream_field->getValue($this->concatenated_stream);
+        $value_count = is_countable($value) ? count($value) : 0;
         $this->assertSame(3, $value_count);
     }
 
