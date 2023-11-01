@@ -73,7 +73,8 @@ class StreamResultTest extends \PHPUnit\Framework\TestCase
     {
         $stream_result = new StreamResult(false, $this->stream_elements);
         $got_elements = $stream_result->get_elements();
-        $this->assertSame(2, count($got_elements));
+		$element_count = is_countable($got_elements) ? count($got_elements) : 0;
+        $this->assertSame(2, $element_count);
     }
 
     /**
@@ -89,7 +90,8 @@ class StreamResultTest extends \PHPUnit\Framework\TestCase
         $el2 = new DerivedStreamElement($el1, 'tester');
         $result = new StreamResult(false, [$el2]);
         $elements = $result->get_original_elements();
-        $this->assertSame(1, count($elements));
+		$element_count = is_countable($elements) ? count($elements) : 0;
+        $this->assertSame(1, $element_count);
         $this->assertSame(DerivedStreamElement::class, get_class($result->get_element_at_index(0)));
         $this->assertStringStartsWith('Mock_StreamElement_', get_class($elements[0]));
 
