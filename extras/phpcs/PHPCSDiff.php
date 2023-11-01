@@ -334,7 +334,7 @@ class PHPCSDiff
         if (!isset($data['files']) || !is_array($data['files']) || count($data['files']) < 1) {
             return [];
         }
-        if (is_array($data['files']) && count($data['files']) > 1) {
+        if (count($data['files']) > 1) {
             throw new \InvalidArgumentException(
                 'getErrors only works with a single file, ' . count($data['files']) . ' given'
             );
