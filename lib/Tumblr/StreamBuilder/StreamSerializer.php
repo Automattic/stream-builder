@@ -52,7 +52,7 @@ final class StreamSerializer
     public static function from_template(StreamContext $context): Templatable
     {
         $template = $context->get_template();
-        if (empty($template) || !key_exists('_type', $template) || !method_exists($template['_type'], 'from_template')) {
+        if (empty($template) || !array_key_exists('_type', $template) || !method_exists($template['_type'], 'from_template')) {
             throw new InvalidStreamArrayException($template);
         }
         /** @var Templatable $object */

@@ -52,8 +52,8 @@ class CurlyNewlineSniff implements \PHP_CodeSniffer\Sniffs\Sniff
 
         // Ensure we don't have an empty class/method
         $has_body = false;
-        for ($i = $curly+1; $i < count($tokens); $i++) {
-
+		$token_count = is_countable($tokens) ? count($tokens) : 0;
+        for ($i = $curly + 1; $i < $token_count; $i++) {
             // If we make it to the closing curly, stop
             if ($i >= $tokens[$curly]['scope_closer']) {
                 break;
