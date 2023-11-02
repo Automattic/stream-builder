@@ -103,9 +103,15 @@ final class BinaryCodec extends Codec
     /**
      * @inheritDoc
      */
-    public function encode(Templatable $obj): string
+    public function encode($obj): string
     {
-        $json = Helpers::json_encode($obj->to_template());
+        if ($obj instanceof Templatable) {
+            $json = Helpers::json_encode($obj->to_template());
+        } elseif (is_string($obj)) {
+            $json = $obj;
+        } else {
+            throw new \InvalidArgumentException(sprintf("%s type is not supported", get_class($obj)));
+        }
         $compressed = gzdeflate($json);
         $encrypted = openssl_encrypt($compressed, self::CIPHER, $this->encrypt_key, 0, $this->initial_vector);
         $signature = $this->compute_signature($encrypted);
