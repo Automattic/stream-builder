@@ -121,7 +121,8 @@ final class ChronologicalStreamMixer extends StreamMixer
                 throw new \UnexpectedValueException('Unexpected value for sorting option. Options: asc or desc');
             }
         });
-        return new StreamResult(count($res) <= $count, array_slice($res, 0, $count));
+        $elements = array_slice($res, 0, $count);
+        return new StreamResult(count($elements) < $count, $elements);
     }
 
     /**
