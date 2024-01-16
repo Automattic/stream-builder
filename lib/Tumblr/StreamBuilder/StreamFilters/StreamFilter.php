@@ -138,7 +138,7 @@ abstract class StreamFilter extends Templatable
      * @param StreamTracer|null $tracer The tracer passed in to track filter behaviors.
      * @return StreamFilterResult
      */
-    abstract protected function filter_inner(array $elements, StreamFilterState $state = null, StreamTracer $tracer = null): StreamFilterResult;
+    abstract protected function filter_inner(array $elements, ?StreamFilterState $state = null, ?StreamTracer $tracer = null): StreamFilterResult;
 
     /**
      * Whether this filter is enabled. Default to true.
