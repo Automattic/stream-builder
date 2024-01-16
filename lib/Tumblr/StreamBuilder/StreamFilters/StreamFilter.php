@@ -123,6 +123,9 @@ abstract class StreamFilter extends Templatable
             foreach ($filtered->get_released() as $element) {
                 $tracer->release_element($this, $element);
             }
+            if (count($elements) === $filtered->get_released_count()) {
+                $tracer->release_all_elements($this, $filtered->get_released_count());
+            }
         }
         return $filtered;
     }

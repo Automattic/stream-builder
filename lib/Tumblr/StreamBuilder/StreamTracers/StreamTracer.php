@@ -65,6 +65,7 @@ abstract class StreamTracer
     public const EVENT_RETRY = 'retry';
     public const EVENT_APPLY = 'apply';
     public const EVENT_RELEASE = 'release';
+    public const EVENT_RELEASE_ALL = 'release_all';
     public const EVENT_CACHE_HIT = 'cache_hit';
     public const EVENT_CACHE_MISS = 'cache_miss';
     public const EVENT_EXHAUSTIVE = 'exhaustive';
@@ -453,6 +454,24 @@ abstract class StreamTracer
             static::CATEGORY_FILTER,
             $filter,
             static::EVENT_RELEASE,
+            [],
+            $meta
+        );
+    }
+
+    /**
+     * Called when a filter releases all the elements.
+     * @param StreamFilter $filter The stream filter that released the elements.
+     * @param int $count The amount of elements released.
+     * @return void
+     */
+    public function release_all_elements(StreamFilter $filter, int $count)
+    {
+        $meta = [static::META_COUNT => $count];
+        $this->trace_event(
+            static::CATEGORY_FILTER,
+            $filter,
+            static::EVENT_RELEASE_ALL,
             [],
             $meta
         );
