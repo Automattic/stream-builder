@@ -400,7 +400,7 @@ abstract class StreamTracer
 
         if ($total_count > 0) {
             $ratio = $released_count / $total_count;
-            $meta['released_ratio'] = $ratio;
+            $meta['released_ratio'] = round($ratio, 3);
         } else {
             $meta['released_ratio'] = 0;
         }
