@@ -57,7 +57,7 @@ class StreamFilterTest extends \PHPUnit\Framework\TestCase
         // Example output:
         // [2024-01-16T09:28:33-05:00]: op=filter sender=ello[Mock_StreamFilter_e7231ac5] status=begin other={"count":2}
         // [2024-01-16T09:56:32-05:00]: op=filter sender=ello[Mock_StreamFilter_3aaefcd3] status=end
-        //      start_time=1705427127.9359 duration=7.1525573730469E-6 other={"count":2,"released_ratio":1}
+        //      start_time=1705427127.9359 duration=7.1525573730469E-6 other={"count":1,"released_ratio":1}
         // [2024-01-16T09:56:32-05:00]: op=filter sender=ello[Mock_StreamFilter_3aaefcd3] status=release
         //      other={"target":"MockMaxStreamElement","meta_detail":"TEST_MockMaxElement(123)","filter_code":"Mock_StreamFilter_3aaefcd3"}
         $this->assertMatchesRegularExpression(
