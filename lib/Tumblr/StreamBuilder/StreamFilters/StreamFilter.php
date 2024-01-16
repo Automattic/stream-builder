@@ -87,7 +87,7 @@ abstract class StreamFilter extends Templatable
         ?StreamFilterState $state = null,
         ?StreamTracer $tracer = null
     ): StreamFilterResult {
-        if (!$this->can_filter()) {
+        if (!$this->can_filter() || $elements === []) {
             $tracer && $tracer->filter_skip($this);
             return new StreamFilterResult($elements, []);
         }

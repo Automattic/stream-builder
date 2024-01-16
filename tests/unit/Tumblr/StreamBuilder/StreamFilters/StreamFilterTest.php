@@ -138,26 +138,20 @@ class StreamFilterTest extends \PHPUnit\Framework\TestCase
             ->setConstructorArgs(['ello'])
             ->setMethods(['filter_inner'])
             ->getMockForAbstractClass();
-        $filter->expects($this->once())
+        $filter->expects($this->never())
             ->method('filter_inner')
             ->willReturn(new StreamFilterResult([], []));
 
         $tracer = new DebugStreamTracer();
 
         $filter->filter([], null, $tracer);
-        $this->assertCount(2, $tracer->get_output());
+        $this->assertCount(1, $tracer->get_output());
 
         // Example output:
-        // [2024-01-16T09:28:33-05:00]: op=filter sender=ello[Mock_StreamFilter_e7231ac5] status=begin other={"count":0}
-        // [2024-01-16T12:45:27-05:00]: op=filter sender=ello[Mock_StreamFilter_29ee789b] status=end
-        //      start_time=1705427127.9359 duration=7.1525573730469E-6 other={"count":0,"released_ratio":0}
+        // [2024-01-16T09:28:33-05:00]: op=filter sender=ello[Mock_StreamFilter_e7231ac5] status=skip
         $this->assertMatchesRegularExpression(
-            "/op=filter.sender=ello\[Mock_StreamFilter_[a-z0-9A-Z]*\].status=begin.other=\{\"count\":0\}/",
+            "/op=filter.sender=ello\[Mock_StreamFilter_[a-z0-9A-Z]*\].status=skip/",
             $tracer->get_output()[0]
-        );
-        $this->assertMatchesRegularExpression(
-            "/op=filter.sender=ello\[Mock_StreamFilter_[a-z0-9A-Z]*\].status=end.start_time=.*duration=.*other=\{\"count\":0,\"released_ratio\":0\}/",
-            $tracer->get_output()[1]
         );
     }
 
@@ -178,7 +172,8 @@ class StreamFilterTest extends \PHPUnit\Framework\TestCase
             ->willThrowException(new \Exception('whoops'));
 
         $tracer = $this->getMockBuilder(StreamTracer::class)->getMockForAbstractClass();
+        $el = new MockMaxStreamElement(123, 'awesome_provider', new MockMaxCursor(456));
 
-        $filter->filter([], null, $tracer);
+        $filter->filter([$el], null, $tracer);
     }
 }
