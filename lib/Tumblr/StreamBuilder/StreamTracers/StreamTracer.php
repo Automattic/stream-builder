@@ -387,21 +387,30 @@ abstract class StreamTracer
      * @param StreamFilter $filter The stream filter is applied.
      * @param int $released_count The number of items being filtered.
      * @param array $timing Zero indexed tuple of the start time and duration of the operation (in that order)
+     * @param int $total_count The number of elements that went through the filter step, out of which $release_count were filtered.
      * @return void
      */
     final public function end_filter(
         StreamFilter $filter,
         int $released_count,
-        array $timing
+        array $timing,
+        int $total_count
     ): void {
+        $meta = [static::META_COUNT => $released_count];
+
+        if ($total_count > 0) {
+            $ratio = $released_count / $total_count;
+            $meta['released_ratio'] = round($ratio, 3);
+        } else {
+            $meta['released_ratio'] = 0;
+        }
+
         $this->trace_event(
             static::CATEGORY_FILTER,
             $filter,
             static::EVENT_END,
             $timing,
-            [
-                static::META_COUNT => $released_count,
-            ]
+            $meta
         );
     }
 

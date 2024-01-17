@@ -45,28 +45,29 @@ class StreamFilterTest extends \PHPUnit\Framework\TestCase
             ->getMockForAbstractClass();
         $el = new MockMaxStreamElement(123, 'awesome_provider', new MockMaxCursor(456));
         $el2 = new MockMaxStreamElement(234, 'awesome_provider', new MockMaxCursor(789));
-        $released_el = $el;
+        $el3 = new MockMaxStreamElement(345, 'awesome_provider', new MockMaxCursor(987));
         $filter->expects($this->once())
             ->method('filter_inner')
-            ->willReturn(new StreamFilterResult([], [$released_el]));
+            ->willReturn(new StreamFilterResult([], [$el]));
 
         $tracer = new DebugStreamTracer();
 
-        $filter->filter([$el, $el2], null, $tracer);
+        $filter->filter([$el, $el2, $el3], null, $tracer);
         $this->assertCount(3, $tracer->get_output());
 
         // Example output:
         // [2024-01-16T09:28:33-05:00]: op=filter sender=ello[Mock_StreamFilter_e7231ac5] status=begin other={"count":2}
         // [2024-01-16T09:56:32-05:00]: op=filter sender=ello[Mock_StreamFilter_3aaefcd3] status=end
-        //      start_time=1705416992.4759 duration=2.0980834960938E-5 other={"count":1}
+        //      start_time=1705427127.9359 duration=7.1525573730469E-6 other={"count":1,"released_ratio":1}
+        //      start_time=1705427127.9359 duration=7.1525573730469E-6 other={"count":2,"released_ratio":0.333}
         // [2024-01-16T09:56:32-05:00]: op=filter sender=ello[Mock_StreamFilter_3aaefcd3] status=release
         //      other={"target":"MockMaxStreamElement","meta_detail":"TEST_MockMaxElement(123)","filter_code":"Mock_StreamFilter_3aaefcd3"}
         $this->assertMatchesRegularExpression(
-            "/op=filter.sender=ello\[Mock_StreamFilter_[a-z0-9A-Z]*\].status=begin.other=\{\"count\":2\}/",
+            "/op=filter.sender=ello\[Mock_StreamFilter_[a-z0-9A-Z]*\].status=begin.other=\{\"count\":3\}/",
             $tracer->get_output()[0]
         );
         $this->assertMatchesRegularExpression(
-            "/op=filter.sender=ello\[Mock_StreamFilter_[a-z0-9A-Z]*\].status=end.start_time=.*duration=.*other=\{\"count\":1\}/",
+            "/op=filter.sender=ello\[Mock_StreamFilter_[a-z0-9A-Z]*\].status=end.start_time=.*duration=.*other=\{\"count\":1,\"released_ratio\":0.333\}/",
             $tracer->get_output()[1]
         );
         $this->assertMatchesRegularExpression(
@@ -74,7 +75,6 @@ class StreamFilterTest extends \PHPUnit\Framework\TestCase
             $tracer->get_output()[2]
         );
     }
-
 
     /**
      * Test that the filter method calls filter_all when all elements are filtered
@@ -88,8 +88,6 @@ class StreamFilterTest extends \PHPUnit\Framework\TestCase
             ->getMockForAbstractClass();
         $el = new MockMaxStreamElement(123, 'awesome_provider', new MockMaxCursor(456));
         $el2 = new MockMaxStreamElement(234, 'awesome_provider', new MockMaxCursor(789));
-        $released_el = $el;
-        $released_el2 = $el2;
         $filter->expects($this->once())
             ->method('filter_inner')
             ->willReturn(new StreamFilterResult([], [$el, $el2]));
@@ -101,8 +99,8 @@ class StreamFilterTest extends \PHPUnit\Framework\TestCase
 
         // Example output:
         // [2024-01-16T09:28:33-05:00]: op=filter sender=ello[Mock_StreamFilter_e7231ac5] status=begin other={"count":2}
-        // [2024-01-16T09:56:32-05:00]: op=filter sender=ello[Mock_StreamFilter_3aaefcd3] status=end
-        //      start_time=1705416992.4759 duration=2.0980834960938E-5 other={"count":2}
+        // [2024-01-16T12:45:27-05:00]: op=filter sender=ello[Mock_StreamFilter_29ee789b] status=end
+        //      start_time=1705427127.9359 duration=7.1525573730469E-6 other={"count":2,"released_ratio":1}
         // [2024-01-16T09:56:32-05:00]: op=filter sender=ello[Mock_StreamFilter_3aaefcd3] status=release
         //      other={"target":"MockMaxStreamElement","meta_detail":"TEST_MockMaxElement(123)","filter_code":"Mock_StreamFilter_3aaefcd3"}
         // [2024-01-16T10:06:02-05:00]: op=filter sender=ello[Mock_StreamFilter_bd6d5ece] status=release
@@ -113,7 +111,7 @@ class StreamFilterTest extends \PHPUnit\Framework\TestCase
             $tracer->get_output()[0]
         );
         $this->assertMatchesRegularExpression(
-            "/op=filter.sender=ello\[Mock_StreamFilter_[a-z0-9A-Z]*\].status=end.start_time=.*duration=.*other=\{\"count\":2\}/",
+            "/op=filter.sender=ello\[Mock_StreamFilter_[a-z0-9A-Z]*\].status=end.start_time=.*duration=.*other=\{\"count\":2,\"released_ratio\":1\}/",
             $tracer->get_output()[1]
         );
         $this->assertMatchesRegularExpression(
@@ -130,6 +128,32 @@ class StreamFilterTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    /**
+     * Test the filter method when called with an empty array
+     */
+    public function test_filter_empty()
+    {
+        /** @var StreamFilter|\PHPUnit\Framework\MockObject\MockObject $filter */
+        $filter = $this->getMockBuilder(StreamFilter::class)
+            ->setConstructorArgs(['ello'])
+            ->setMethods(['filter_inner'])
+            ->getMockForAbstractClass();
+        $filter->expects($this->never())
+            ->method('filter_inner')
+            ->willReturn(new StreamFilterResult([], []));
+
+        $tracer = new DebugStreamTracer();
+
+        $filter->filter([], null, $tracer);
+        $this->assertCount(1, $tracer->get_output());
+
+        // Example output:
+        // [2024-01-16T09:28:33-05:00]: op=filter sender=ello[Mock_StreamFilter_e7231ac5] status=skip
+        $this->assertMatchesRegularExpression(
+            "/op=filter.sender=ello\[Mock_StreamFilter_[a-z0-9A-Z]*\].status=skip/",
+            $tracer->get_output()[0]
+        );
+    }
 
     /**
      * Test when filter throw exception
@@ -148,7 +172,8 @@ class StreamFilterTest extends \PHPUnit\Framework\TestCase
             ->willThrowException(new \Exception('whoops'));
 
         $tracer = $this->getMockBuilder(StreamTracer::class)->getMockForAbstractClass();
+        $el = new MockMaxStreamElement(123, 'awesome_provider', new MockMaxCursor(456));
 
-        $filter->filter([], null, $tracer);
+        $filter->filter([$el], null, $tracer);
     }
 }

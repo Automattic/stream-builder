@@ -77,17 +77,17 @@ abstract class StreamFilter extends Templatable
      * Filter stream elements, this method will trace filter process, and proxy the concrete filter implementation
      * to the filter_inner method.
      * @param StreamElement[] $elements The candidate StreamElement instances to filter.
-     * @param StreamFilterState $state The filter state passed from previous filter operations.
+     * @param StreamFilterState|null $state The filter state passed from previous filter operations.
      * @param StreamTracer|null $tracer The tracer passed in to track filter behaviors.
-     * @throws \Exception Rethrown exceptions from filter_inner call.
      * @return StreamFilterResult
+     * @throws \Exception Rethrown exceptions from filter_inner call.
      */
     final public function filter(
         array $elements,
         ?StreamFilterState $state = null,
         ?StreamTracer $tracer = null
     ): StreamFilterResult {
-        if (!$this->can_filter()) {
+        if (!$this->can_filter() || $elements === []) {
             $tracer && $tracer->filter_skip($this);
             return new StreamFilterResult($elements, []);
         }
@@ -118,12 +118,13 @@ abstract class StreamFilter extends Templatable
             $tracer->end_filter(
                 $this,
                 $filtered->get_released_count(),
-                [$t0, microtime(true) - $t0]
+                [$t0, microtime(true) - $t0],
+                $size
             );
             foreach ($filtered->get_released() as $element) {
                 $tracer->release_element($this, $element);
             }
-            if (count($elements) === $filtered->get_released_count()) {
+            if ($size > 0 && $size === $filtered->get_released_count()) {
                 $tracer->release_all_elements($this, $filtered->get_released_count());
             }
         }
@@ -133,11 +134,11 @@ abstract class StreamFilter extends Templatable
     /**
      * The filter concrete logic implementation.
      * @param StreamElement[] $elements The candidate StreamElement instances to filter.
-     * @param StreamFilterState $state The filter state passed from previous filter operations.
+     * @param StreamFilterState|null $state The filter state passed from previous filter operations.
      * @param StreamTracer|null $tracer The tracer passed in to track filter behaviors.
      * @return StreamFilterResult
      */
-    abstract protected function filter_inner(array $elements, StreamFilterState $state = null, StreamTracer $tracer = null): StreamFilterResult;
+    abstract protected function filter_inner(array $elements, ?StreamFilterState $state = null, ?StreamTracer $tracer = null): StreamFilterResult;
 
     /**
      * Whether this filter is enabled. Default to true.
