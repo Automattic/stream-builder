@@ -1,0 +1,37 @@
+# WIP: Workflow for sending a Slack notification when a new release is published.
+name: New Release notification
+on:
+  release:
+    types: [published]
+
+jobs:
+  send_message:
+    name: Send Slack message
+    runs-on: ubuntu-latest
+    env:
+      release_url: ${{ github.event.release.html_url }}
+      release_name: ${{ github.event.release.name }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+    steps:
+      - name: Send notification for new release
+        if: github.event.action == 'published'
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        env:
+          release_status: ${{ github.event.release.draft && ' draft ' || ' ' }}
+          release_icon: ${{ github.event.release.draft && ':pr-draft:' || ':pull-request:' }}
+        with:
+          payload: |
+            {
+              "text": "New${{ env.pr_status }} stream-builder release ${{ env.release_name }}",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "${{ env.release_icon }} New${{ env.release_status }} stream-builder release:\n<${{ env.release_url }}|#${{ env.release_name }}>"
+                  }
+                }
+              ]
+            }
