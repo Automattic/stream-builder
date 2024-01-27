@@ -45,6 +45,26 @@ class CappedPostRankerTest extends \PHPUnit\Framework\TestCase
     private MockedUser $mock_user;
 
     /**
+     * @var array Array of valid stream elements.
+     */
+    private array $stream_elements;
+
+    /**
+     * @var array Array of invalid stream elements.
+     */
+    private array $invalid_stream_elements;
+
+    /**
+     * @var CappedPostRanker Enabled ranker instance.
+     */
+    private CappedPostRanker $enabled_ranker_instance;
+
+    /**
+     * @var CappedPostRanker Disabled ranker instance.
+     */
+    private CappedPostRanker $disabled_ranker_instance;
+
+    /**
      * Set up the testcase
      */
     protected function setUp(): void

@@ -148,7 +148,7 @@ abstract class CachedStream extends WrapStream
         } else {
             $ttl = $this->cache_ttl;
         }
-        $this->cache_provider->set($this->cache_object_type, $cache_key, $cache_value, $ttl);
+        $this->cache_provider->set($this->cache_object_type, $cache_key, $cache_value, (int) $ttl);
 
         // Step 4: Slice the result and serve the requested based on cursor.
         // we will still use the same cursor's offset to slice the newly fetched results.
