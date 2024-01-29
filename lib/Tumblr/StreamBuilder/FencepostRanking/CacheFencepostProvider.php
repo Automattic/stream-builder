@@ -38,12 +38,19 @@ final class CacheFencepostProvider extends FencepostProvider
     private $cache;
 
     /**
+     * @var int Default cached value TTL in seconds.
+     */
+    private int $ttl_seconds;
+
+    /**
      * CacheFencepostProvider constructor.
      * @param CacheProvider $cache Provider of cache
+     * @param int $ttl_seconds Default cached value TTL in seconds.
      */
-    public function __construct(CacheProvider $cache)
+    public function __construct(CacheProvider $cache, int $ttl_seconds = 0)
     {
         $this->cache = $cache;
+        $this->ttl_seconds = $ttl_seconds;
     }
 
     /**
@@ -95,7 +102,8 @@ final class CacheFencepostProvider extends FencepostProvider
         $this->cache->set(
             CacheProvider::OBJECT_TYPE_FENCEPOST_ID,
             self::cachekey_fence($fence_id),
-            $timestamp_ms
+            $timestamp_ms,
+            $this->ttl_seconds
         );
         StreamBuilder::getDependencyBag()->getLog()
             ->superRateTick('fencepost_ops', ['op' => 'cache', 'action' => 'set_ts']);
@@ -109,10 +117,24 @@ final class CacheFencepostProvider extends FencepostProvider
         $this->cache->set(
             CacheProvider::OBJECT_TYPE_FENCEPOST_EPOCH,
             self::cachekey_fence($user_id),
-            $timestamp_ms
+            $timestamp_ms,
+            $this->ttl_seconds
         );
         StreamBuilder::getDependencyBag()->getLog()
             ->superRateTick('fencepost_ops', ['op' => 'cache', 'action' => 'set_epoch']);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function delete_fencepost_epoch(string $user_id)
+    {
+        $this->cache->delete(
+            CacheProvider::OBJECT_TYPE_FENCEPOST_EPOCH,
+            self::cachekey_fence($user_id)
+        );
+        StreamBuilder::getDependencyBag()->getLog()
+            ->superRateTick('fencepost_ops', ['op' => 'cache', 'action' => 'delete_epoch']);
     }
 
     /**
@@ -166,7 +188,8 @@ final class CacheFencepostProvider extends FencepostProvider
         $this->cache->set(
             CacheProvider::OBJECT_TYPE_FENCEPOST,
             self::cachekey_fencepost($fence_id, $timestamp_ms),
-            $fp_json
+            $fp_json,
+            $this->ttl_seconds
         );
         StreamBuilder::getDependencyBag()->getLog()
             ->superRateTick('fencepost_ops', ['op' => 'cache', 'action' => 'set_fp']);

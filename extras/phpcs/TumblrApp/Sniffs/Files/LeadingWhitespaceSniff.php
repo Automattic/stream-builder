@@ -26,7 +26,8 @@ class LeadingWhitespaceSniff implements Sniff
         $tokens = $phpcsFile->getTokens();
 
         $whitespace_before_open_tag = "";
-        for ($i = 0, $len = count($tokens); $i < $len; $i++) {
+		$token_count = is_countable($tokens) ? count($tokens) : 0;
+        for ($i = 0, $len = $token_count; $i < $len; $i++) {
             $token = $tokens[$i];
             if ($token["code"] === T_OPEN_TAG) {
                 break;

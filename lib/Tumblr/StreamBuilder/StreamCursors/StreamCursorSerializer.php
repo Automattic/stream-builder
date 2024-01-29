@@ -78,7 +78,7 @@ final class StreamCursorSerializer
         ?string $user_id,
         ?string $context = null
     ): ?StreamCursor {
-        if (empty(trim($cursor_string))) {
+        if (empty(trim($cursor_string ?? ''))) {
             return null;
         }
         $cache_provider = StreamBuilder::getDependencyBag()->getCacheProvider();

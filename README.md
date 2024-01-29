@@ -25,6 +25,8 @@ StreamBuilder expects PHP 7.4+.
 
 Install StreamBuilder by using [Composer](https://getcomposer.org/) and running `composer require automattic/stream-builder` in your project.
 
+To access the examples and unit tests, please use `composer require --prefer-source automattic/stream-builder` to make a local git clone.
+
 ## Contributing
 
 If you want to change the StreamBuilder code, please:

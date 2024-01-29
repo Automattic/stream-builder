@@ -174,7 +174,7 @@ abstract class TemplateProvider
             !(static::template_exists($context, $test_template_name))
         ) {
             // planout variant is not a valid template, fallback to default template.
-            StreamBuilder::getDependencyBag()->getLog()->rateTick('streambuilder_errors', "${context}_bad_test_template_name");
+            StreamBuilder::getDependencyBag()->getLog()->rateTick('streambuilder_errors', "{$context}_bad_test_template_name");
             return $default_template_name;
         }
         return $test_template_name;

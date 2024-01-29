@@ -20,6 +20,8 @@
 
 namespace Tumblr\StreamBuilder\FencepostRanking;
 
+use Tumblr\StreamBuilder\Exceptions\MissingCacheException;
+
 /**
  * Thing that provides fenceposts, obviously.
  */
@@ -104,6 +106,14 @@ abstract class FencepostProvider
      * @return void
      */
     abstract public function set_fencepost_epoch(string $user_id, int $timestamp_ms);
+
+    /**
+     * Deletes the last valid time for a user's fencepost.
+     * @param string $user_id The user id as string for which fenceposts are no longer valid.
+     * @return void
+     * @throws MissingCacheException If User id is missing
+     */
+    abstract public function delete_fencepost_epoch(string $user_id);
 
     /**
      * Gets the last valid epoch (timestamp in ms) for a given user.

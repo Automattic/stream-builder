@@ -21,6 +21,8 @@
 
 namespace Tumblr\StreamBuilder\FencepostRanking;
 
+use Tumblr\StreamBuilder\Exceptions\MissingCacheException;
+
 /**
  * Dummy FencepostProvider for testing fencepost ranking.
  */
@@ -109,5 +111,17 @@ final class TestingFencepostProvider extends FencepostProvider
     public function get_fencepost_epoch(string $user_id)
     {
         return $this->epoch_cutoff[$user_id] ?? null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function delete_fencepost_epoch(string $user_id)
+    {
+        if (isset($this->epoch_cutoff[$user_id])) {
+            unset($this->epoch_cutoff[$user_id]);
+        } else {
+            throw new MissingCacheException(-1, $user_id);
+        }
     }
 }

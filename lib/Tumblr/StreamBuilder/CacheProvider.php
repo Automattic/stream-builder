@@ -20,6 +20,8 @@
 
 namespace Tumblr\StreamBuilder;
 
+use Tumblr\StreamBuilder\Exceptions\MissingCacheException;
+
 /**
  * Abstraction over things that provide ephemeral key-value stores.
  * Keys are assumed to be strings, but values are mixed types. The value `null` is special
@@ -108,4 +110,13 @@ interface CacheProvider
      * @return void
      */
     public function set_multi(int $object_type, array $key_value_pairs, int $ttl_seconds = 0);
+
+    /**
+     * Delete the key-value pair for a given key in the specified cache.
+     * @param int $object_type The type of object being cached, use of the OBJECT_TYPE_* constants.
+     * @param string $key The key to delete.
+     * @return void
+     * @throws MissingCacheException When a key is not found.
+     */
+    public function delete(int $object_type, string $key);
 }

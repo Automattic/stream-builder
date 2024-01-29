@@ -22,7 +22,10 @@ We also have more detailed explanation of the functionalities for individual hig
     - [What if we want to combine different versions of trending topics?](#what-if-we-want-to-combine-different-versions-of-trending-topics)
     - [What if we want to rank the topics?](#what-if-we-want-to-rank-the-topics)
     - [What if we want to inject some manual topic?](#what-if-we-want-to-inject-some-manual-topic)
+	- [What if we want to cache a stream?](#what-if-we-want-to-cache-a-stream)
+
 - [Appendix](#appendix)
+  - [Template Files](TemplateFiles.md)
   - [Stream](#stream)
   - [Templatable](#templatable)
   - [Identifiable](#identifiable)
@@ -53,7 +56,7 @@ As an example of how to use StreamBuilder, we will implement an endpoint to retr
 
 Let's also assume the returned array is a simple `string[]` which contains trending topics as strings.
 
-We also have an example demo application in the `example/` folder which implements a lot of what we're going to discuss here -- so check that out!
+We also have an example demo application in the `example/` folder which implements a lot of what we're going to discuss here -- so check that out! You must clone the Git repository to work with the example, as released archives do not include example code.
 
 ### Integrating StreamBuilder with your codebase
 
@@ -460,7 +463,8 @@ stream_filter:
     - _type: Component\Trending\StreamBuilder\StreamFilters\EmptyTopicStreamElement
 stream:
   _type: Tumblr\StreamBuilder\Streams\RankedStream
-  ranker: Tumblr\StreamBuilder\StreamRankers\RandomRanker
+  ranker: 
+    _type: Tumblr\StreamBuilder\StreamRankers\RandomRanker
   inner:
     _type: Component\Trending\StreamBuilder\Streams\TrendingTopicStream
 ```
@@ -519,6 +523,95 @@ Let's look at an example:
 ```
 
 That will inject an element from the injected stream at positions 0 and 10 in the overall stream.
+
+##### What if we want to cache a stream?
+
+Let's say we want to cache the `TrendingTopicStream` that we built [up above](#start-with-a-very-basic-stream).
+
+The most basic implementation involves adding a wrapper around your stream which handles the actual caching.
+
+Let's call our implementation `CachedTrendingTopicStream`:
+
+This, very basic, implementation simply retrieves the stream we actually want to cache and hands it off to the caching providing which is then responsible for caching the elements of the stream.
+
+```
+class CachedTrendingTopicStream extends \Tumblr\StreamBuilder\Streams\CachedStream {
+	/**
+	 * @inheritDoc
+	 */
+	public function __construct(
+		\Tumblr\StreamBuilder\Stream $inner_stream,
+		\Tumblr\StreamBuilder\CacheProvider $cache_provider,
+		int $cache_object_type,
+		int $cache_ttl,
+		int $candidate_count,
+		string $identity
+	) {
+		// Any additional handling/verification can happen here.
+
+		// Otherwise, simply call the parent constructor.
+		parent::__construct( $inner_stream, $cache_provider, $cache_object_type, $cache_ttl, $candidate_count, $identity, array() );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public static function from_template( \Tumblr\StreamBuilder\StreamContext $context ) {
+		$inner             = $context->deserialize_required_property( 'inner' );
+		// There are built-in cache providers or you may want to use your own, custom provider.
+		$cache_provider    = $context->get_cache_provider();
+		$cache_object_type = 0;
+		return new self(
+			$inner,
+			$cache_provider,
+			$cache_object_type,
+			$context->get_required_property( 'cache_ttl' ),
+			$context->get_optional_property( 'candidate_count', 20 ),
+			$context->get_current_identity(),
+		);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function _slice_result_with_cursor(
+		int $count,
+		\Tumblr\StreamBuilder\StreamResult $inner_result,
+		\Tumblr\StreamBuilder\StreamCursors\StreamCursor $cursor = null
+	): \Tumblr\StreamBuilder\StreamResult {
+		// No need to slice results
+		return $inner_result;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function inner_cursor( ?\Tumblr\StreamBuilder\StreamCursors\StreamCursor $cursor ): ?\Tumblr\StreamBuilder\StreamCursors\StreamCursor {
+		return $cursor;
+	}
+}
+```
+
+Once we have the cache class, we can update our template file so the cache class wraps our original stream.
+
+The original template looked like this:
+
+```
+_type: Automattic\MyAwesomeReader\StreamBuilder\Trending\Streams\TrendingTopicStream
+```
+
+Our updated template will look like this:
+
+```
+_type: Automattic\MyAwesomeReader\StreamBuilder\Trending\Streams\CachedTrendingTopicStream
+cache_ttl: 60
+inner:
+	_type: Automattic\MyAwesomeReader\StreamBuilder\Trending\Streams\TrendingTopicStream
+```
+
+All we've done is moved our `TrendingTopicStream` inwards a little bit so it's wrapped by the `CachedTrendingTopicStream`.
+
+It's also important to note that this block could easily be nested inside a more complicated template file.
 
 ## Appendix
 

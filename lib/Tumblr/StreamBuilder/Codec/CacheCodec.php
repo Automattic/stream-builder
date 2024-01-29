@@ -109,8 +109,8 @@ final class CacheCodec extends Codec
             throw new MissingCacheException($this->cache_type, $encoded);
         }
 
-        // there used to be a bug on memcache client, add an extra utf8_encode call here to make sure.
-        $cached = utf8_encode($cached);
+        // there used to be a bug on memcache client, add an extra encoding call here to make sure.
+        $cached = mb_convert_encoding($cached, 'UTF-8', 'ISO-8859-1');
 
         switch ($this->serialization_type) {
             case self::SERIALIZATION_TYPE_JSON:

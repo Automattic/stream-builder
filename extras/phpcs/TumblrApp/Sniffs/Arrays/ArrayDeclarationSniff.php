@@ -416,12 +416,12 @@ class ArrayDeclarationSniff implements Sniff
             if ($tokens[$nextToken]['code'] === T_COMMA) {
                 $stackPtrCount = 0;
                 if (isset($tokens[$stackPtr]['nested_parenthesis']) === true) {
-                    $stackPtrCount = count($tokens[$stackPtr]['nested_parenthesis']);
+                    $stackPtrCount = is_countable($tokens[$stackPtr]['nested_parenthesis']) ? count($tokens[$stackPtr]['nested_parenthesis']) : 0;
                 }
 
                 $commaCount = 0;
                 if (isset($tokens[$nextToken]['nested_parenthesis']) === true) {
-                    $commaCount = count($tokens[$nextToken]['nested_parenthesis']);
+                    $commaCount = is_countable($tokens[$nextToken]['nested_parenthesis']) ? count($tokens[$nextToken]['nested_parenthesis']) : 0;
                     if ($tokens[$stackPtr]['code'] === T_ARRAY) {
                         // Remove parenthesis that are used to define the array.
                         $commaCount--;

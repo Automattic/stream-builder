@@ -65,6 +65,7 @@ abstract class StreamTracer
     public const EVENT_RETRY = 'retry';
     public const EVENT_APPLY = 'apply';
     public const EVENT_RELEASE = 'release';
+    public const EVENT_RELEASE_ALL = 'release_all';
     public const EVENT_CACHE_HIT = 'cache_hit';
     public const EVENT_CACHE_MISS = 'cache_miss';
     public const EVENT_EXHAUSTIVE = 'exhaustive';
@@ -386,21 +387,30 @@ abstract class StreamTracer
      * @param StreamFilter $filter The stream filter is applied.
      * @param int $released_count The number of items being filtered.
      * @param array $timing Zero indexed tuple of the start time and duration of the operation (in that order)
+     * @param int $total_count The number of elements that went through the filter step, out of which $release_count were filtered.
      * @return void
      */
     final public function end_filter(
         StreamFilter $filter,
         int $released_count,
-        array $timing
+        array $timing,
+        int $total_count
     ): void {
+        $meta = [static::META_COUNT => $released_count];
+
+        if ($total_count > 0) {
+            $ratio = $released_count / $total_count;
+            $meta['released_ratio'] = round($ratio, 3);
+        } else {
+            $meta['released_ratio'] = 0;
+        }
+
         $this->trace_event(
             static::CATEGORY_FILTER,
             $filter,
             static::EVENT_END,
             $timing,
-            [
-                static::META_COUNT => $released_count,
-            ]
+            $meta
         );
     }
 
@@ -453,6 +463,24 @@ abstract class StreamTracer
             static::CATEGORY_FILTER,
             $filter,
             static::EVENT_RELEASE,
+            [],
+            $meta
+        );
+    }
+
+    /**
+     * Called when a filter releases all the elements.
+     * @param StreamFilter $filter The stream filter that released the elements.
+     * @param int $count The amount of elements released.
+     * @return void
+     */
+    public function release_all_elements(StreamFilter $filter, int $count)
+    {
+        $meta = [static::META_COUNT => $count];
+        $this->trace_event(
+            static::CATEGORY_FILTER,
+            $filter,
+            static::EVENT_RELEASE_ALL,
             [],
             $meta
         );
