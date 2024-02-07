@@ -141,4 +141,38 @@ class TemplateProviderTest extends \PHPUnit\Framework\TestCase
         }
         $this->assertTrue(TemplateProvider::template_exists('dashboard', $template));
     }
+
+    /**
+     * Test get_template
+     * @return void
+     */
+    public function testGetTemplate(): void
+    {
+        $template = TemplateProvider::get_template('examples', 'empty');
+        $expected = [
+            '_type' => 'Tumblr\StreamBuilder\Streams\NullStream',
+            '_component' => 'examples',
+        ];
+        $this->assertSame($expected, $template);
+    }
+
+    /**
+     * Test get_template
+     * @return void
+     */
+    public function testGetTemplateWithMissingTemplate(): void
+    {
+        $this->expectExceptionMessage('Cannot read template for examples:posts_feed');
+        TemplateProvider::get_template('examples', 'posts_feed');
+    }
+
+    /**
+     * Test get_template
+     * @return void
+     */
+    public function testGetTemplateWithMissingComponent(): void
+    {
+        $this->expectExceptionMessage('Cannot read template for examples:empty component:posts');
+        TemplateProvider::get_template('examples', 'empty', 'posts');
+    }
 }
