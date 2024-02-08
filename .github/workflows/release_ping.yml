@@ -11,7 +11,7 @@ jobs:
     env:
       release_url: ${{ github.event.release.html_url }}
       release_name: ${{ github.event.release.name }}
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL: ${{ secrets.RELEASE_SLACK_WEBHOOK }}
       SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
     steps:
       - name: Send notification for new release
