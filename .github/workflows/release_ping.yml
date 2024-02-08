@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       release_url: ${{ github.event.release.html_url && github.event.release.html_url || 'http://automattic.com' }}
-      release_name: ${{ github.event.release.name && github.event.release.name || github.inputs.release_name }}
+      release_name: ${{ github.event.release.name && github.event.release.name || inputs.release_name }}
       SLACK_WEBHOOK_URL: ${{ secrets.RELEASE_SLACK_WEBHOOK }}
       SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
     steps:
