@@ -1,6 +1,12 @@
 # WIP: Workflow for sending a Slack notification when a new release is published.
 name: New Release notification
 on:
+  workflow_dispatch:
+    inputs:
+      release_name:
+        description: 'Test scenario release name'
+        required: false
+        type: string
   release:
     types: [published]
 
@@ -9,8 +15,8 @@ jobs:
     name: Send Slack message
     runs-on: ubuntu-latest
     env:
-      release_url: ${{ github.event.release.html_url }}
-      release_name: ${{ github.event.release.name }}
+      release_url: ${{ github.event.release.html_url && github.event.release.html_url || 'http://automattic.com' }}
+      release_name: ${{ github.event.release.name && github.event.release.name || github.inputs.release_name }}
       SLACK_WEBHOOK_URL: ${{ secrets.RELEASE_SLACK_WEBHOOK }}
       SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
     steps:
