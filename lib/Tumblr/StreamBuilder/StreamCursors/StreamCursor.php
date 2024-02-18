@@ -171,13 +171,12 @@ abstract class StreamCursor extends Templatable
             $current_user_id
         );
 
-        $encoded = $binary_codec->encode($cursor);
+        $json = Helpers::json_encode($cursor->to_template());
+        $encoded = $binary_codec->encode($json);
         $encoded = Helpers::base64UrlEncode($encoded);
 
         $cursor_size = strlen($encoded);
         $context = $context ?? 'unknown';
-        StreamBuilder::getDependencyBag()->getLog()
-            ->histogramTick('cursor_size', $context, ($cursor_size / 1000.0));
 
         if (($cache_provider instanceof CacheProvider) && ($cursor_size > $cache_size_threshold)) {
             StreamBuilder::getDependencyBag()->getLog()
@@ -185,12 +184,20 @@ abstract class StreamCursor extends Templatable
             $cache_codec = new CacheCodec(
                 $cache_provider,
                 CacheProvider::OBJECT_TYPE_CURSOR,
-                CacheCodec::SERIALIZATION_TYPE_JSON
+                CacheCodec::SERIALIZATION_TYPE_JSON_STRING
             );
-            $encoded = $cache_codec->encode($cursor);
+            $encoded = $cache_codec->encode($json);
             // base64 url encode cache encoded as well, to line up with binary codec encoded logic.
             $encoded = Helpers::base64UrlEncode($encoded);
+
+            // This is an implementation detail, but the CacheCodec does not base64 encode the payload before
+            // writing to cache, so the original cursor_size is misleading. Base64 encoding can increase the
+            // payload size by 33%.
+            $cursor_size = strlen($json);
         }
+
+        StreamBuilder::getDependencyBag()->getLog()
+            ->histogramTick('cursor_size', $context, ($cursor_size / 1000.0));
 
         return $encoded;
     }
