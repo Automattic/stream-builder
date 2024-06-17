@@ -49,7 +49,7 @@ abstract class RegExp implements \PHP_CodeSniffer\Sniffs\Sniff
         if (static::SINGLE_LINE) {
             $tokens = $phpcsFile->getTokens();
             $line = $tokens[$start]['line'];
-            $length = count($tokens);
+            $length = is_countable($tokens) ? count($tokens) : 0;
             $token_length = 1;
             for ($i = $stackPtr + 1; $i < $length; $i++) {
                 if ($tokens[$i]['line'] > $line) {

@@ -36,8 +36,9 @@ abstract class TemplateProvider
      * @param string $context The context under which to look for a template.
      * @param string $name The name of the template.
      * @param string|null $component The requested component.
-     * @throws TemplateNotFoundException If the requested template could not be found or opened.
-     * Also can throw \JsonException If the file exists, but contains invalid JSON.
+     * @throws TemplateNotFoundException If the requested template could not be found or opened,
+     * also can throw \JsonException If the file exists, but contains invalid JSON,
+     * or if the requested component is not present in the template.
      * @return array The requested template as a deserialized array.
      */
     public static function get_template(string $context, string $name, ?string $component = null): array
@@ -45,9 +46,12 @@ abstract class TemplateProvider
         $template = YamlTemplateProvider::getInstance()->getTemplate($context, $name, $component) ??
             ConfigTemplateProvider::getInstance()->getTemplate($context, $name, $component);
         if (empty($template)) {
-            throw new TemplateNotFoundException(
-                sprintf('Cannot read template for %s:%s', $context, $name)
-            );
+            if ($component !== null && $component !== '') {
+                $message = sprintf('Cannot read template for %s:%s component:%s', $context, $name, $component);
+            } else {
+                $message = sprintf('Cannot read template for %s:%s', $context, $name);
+            }
+            throw new TemplateNotFoundException($message);
         }
         return $template;
     }
@@ -174,7 +178,7 @@ abstract class TemplateProvider
             !(static::template_exists($context, $test_template_name))
         ) {
             // planout variant is not a valid template, fallback to default template.
-            StreamBuilder::getDependencyBag()->getLog()->rateTick('streambuilder_errors', "${context}_bad_test_template_name");
+            StreamBuilder::getDependencyBag()->getLog()->rateTick('streambuilder_errors', "{$context}_bad_test_template_name");
             return $default_template_name;
         }
         return $test_template_name;

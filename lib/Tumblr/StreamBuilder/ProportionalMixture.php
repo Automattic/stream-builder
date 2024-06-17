@@ -66,7 +66,7 @@ final class ProportionalMixture
         $end = count($this->segment_ids) - 1;
         // 0 -> size - 1
         for ($j = 0; $j < $end; $j++) {
-            if ($r > $this->cumulative_weights[$j] && $r < $this->cumulative_weights[$j + 1] ?? 2.0) {
+            if ($r > $this->cumulative_weights[$j] && $r < ($this->cumulative_weights[$j + 1] ?? 2.0)) {
                 $idx = $j + 1;
                 break;
             }

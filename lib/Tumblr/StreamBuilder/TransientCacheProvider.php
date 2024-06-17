@@ -20,6 +20,8 @@
 
 namespace Tumblr\StreamBuilder;
 
+use Tumblr\StreamBuilder\Exceptions\MissingCacheException;
+
 /**
  * A CacheProvider that just stores into an in-memory array. Mostly for testing!
  */
@@ -85,6 +87,18 @@ final class TransientCacheProvider implements CacheProvider
     {
         foreach ($key_value_pairs as $key => $value) {
             $this->set($object_type, $key, $value, $ttl_seconds);
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function delete(int $object_type, string $key)
+    {
+        if (isset($this->caches[$object_type][$key])) {
+            unset($this->caches[$object_type][$key]);
+        } else {
+            throw new MissingCacheException($object_type, $key);
         }
     }
 }
