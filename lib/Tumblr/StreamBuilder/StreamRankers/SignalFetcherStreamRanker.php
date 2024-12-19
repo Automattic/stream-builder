@@ -49,7 +49,7 @@ abstract class SignalFetcherStreamRanker extends StreamRanker
     /**
      * @inheritDoc
      */
-    final protected function rank_inner(array $stream_elements, StreamTracer $tracer = null): array
+    final protected function rank_inner(array $stream_elements, ?StreamTracer $tracer = null): array
     {
         /** @var StreamElement[] $stream_elements */
         $signals = $this->signal_fetcher->fetch($stream_elements, $tracer);

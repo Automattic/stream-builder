@@ -71,7 +71,7 @@ final class UniformInjectionAllocator extends InjectionAllocator
     /**
      * @inheritDoc
      */
-    public function allocate(int $page_size, array $state = null): InjectionAllocatorResult
+    public function allocate(int $page_size, ?array $state = null): InjectionAllocatorResult
     {
         $out = [];
         // If there's no next_offset is set, we use remainder, most likely in the first page.

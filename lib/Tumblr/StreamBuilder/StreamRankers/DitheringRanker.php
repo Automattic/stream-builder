@@ -68,7 +68,7 @@ class DitheringRanker extends StreamRanker
     /**
      * @inheritDoc
      */
-    protected function rank_inner(array $stream_elements, StreamTracer $tracer = null): array
+    protected function rank_inner(array $stream_elements, ?StreamTracer $tracer = null): array
     {
         if (empty($stream_elements)) {
             return [];

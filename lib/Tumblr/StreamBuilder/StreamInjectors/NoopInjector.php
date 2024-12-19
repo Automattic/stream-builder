@@ -33,7 +33,7 @@ final class NoopInjector extends StreamInjector
     /**
      * @inheritDoc
      */
-    protected function _plan_injection(int $page_size, Stream $requesting_stream, array $state = null, StreamTracer $tracer = null): InjectionPlan
+    protected function _plan_injection(int $page_size, Stream $requesting_stream, ?array $state = null, ?StreamTracer $tracer = null): InjectionPlan
     {
         return new InjectionPlan([], null);
     }

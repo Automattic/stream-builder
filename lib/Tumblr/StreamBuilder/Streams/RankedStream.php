@@ -53,8 +53,8 @@ final class RankedStream extends WrapStream
      */
     final protected function _enumerate(
         int $count,
-        StreamCursor $cursor = null,
-        StreamTracer $tracer = null,
+        ?StreamCursor $cursor = null,
+        ?StreamTracer $tracer = null,
         ?EnumerationOptions $option = null
     ): StreamResult {
         $res = $this->getInner()->enumerate($count, $cursor, $tracer, $option);

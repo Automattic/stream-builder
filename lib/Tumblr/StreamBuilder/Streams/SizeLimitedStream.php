@@ -70,8 +70,8 @@ class SizeLimitedStream extends Stream
      */
     protected function _enumerate(
         int $count,
-        StreamCursor $cursor = null,
-        StreamTracer $tracer = null,
+        ?StreamCursor $cursor = null,
+        ?StreamTracer $tracer = null,
         ?EnumerationOptions $option = null
     ): StreamResult {
         if (is_null($cursor)) {

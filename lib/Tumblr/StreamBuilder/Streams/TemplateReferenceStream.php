@@ -63,8 +63,8 @@ class TemplateReferenceStream extends WrapStream
      */
     protected function _enumerate(
         int $count,
-        StreamCursor $cursor = null,
-        StreamTracer $tracer = null,
+        ?StreamCursor $cursor = null,
+        ?StreamTracer $tracer = null,
         ?EnumerationOptions $option = null
     ): StreamResult {
         return $this->getInner()->enumerate($count, $cursor, $tracer, $option);

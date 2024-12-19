@@ -91,7 +91,7 @@ class PrependedStreamTest extends \PHPUnit\Framework\TestCase
         $this->stream_cursor2->expects($this->any())->method('_can_combine_with')->willReturn(true);
         // callback for enumerate function, which will return StreamResult based on passed in parameters.
         // Because enumerate function is called by ConcatenatedStream so we can't do static return mock here.
-        $enumerate_callback = function ($count, StreamCursor $cursor = null) {
+        $enumerate_callback = function ($count, ?StreamCursor $cursor = null) {
             $offset = $cursor == null ? 0 : ($cursor === $this->stream_cursor1 ? 1 : 2);
             return new StreamResult(
                 $offset + $count >= 2,

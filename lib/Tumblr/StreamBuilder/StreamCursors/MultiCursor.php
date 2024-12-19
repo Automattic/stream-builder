@@ -41,7 +41,7 @@ final class MultiCursor extends StreamCursor
      * @param array $stream_to_cursor Mapping from stream ids (strings) to StreamCursor objects
      * @param array|null $injector_state State of injector, if any.
      */
-    public function __construct(array $stream_to_cursor, array $injector_state = null)
+    public function __construct(array $stream_to_cursor, ?array $injector_state = null)
     {
         $this->stream_to_cursor = $stream_to_cursor;
         $this->injector_state = $injector_state;
@@ -115,7 +115,7 @@ final class MultiCursor extends StreamCursor
      * @param array|null $injector_state State of injector, if any.
      * @return MultiCursor
      */
-    public function with_injector_state(array $injector_state = null): self
+    public function with_injector_state(?array $injector_state = null): self
     {
         return new MultiCursor($this->stream_to_cursor, $injector_state);
     }

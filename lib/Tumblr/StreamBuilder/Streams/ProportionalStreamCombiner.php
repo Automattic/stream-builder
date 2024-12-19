@@ -123,7 +123,7 @@ final class ProportionalStreamCombiner extends StreamCombiner
     protected function combine(
         int $count,
         MultiCursor $cursor,
-        StreamTracer $tracer = null,
+        ?StreamTracer $tracer = null,
         ?EnumerationOptions $option = null
     ): StreamResult {
         // current map of feed ids we can draw from

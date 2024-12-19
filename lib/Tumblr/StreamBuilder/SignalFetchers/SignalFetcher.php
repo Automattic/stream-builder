@@ -40,7 +40,7 @@ abstract class SignalFetcher extends Templatable
      * @throws TypeMismatchException If some element is not a StreamElement.
      * @throws \Exception If the signal fetcher fails for some other reason.
      */
-    final public function fetch(array $stream_elements, StreamTracer $tracer = null): SignalBundle
+    final public function fetch(array $stream_elements, ?StreamTracer $tracer = null): SignalBundle
     {
         foreach ($stream_elements as $stream_element) {
             if (!($stream_element instanceof StreamElement)) {
@@ -72,7 +72,7 @@ abstract class SignalFetcher extends Templatable
      * @param StreamTracer|null $tracer Tracer to use for metrics and logging of signal fetching process.
      * @return SignalBundle
      */
-    abstract protected function fetch_inner(array $stream_elements, StreamTracer $tracer = null): SignalBundle;
+    abstract protected function fetch_inner(array $stream_elements, ?StreamTracer $tracer = null): SignalBundle;
 
     /**
      * Get the string representation of the current signal fetcher.

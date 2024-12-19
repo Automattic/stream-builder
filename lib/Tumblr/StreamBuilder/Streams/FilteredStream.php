@@ -87,8 +87,8 @@ final class FilteredStream extends WrapStream
         Stream $inner,
         StreamFilter $filter,
         string $identity,
-        int $retry_count = null,
-        float $overfetch_ratio = null,
+        ?int $retry_count = null,
+        ?float $overfetch_ratio = null,
         bool $skip_filters = false,
         bool $slice_result = true
     ) {
@@ -148,8 +148,8 @@ final class FilteredStream extends WrapStream
      */
     protected function _enumerate(
         int $count,
-        StreamCursor $cursor = null,
-        StreamTracer $tracer = null,
+        ?StreamCursor $cursor = null,
+        ?StreamTracer $tracer = null,
         ?EnumerationOptions $option = null
     ): StreamResult {
         /** @var FilteredStreamCursor $cursor */
@@ -184,7 +184,7 @@ final class FilteredStream extends WrapStream
         ?StreamCursor $inner_cursor,
         ?StreamFilterState $filter_state,
         int $depth,
-        StreamTracer $tracer = null,
+        ?StreamTracer $tracer = null,
         ?EnumerationOptions $option = null
     ): StreamResult {
         $fetch_count = intval(ceil($want_count * (1.0 + max(0.0, $this->overfetch_ratio))));

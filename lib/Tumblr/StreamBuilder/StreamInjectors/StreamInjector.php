@@ -43,8 +43,8 @@ abstract class StreamInjector extends Templatable
     final public function plan_injection(
         int $page_size,
         Stream $requesting_stream,
-        array $state = null,
-        StreamTracer $tracer = null
+        ?array $state = null,
+        ?StreamTracer $tracer = null
     ): InjectionPlan {
         $t0 = microtime(true);
         if (!$this->can_inject()) {
@@ -88,8 +88,8 @@ abstract class StreamInjector extends Templatable
     abstract protected function _plan_injection(
         int $page_size,
         Stream $requesting_stream,
-        array $state = null,
-        StreamTracer $tracer = null
+        ?array $state = null,
+        ?StreamTracer $tracer = null
     ): InjectionPlan;
 
     /**

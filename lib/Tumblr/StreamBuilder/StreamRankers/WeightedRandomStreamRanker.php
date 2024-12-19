@@ -34,7 +34,7 @@ class WeightedRandomStreamRanker extends StreamRanker
      * @inheritDoc
      * @psalm-suppress UndefinedDocblockClass
      */
-    protected function rank_inner(array $stream_elements, StreamTracer $tracer = null): array
+    protected function rank_inner(array $stream_elements, ?StreamTracer $tracer = null): array
     {
         // if there are no stream elements to rank, return early
         if (empty($stream_elements)) {

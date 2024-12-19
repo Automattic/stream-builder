@@ -47,8 +47,8 @@ final class ChronologicalRangeFilter extends StreamElementFilter
      */
     public function __construct(
         string $identity,
-        int $max_timestamp_ms_inclusive = null,
-        int $min_timestamp_ms_exclusive = null,
+        ?int $max_timestamp_ms_inclusive = null,
+        ?int $min_timestamp_ms_exclusive = null,
         bool $release_non_chrono = false
     ) {
         if (is_null($max_timestamp_ms_inclusive) && is_null($min_timestamp_ms_exclusive)) {

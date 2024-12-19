@@ -42,7 +42,7 @@ final class FilteredStreamCursor extends StreamCursor
      * @param StreamCursor|null $cursor The inner cursor tracking pagination state of the inner stream to be filtered.
      * @param StreamFilterState|null $filter_state The filter state.
      */
-    public function __construct(StreamCursor $cursor = null, StreamFilterState $filter_state = null)
+    public function __construct(?StreamCursor $cursor = null, ?StreamFilterState $filter_state = null)
     {
         $this->cursor = $cursor;
         $this->filter_state = $filter_state;
@@ -83,7 +83,7 @@ final class FilteredStreamCursor extends StreamCursor
      * @param StreamFilterState|null $filter_state The filter state.
      * @return FilteredStreamCursor
      */
-    public function with_filter_state(StreamFilterState $filter_state = null): FilteredStreamCursor
+    public function with_filter_state(?StreamFilterState $filter_state = null): FilteredStreamCursor
     {
         return new self($this->cursor, $filter_state);
     }

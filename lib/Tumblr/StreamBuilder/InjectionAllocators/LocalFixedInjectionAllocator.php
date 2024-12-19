@@ -31,7 +31,7 @@ class LocalFixedInjectionAllocator extends FixedInjectionAllocator
     /**
      * @inheritDoc
      */
-    public function allocate(int $page_size, array $state = null): InjectionAllocatorResult
+    public function allocate(int $page_size, ?array $state = null): InjectionAllocatorResult
     {
         $out = [];
         foreach ($this->positions as $p) {

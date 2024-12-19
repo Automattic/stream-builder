@@ -30,7 +30,7 @@ class InvalidStreamArrayException extends \InvalidArgumentException
     /**
      * @param array|null $stream_array The stream_array which is sent to the deserializer
      */
-    public function __construct(array $stream_array = null)
+    public function __construct(?array $stream_array = null)
     {
         parent::__construct(sprintf(
             'Invalid stream array: %s',

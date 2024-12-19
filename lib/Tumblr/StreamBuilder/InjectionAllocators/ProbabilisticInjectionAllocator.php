@@ -61,7 +61,7 @@ final class ProbabilisticInjectionAllocator extends InjectionAllocator
     /**
      * @inheritDoc
      */
-    public function allocate(int $page_size, array $state = null): InjectionAllocatorResult
+    public function allocate(int $page_size, ?array $state = null): InjectionAllocatorResult
     {
         $out = [];
         $mt_randmax = mt_getrandmax();

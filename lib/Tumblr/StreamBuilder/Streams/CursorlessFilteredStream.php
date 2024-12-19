@@ -120,8 +120,8 @@ final class CursorlessFilteredStream extends WrapStream
      */
     protected function _enumerate(
         int $count,
-        StreamCursor $cursor = null,
-        StreamTracer $tracer = null,
+        ?StreamCursor $cursor = null,
+        ?StreamTracer $tracer = null,
         ?EnumerationOptions $option = null
     ): StreamResult {
         return $this->_filter_rec($count, $cursor, $this->retry_count, $tracer, $option);
@@ -140,7 +140,7 @@ final class CursorlessFilteredStream extends WrapStream
         int $want_count,
         ?StreamCursor $inner_cursor,
         int $depth,
-        StreamTracer $tracer = null,
+        ?StreamTracer $tracer = null,
         ?EnumerationOptions $option = null
     ): StreamResult {
         $fetch_count = intval(ceil($want_count * (1.0 + max(0.0, $this->overfetch_ratio))));

@@ -40,8 +40,8 @@ final class PrioritizedCompositeInjector extends CompositeStreamInjector
     protected function _plan_injection(
         int $page_size,
         Stream $requesting_stream,
-        array $state = null,
-        StreamTracer $tracer = null
+        ?array $state = null,
+        ?StreamTracer $tracer = null
     ): InjectionPlan {
         if (is_null($state)) {
             $state = [];

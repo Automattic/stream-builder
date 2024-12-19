@@ -34,7 +34,7 @@ class NoopStreamFilter extends StreamFilter
     /**
      * @inheritDoc
      */
-    final public function filter_inner(array $elements, StreamFilterState $state = null, StreamTracer $tracer = null): StreamFilterResult
+    final public function filter_inner(array $elements, ?StreamFilterState $state = null, ?StreamTracer $tracer = null): StreamFilterResult
     {
         $retained = $elements;
         $released = [];

@@ -79,8 +79,8 @@ class StreamInjectorTest extends \PHPUnit\Framework\TestCase
             protected function _plan_injection(
                 int $page_size,
                 Stream $requesting_stream,
-                array $state = null,
-                StreamTracer $tracer = null
+                ?array $state = null,
+                ?StreamTracer $tracer = null
             ): InjectionPlan {
                 return InjectionPlan::create_empty_plan();
             }

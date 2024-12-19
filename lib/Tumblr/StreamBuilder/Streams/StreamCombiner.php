@@ -39,8 +39,8 @@ abstract class StreamCombiner extends Stream
      */
     final protected function _enumerate(
         int $count,
-        StreamCursor $cursor = null,
-        StreamTracer $tracer = null,
+        ?StreamCursor $cursor = null,
+        ?StreamTracer $tracer = null,
         ?EnumerationOptions $option = null
     ): StreamResult {
         if (is_null($cursor)) {
@@ -82,7 +82,7 @@ abstract class StreamCombiner extends Stream
     abstract protected function combine(
         int $count,
         MultiCursor $cursor,
-        StreamTracer $tracer = null,
+        ?StreamTracer $tracer = null,
         ?EnumerationOptions $option = null
     ): StreamResult;
 }

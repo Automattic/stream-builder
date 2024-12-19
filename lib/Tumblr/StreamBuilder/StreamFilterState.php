@@ -34,7 +34,7 @@ abstract class StreamFilterState extends Templatable
      * @param StreamFilterState|null $other The other state.
      * @return bool True, iff the states can merge.
      */
-    final public function can_merge_with(StreamFilterState $other = null): bool
+    final public function can_merge_with(?StreamFilterState $other = null): bool
     {
         return is_null($other) || $this->_can_merge_with($other);
     }
@@ -52,7 +52,7 @@ abstract class StreamFilterState extends Templatable
      * @return StreamFilterState The combined state.
      * @throws UnmergeableFilterStateException If the provided state cannot be merged with this state.
      */
-    final public function merge_with(StreamFilterState $other = null): StreamFilterState
+    final public function merge_with(?StreamFilterState $other = null): StreamFilterState
     {
         if (is_null($other)) {
             return $this;

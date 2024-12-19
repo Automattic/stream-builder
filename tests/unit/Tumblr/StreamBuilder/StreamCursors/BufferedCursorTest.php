@@ -44,7 +44,7 @@ class BufferedCursorTest extends \PHPUnit\Framework\TestCase
      * @param StreamCursor|null $cursor The cursor in the element.
      * @return StreamElement
      */
-    private function make_mock_element(string $provider_identity, StreamCursor $cursor = null): StreamElement
+    private function make_mock_element(string $provider_identity, ?StreamCursor $cursor = null): StreamElement
     {
         $m = $this->getMockBuilder(StreamElement::class)
             ->setConstructorArgs([ $provider_identity, $cursor ])

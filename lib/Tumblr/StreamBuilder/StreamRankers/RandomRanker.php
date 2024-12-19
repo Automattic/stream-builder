@@ -32,7 +32,7 @@ final class RandomRanker extends StreamRanker
     /**
      * @inheritDoc
      */
-    protected function rank_inner(array $stream_elements, StreamTracer $tracer = null): array
+    protected function rank_inner(array $stream_elements, ?StreamTracer $tracer = null): array
     {
         shuffle($stream_elements);
         return $stream_elements;

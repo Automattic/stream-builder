@@ -496,8 +496,8 @@ class ProportionalRoundRobinStreamTest extends \PHPUnit\Framework\TestCase
              */
             protected function _enumerate(
                 int $count,
-                StreamCursor $cursor = null,
-                StreamTracer $tracer = null,
+                ?StreamCursor $cursor = null,
+                ?StreamTracer $tracer = null,
                 ?EnumerationOptions $option = null
             ): StreamResult {
                 $slice = array_slice($this->elements, is_null($cursor) ? 0 : $cursor->index + 1, $count);
