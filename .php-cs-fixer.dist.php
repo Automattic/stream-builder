@@ -66,6 +66,7 @@ $config
         'blank_line_after_opening_tag' => false,
         'linebreak_after_opening_tag' => false,
         'blank_line_between_import_groups' => false,
+        'nullable_type_declaration_for_default_null_value' => true,
     ])
     ->setFinder(
         PhpCsFixer\Finder::create()
