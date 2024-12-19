@@ -36,5 +36,5 @@ abstract class InjectionAllocator extends Templatable
      * @param array|null $state The state of the injector.
      * @return InjectionAllocatorResult .
      */
-    abstract public function allocate(int $page_size, array $state = null): InjectionAllocatorResult;
+    abstract public function allocate(int $page_size, ?array $state = null): InjectionAllocatorResult;
 }

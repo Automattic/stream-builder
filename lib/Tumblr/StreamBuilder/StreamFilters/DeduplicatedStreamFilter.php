@@ -67,7 +67,7 @@ class DeduplicatedStreamFilter extends StreamFilter
     /**
      * @inheritDoc
      */
-    final public function filter_inner(array $elements, StreamFilterState $state = null, StreamTracer $tracer = null): StreamFilterResult
+    final public function filter_inner(array $elements, ?StreamFilterState $state = null, ?StreamTracer $tracer = null): StreamFilterResult
     {
         /** @var DeduplicatedStreamFilterState $state */
         if (is_null($state)) {

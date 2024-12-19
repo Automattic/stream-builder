@@ -35,7 +35,7 @@ final class TimestampFetcher extends SignalFetcher
     /**
      * @inheritDoc
      */
-    protected function fetch_inner(array $stream_elements, StreamTracer $tracer = null): SignalBundle
+    protected function fetch_inner(array $stream_elements, ?StreamTracer $tracer = null): SignalBundle
     {
         $builder = new SignalBundleBuilder();
         foreach ($stream_elements as $stream_element) {

@@ -48,8 +48,8 @@ class TrendingTopicStream extends Stream
     /** @inheritDoc */
     protected function _enumerate(
         int $count,
-        StreamCursor $cursor = null,
-        StreamTracer $tracer = null,
+        ?StreamCursor $cursor = null,
+        ?StreamTracer $tracer = null,
         ?EnumerationOptions $option = null
     ): StreamResult {
         if (!$cursor instanceof TrendingTopicStreamCursor) {

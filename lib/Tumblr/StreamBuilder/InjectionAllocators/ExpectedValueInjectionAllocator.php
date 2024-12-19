@@ -72,7 +72,7 @@ final class ExpectedValueInjectionAllocator extends InjectionAllocator
     /**
      * @inheritDoc
      */
-    public function allocate(int $page_size, array $state = null): InjectionAllocatorResult
+    public function allocate(int $page_size, ?array $state = null): InjectionAllocatorResult
     {
         $expected_value = $page_size * $this->slot_injection_probability;
         $count = floor($expected_value);

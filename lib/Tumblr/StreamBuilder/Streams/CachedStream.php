@@ -174,7 +174,7 @@ abstract class CachedStream extends WrapStream
     abstract protected function _slice_result_with_cursor(
         int $count,
         StreamResult $inner_result,
-        StreamCursor $cursor = null
+        ?StreamCursor $cursor = null
     ): StreamResult;
 
     /**

@@ -75,7 +75,7 @@ abstract class Codec
      * @param CacheProvider|null $cache_provider The cache provider used to deserialize a template.
      * @see @StreamContext, there are stuff from stream are cached during the to_template process.
      */
-    public function __construct(CacheProvider $cache_provider = null)
+    public function __construct(?CacheProvider $cache_provider = null)
     {
         $this->cache_provider = $cache_provider;
     }

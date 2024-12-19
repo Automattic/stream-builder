@@ -79,8 +79,8 @@ final class FencepostCursor extends StreamCursor
         int $fencepost_timestamp_ms,
         int $region,
         int $head_offset,
-        StreamCursor $tail_cursor = null,
-        StreamCursor $inject_cursor = null
+        ?StreamCursor $tail_cursor = null,
+        ?StreamCursor $inject_cursor = null
     ) {
         if ($region !== self::REGION_INJECT && is_null($tail_cursor)) {
             throw new \InvalidArgumentException('Head or Tail region must contains tail_cursor');

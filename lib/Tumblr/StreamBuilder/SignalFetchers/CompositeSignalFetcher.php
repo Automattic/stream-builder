@@ -53,7 +53,7 @@ final class CompositeSignalFetcher extends SignalFetcher
     /**
      * @inheritDoc
      */
-    protected function fetch_inner(array $stream_elements, StreamTracer $tracer = null): SignalBundle
+    protected function fetch_inner(array $stream_elements, ?StreamTracer $tracer = null): SignalBundle
     {
         $bundles = [];
         foreach ($this->fetchers as $fetcher) {

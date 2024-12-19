@@ -39,7 +39,7 @@ class ConcatenatedStreamCursor extends StreamCursor
      * @param StreamCursor $source_cursor The original cursor of element
      * @throws \InvalidArgumentException If source index is not an int.
      */
-    public function __construct(int $source_index, StreamCursor $source_cursor = null)
+    public function __construct(int $source_index, ?StreamCursor $source_cursor = null)
     {
         $this->source_index = $source_index;
         $this->source_cursor = $source_cursor;

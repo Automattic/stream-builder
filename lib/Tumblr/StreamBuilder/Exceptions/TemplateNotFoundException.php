@@ -32,7 +32,7 @@ class TemplateNotFoundException extends \InvalidArgumentException
      * @param int $code The exception code.
      * @param \Throwable $previous The previous exception.
      */
-    public function __construct($message = "Template not found", $code = 404, \Throwable $previous = null)
+    public function __construct($message = "Template not found", $code = 404, ?\Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }

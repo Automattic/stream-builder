@@ -41,7 +41,7 @@ abstract class StreamRanker extends Templatable
      * @throws IllegalRankerException If the rank method adds or removes elements.
      * Also, rethrows \Exception if some other error occurs, but PHPCBF does not want me to document this.
      */
-    final public function rank(array $stream_elements, StreamTracer $tracer = null): array
+    final public function rank(array $stream_elements, ?StreamTracer $tracer = null): array
     {
         foreach ($stream_elements as $stream_element) {
             if (!($stream_element instanceof StreamElement)) {
@@ -83,7 +83,7 @@ abstract class StreamRanker extends Templatable
      * @param StreamTracer|null $tracer Tracer to use for metrics and logging of ranking process.
      * @return StreamElement[] Same elements as input, reranked. It is illegal to add or remove elements during this operation.
      */
-    abstract protected function rank_inner(array $stream_elements, StreamTracer $tracer = null): array;
+    abstract protected function rank_inner(array $stream_elements, ?StreamTracer $tracer = null): array;
 
     /**
      * A batch pre-fetch to inflate a set of stream elements or cache data need to be used in your ranker.

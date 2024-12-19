@@ -60,7 +60,7 @@ abstract class StreamCursor extends Templatable
      * @param StreamCursor|null $other The other cursor.
      * @return bool True, iff the cursors can combine.
      */
-    final public function can_combine_with(StreamCursor $other = null): bool
+    final public function can_combine_with(?StreamCursor $other = null): bool
     {
         return is_null($other) || $this->_can_combine_with($other);
     }
@@ -73,7 +73,7 @@ abstract class StreamCursor extends Templatable
      * @throws UncombinableCursorException If the provided cursor cannot be combined
      * with this cursor.
      */
-    final public function combine_with(StreamCursor $other = null): self
+    final public function combine_with(?StreamCursor $other = null): self
     {
         if (is_null($other)) {
             return $this;
@@ -158,7 +158,7 @@ abstract class StreamCursor extends Templatable
         string $secret,
         string $encrypt_key,
         string $initial_vector_seed = '',
-        CacheProvider $cache_provider = null,
+        ?CacheProvider $cache_provider = null,
         int $cache_size_threshold = self::DEFAULT_CACHE_SIZE_THRESHOLD,
         ?string $context = null,
         ?string $current_user_id = null
@@ -220,7 +220,7 @@ abstract class StreamCursor extends Templatable
         array $encrypt_keys,
         ?string $current_user_id = null,
         array $encrypt_seeds = [],
-        CacheProvider $cache_provider = null
+        ?CacheProvider $cache_provider = null
     ): ?self {
         if (empty(trim($cursor_string))) {
             return null;

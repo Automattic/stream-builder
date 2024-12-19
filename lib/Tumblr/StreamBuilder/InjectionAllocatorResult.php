@@ -39,7 +39,7 @@ final class InjectionAllocatorResult
      * @param array|null $state The injector state to coordinate between different pages.
      * @throws TypeMismatchException If position is not an int.
      */
-    public function __construct(array $out, array $state = null)
+    public function __construct(array $out, ?array $state = null)
     {
         foreach ($out as $position) {
             if (!is_int($position)) {

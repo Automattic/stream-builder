@@ -47,7 +47,7 @@ class InjectionPlan
      * @param array|null $injector_state An array representing the state of the injector, if any, after injection.
      * @throws TypeMismatchException If some value in the provided array is not a StreamInjection.
      */
-    public function __construct(array $index_to_injection, array $injector_state = null)
+    public function __construct(array $index_to_injection, ?array $injector_state = null)
     {
         foreach ($index_to_injection as $j) {
             if (!($j instanceof StreamInjection)) {

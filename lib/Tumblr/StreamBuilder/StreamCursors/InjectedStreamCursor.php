@@ -43,7 +43,7 @@ final class InjectedStreamCursor extends StreamCursor
      * @param StreamCursor $inner_cursor    The cursor for the inner stream.
      * @param array|null $injector_state    The injector state.
      */
-    public function __construct(StreamCursor $inner_cursor = null, array $injector_state = null)
+    public function __construct(?StreamCursor $inner_cursor = null, ?array $injector_state = null)
     {
         $this->inner_cursor = $inner_cursor;
         $this->injector_state = $injector_state;

@@ -139,7 +139,7 @@ final class CachedStreamFilter extends StreamFilter
     /**
      * @inheritDoc
      */
-    final public function filter_inner(array $elements, StreamFilterState $state = null, StreamTracer $tracer = null): StreamFilterResult
+    final public function filter_inner(array $elements, ?StreamFilterState $state = null, ?StreamTracer $tracer = null): StreamFilterResult
     {
         $key_to_index = [];
         $index_to_key = [];

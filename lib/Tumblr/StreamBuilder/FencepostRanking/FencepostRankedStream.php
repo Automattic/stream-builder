@@ -166,8 +166,8 @@ abstract class FencepostRankedStream extends Stream
      */
     protected function _enumerate(
         int $count,
-        StreamCursor $cursor = null,
-        StreamTracer $tracer = null,
+        ?StreamCursor $cursor = null,
+        ?StreamTracer $tracer = null,
         ?EnumerationOptions $option = null
     ): StreamResult {
         if (!(is_null($cursor) || ($cursor instanceof FencepostCursor))) {
@@ -195,7 +195,7 @@ abstract class FencepostRankedStream extends Stream
      * @param EnumerationOptions|null $option The option on enumeration
      * @return array [Fencepost|null, FencepostRankedStreamCursor|null]
      */
-    private function setup_enumeration(FencepostCursor $in_cursor = null, StreamTracer $tracer = null, ?EnumerationOptions $option = null)
+    private function setup_enumeration(?FencepostCursor $in_cursor = null, ?StreamTracer $tracer = null, ?EnumerationOptions $option = null)
     {
         if (!is_null($in_cursor)) {
             // you already have a cursor, try to turn it into a fencepost:
@@ -287,7 +287,7 @@ abstract class FencepostRankedStream extends Stream
     private function setup_enumeration_from_new_fencepost(
         ?StreamTracer $tracer,
         int $now_ms,
-        int $latest_ms = null,
+        ?int $latest_ms = null,
         ?EnumerationOptions $option = null
     ): array {
         $fencepost = $this->commit_new_fencepost($now_ms, $latest_ms, $tracer, $option);
@@ -558,7 +558,7 @@ abstract class FencepostRankedStream extends Stream
     protected function enumerate_final(
         int $count,
         FencepostCursor $cursor,
-        StreamTracer $tracer = null,
+        ?StreamTracer $tracer = null,
         ?EnumerationOptions $option = null
     ): StreamResult {
         StreamBuilder::getDependencyBag()->getLog()
@@ -580,7 +580,7 @@ abstract class FencepostRankedStream extends Stream
         int $count,
         ?StreamCursor $cursor,
         ?int $fencepost_timestamp_ms,
-        StreamTracer $tracer = null,
+        ?StreamTracer $tracer = null,
         ?EnumerationOptions $option = null
     ): StreamResult {
         $inner_result = $this->inner->enumerate($count, $cursor, $tracer, $option);
@@ -608,8 +608,8 @@ abstract class FencepostRankedStream extends Stream
      */
     protected function commit_new_fencepost(
         int $current_ms,
-        int $previous_fencepost_ms = null,
-        StreamTracer $tracer = null,
+        ?int $previous_fencepost_ms = null,
+        ?StreamTracer $tracer = null,
         ?EnumerationOptions $option = null
     ) {
         // we are building a new fencepost between $current_ms and $previous_fencepost_ms.
@@ -659,8 +659,8 @@ abstract class FencepostRankedStream extends Stream
         int $before_ms_inclusive,
         ?int $after_ms_exclusive,
         int $count,
-        StreamCursor $inner_cursor = null,
-        StreamTracer $tracer = null
+        ?StreamCursor $inner_cursor = null,
+        ?StreamTracer $tracer = null
     ): StreamResult {
         $option = new EnumerationOptions($before_ms_inclusive, $after_ms_exclusive);
         $result = $this->inner->enumerate($count, $inner_cursor, $tracer, $option);
@@ -701,7 +701,7 @@ abstract class FencepostRankedStream extends Stream
     public function log_commit_new_fence_stats(
         StreamResult $unranked_candidates,
         int $current_ms,
-        int $previous_fencepost_ms = null
+        ?int $previous_fencepost_ms = null
     ): void {
         $ps_gap_in_seconds = ($current_ms - ($previous_fencepost_ms ?? 0)) / 1000;
         // Track when last_ts is missing, putting 1 second as a placeholder

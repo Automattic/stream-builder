@@ -70,7 +70,7 @@ class CappedPostRanker extends StreamRanker
     public function __construct(
         User $user,
         string $identity,
-        bool $debug = null,
+        ?bool $debug = null,
         bool $cap_desc,
         int $cap,
         string $ranking_context,
@@ -88,7 +88,7 @@ class CappedPostRanker extends StreamRanker
     /**
      * @inheritDoc
      */
-    protected function rank_inner(array $stream_elements, StreamTracer $tracer = null): array
+    protected function rank_inner(array $stream_elements, ?StreamTracer $tracer = null): array
     {
         if ($this->can_rank()) {
             return $this->apply_capped_reranking($stream_elements, $this->debug, $this->cap_desc, $this->cap);

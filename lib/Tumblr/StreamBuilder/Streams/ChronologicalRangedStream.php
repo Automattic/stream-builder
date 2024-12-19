@@ -64,8 +64,8 @@ final class ChronologicalRangedStream extends WrapStream
      */
     final protected function _enumerate(
         int $count,
-        StreamCursor $cursor = null,
-        StreamTracer $tracer = null,
+        ?StreamCursor $cursor = null,
+        ?StreamTracer $tracer = null,
         ?EnumerationOptions $option = null
     ): StreamResult {
         $now = time();
