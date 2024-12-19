@@ -190,7 +190,7 @@ class FilteredStreamCursorTest extends \PHPUnit\Framework\TestCase
      * @param StreamFilterState $state StreamFilterState.
      * @param StreamFilterState $expected_state The expected state.
      */
-    public function test_with_filter_state(StreamFilterState $state = null, StreamFilterState $expected_state = null)
+    public function test_with_filter_state(?StreamFilterState $state = null, ?StreamFilterState $expected_state = null)
     {
         $cursor = new FilteredStreamCursor();
         $cursor = $cursor->with_filter_state($state);

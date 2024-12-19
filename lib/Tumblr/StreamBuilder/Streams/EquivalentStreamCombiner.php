@@ -38,8 +38,8 @@ abstract class EquivalentStreamCombiner extends Stream
      */
     final protected function _enumerate(
         int $count,
-        StreamCursor $cursor = null,
-        StreamTracer $tracer = null,
+        ?StreamCursor $cursor = null,
+        ?StreamTracer $tracer = null,
         ?EnumerationOptions $option = null
     ): StreamResult {
         /** @var StreamResult $combined_result */
@@ -57,8 +57,8 @@ abstract class EquivalentStreamCombiner extends Stream
      */
     abstract protected function combine(
         int $count,
-        StreamCursor $cursor = null,
-        StreamTracer $tracer = null,
+        ?StreamCursor $cursor = null,
+        ?StreamTracer $tracer = null,
         ?EnumerationOptions $option = null
     ): StreamResult;
 }

@@ -44,7 +44,7 @@ final class TestingFencepostProvider extends FencepostProvider
      */
     public function __construct(
         string $fence_id,
-        int $latest_timestamp_ms = null,
+        ?int $latest_timestamp_ms = null,
         array $fenceposts = []
     ) {
         $this->fence_id = $fence_id;

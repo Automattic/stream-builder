@@ -78,8 +78,8 @@ class ConcatenatedStream extends Stream
      */
     protected function _enumerate(
         int $count,
-        StreamCursor $cursor = null,
-        StreamTracer $tracer = null,
+        ?StreamCursor $cursor = null,
+        ?StreamTracer $tracer = null,
         ?EnumerationOptions $option = null
     ): StreamResult {
         // if this stream does not contain any stream, should return empty result

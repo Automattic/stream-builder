@@ -92,7 +92,7 @@ class FencepostRankedStreamTest extends \PHPUnit\Framework\TestCase
         array $inner_elements,
         int $head_count,
         bool $rank_seed,
-        int $latest_fencepost_timestamp_ms = null,
+        ?int $latest_fencepost_timestamp_ms = null,
         array $next_timestamps = [],
         array $fenceposts = []
     ) {
@@ -123,7 +123,7 @@ class FencepostRankedStreamTest extends \PHPUnit\Framework\TestCase
         ?FencepostCursor $in_cursor,
         bool $should_exhaust,
         array $expected_elements,
-        FencepostCursor $expected_cursor = null
+        ?FencepostCursor $expected_cursor = null
     ) {
         $res = $stream->enumerate($count, $in_cursor);
         $this->assertEquals($should_exhaust, $res->is_exhaustive());

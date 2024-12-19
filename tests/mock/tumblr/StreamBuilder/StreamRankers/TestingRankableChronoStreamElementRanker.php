@@ -34,7 +34,7 @@ final class TestingRankableChronoStreamElementRanker extends StreamRanker
     /**
      * @inheritDoc
      */
-    protected function rank_inner(array $stream_elements, StreamTracer $tracer = null): array
+    protected function rank_inner(array $stream_elements, ?StreamTracer $tracer = null): array
     {
         usort($stream_elements, function (TestingRankableChronoStreamElement $a, TestingRankableChronoStreamElement $b) {
             return $b->get_rank_ordinal() <=> $a->get_rank_ordinal();
