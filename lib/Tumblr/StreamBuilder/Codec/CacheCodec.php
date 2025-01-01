@@ -42,6 +42,12 @@ final class CacheCodec extends Codec
     public const SERIALIZATION_TYPE_JSON = 'JSON';
 
     /**
+     * Cache content from an already-serialized string of JSON.
+     * @var string
+     */
+    public const SERIALIZATION_TYPE_JSON_STRING = 'JSON_STRING';
+
+    /**
      * Cache content serialized/deserialized by doing serialize/unserialize
      * @var string
      */
@@ -80,11 +86,14 @@ final class CacheCodec extends Codec
     /**
      * @inheritDoc
      */
-    public function encode(Templatable $obj): string
+    public function encode($obj): string
     {
         switch ($this->serialization_type) {
             case self::SERIALIZATION_TYPE_JSON:
                 $serialized = Helpers::json_encode($obj->to_template());
+                break;
+            case self::SERIALIZATION_TYPE_JSON_STRING:
+                $serialized = $obj;
                 break;
             case self::SERIALIZATION_TYPE_PHP_OBJECT:
                 $serialized = serialize($obj);
