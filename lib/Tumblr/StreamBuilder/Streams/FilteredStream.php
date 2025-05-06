@@ -175,8 +175,12 @@ final class FilteredStream extends WrapStream
      * @param StreamCursor|null $inner_cursor The cursor from which to fetch the inner stream.
      * @param StreamFilterState|null $filter_state Previous filter state.
      * @param int $depth The number of retries remaining.
-     * @param StreamTracer $tracer The tracer traces filter process.
-     * @param EnumerationOptions $option Enumeration option for inner stream
+     * @param StreamTracer|null $tracer The tracer traces filter process.
+     * @param EnumerationOptions|null $option Enumeration option for inner stream
+     * @param bool|null &$child_is_exhaustive Populated by reference during recursion. Indicates whether the child
+     *         recursive call was exhaustive. Used by the parent to make a more accurate determination of overall stream
+     *         exhaustion, especially in edge cases where the final recursive call returns no elements due to filtering
+     *         but the inner stream itself has no more data.
      * @return StreamResult
      */
     private function _filter_rec(
@@ -185,7 +189,8 @@ final class FilteredStream extends WrapStream
         ?StreamFilterState $filter_state,
         int $depth,
         ?StreamTracer $tracer = null,
-        ?EnumerationOptions $option = null
+        ?EnumerationOptions $option = null,
+        ?bool &$child_is_exhaustive = null
     ): StreamResult {
         $fetch_count = intval(ceil($want_count * (1.0 + max(0.0, $this->overfetch_ratio))));
 
@@ -235,6 +240,7 @@ final class FilteredStream extends WrapStream
             } else {
                 $result = $derived;
             }
+            $child_is_exhaustive = $is_exhaustive;
             return new StreamResult($is_exhaustive, $result);
         } else {
 
@@ -257,18 +263,13 @@ final class FilteredStream extends WrapStream
                 $retry_cursor,
                 $retry_filter_state,
                 $depth - 1,
-                $tracer
+                $tracer,
+                $option,
+                $child_is_exhaustive
             );
 
             $result = array_merge($derived, $rec_result->get_elements());
-
-            // Determine if the result should be marked as is_exhaustive based on the rec_results is_exhaustive
-            // Note: We cannot trust $rec_result->is_exhaustive() if $rec_result returned no elements. It may be
-            //       "exhaustive" only because all elements were filtered out, not because the inner stream truly had
-            //       no more data.
-            $is_exhaustive = (count($rec_result->get_elements()) > 0 && $rec_result->is_exhaustive());
-
-            return new StreamResult($is_exhaustive, $result);
+            return new StreamResult($child_is_exhaustive, $result);
         }
     }
 

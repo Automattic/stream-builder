@@ -486,4 +486,91 @@ class FilterStreamTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(1, $result->get_size());
         $this->assertFalse($result->is_exhaustive());
     }
+
+    public function test_retained_some_final_retry_filters_all_and_inner_exhausted_marks_exhausted()
+    {
+        // Create mock cursor that can be reused
+        $cursor = $this->createMock(StreamCursor::class);
+        $cursor->method('_can_combine_with')->willReturn(true);
+        $cursor->method('_combine_with')->willReturn($cursor);
+
+        // Retained element from first recursion
+        $retained_el = new MockLeafStreamElement("", $cursor);
+
+        // Filtered-out element in final retry
+        $filtered_el = new MockLeafStreamElement("", $cursor);
+
+        $inner_stream = $this->createMock(Stream::class);
+        $filter = $this->createMock(StreamFilter::class);
+
+        // First call retains one element
+        $inner_stream->expects($this->exactly(2))
+            ->method('_enumerate')
+            ->willReturnOnConsecutiveCalls(
+                new StreamResult(false, [$retained_el]),
+                new StreamResult(true, [$filtered_el]) // Final retry, inner exhausted
+            );
+
+        $filter->expects($this->exactly(2))
+            ->method('filter_inner')
+            ->willReturnOnConsecutiveCalls(
+                new StreamFilterResult([$retained_el], []),
+                new StreamFilterResult([], []) // Final retry filters all
+            );
+
+        $stream = new FilteredStream($inner_stream, $filter, 'test', 1, 0.0);
+
+        $result = $stream->enumerate(3);
+
+        $this->assertSame(1, $result->get_size(), 'Expected one retained element');
+        $this->assertTrue($result->is_exhaustive(), 'Expected stream to be marked as exhausted since inner was exhausted');
+    }
+
+    public function test_final_retry_retains_more_than_remaining_and_is_sliced()
+    {
+        $want_count = 3;
+
+        $cursor1 = $this->createMock(StreamCursor::class);
+        $cursor2 = $this->createMock(StreamCursor::class);
+        $cursor3 = $this->createMock(StreamCursor::class);
+        $cursor4 = $this->createMock(StreamCursor::class);
+
+        foreach ([$cursor1, $cursor2, $cursor3, $cursor4] as $cursor) {
+            $cursor->method('_can_combine_with')->willReturn(true);
+            $cursor->method('_combine_with')->willReturn($cursor);
+        }
+
+        // First call retains only 1 element
+        $el1 = new MockLeafStreamElement("", $cursor1);
+
+        // Second call retains 3 elements (more than remaining want_count=2)
+        $el2 = new MockLeafStreamElement("", $cursor2);
+        $el3 = new MockLeafStreamElement("", $cursor3);
+        $el4 = new MockLeafStreamElement("", $cursor4);
+
+        $inner_stream = $this->createMock(Stream::class);
+        $filter = $this->createMock(StreamFilter::class);
+
+        $inner_stream->expects($this->exactly(2))
+            ->method('_enumerate')
+            ->willReturnOnConsecutiveCalls(
+                new StreamResult(false, [$el1]),
+                new StreamResult(true, [$el2, $el3, $el4])
+            );
+
+        $filter->expects($this->exactly(2))
+            ->method('filter_inner')
+            ->willReturnOnConsecutiveCalls(
+                new StreamFilterResult([$el1], []),
+                new StreamFilterResult([$el2, $el3, $el4], [])
+            );
+
+        $stream = new FilteredStream($inner_stream, $filter, 'test', 1, 0.0);
+        $stream->slice_result = true;
+
+        $result = $stream->enumerate($want_count);
+
+        $this->assertSame(3, $result->get_size());
+        $this->assertFalse($result->is_exhaustive(), "Stream should not be marked as exhausted because we sliced.");
+    }
 }
