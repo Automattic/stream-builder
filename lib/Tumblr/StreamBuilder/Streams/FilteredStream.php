@@ -252,13 +252,23 @@ final class FilteredStream extends WrapStream
 
             $tracer and $tracer->filter_retry($this, $inner_cursor, $retry_cursor, $depth, $want_count, $inner_result->get_size(), count($retained));
 
-            return StreamResult::prepend($derived, $this->_filter_rec(
+            $rec_result = $this->_filter_rec(
                 $want_count - count($derived),
                 $retry_cursor,
                 $retry_filter_state,
                 $depth - 1,
                 $tracer
-            ));
+            );
+
+            $result = array_merge($derived, $rec_result->get_elements());
+
+            // Determine if the result should be marked as is_exhaustive based on the rec_results is_exhaustive
+            // Note: We cannot trust $rec_result->is_exhaustive() if $rec_result returned no elements. It may be
+            //       "exhaustive" only because all elements were filtered out, not because the inner stream truly had
+            //       no more data.
+            $is_exhaustive = (count($rec_result->get_elements()) > 0 && $rec_result->is_exhaustive());
+
+            return new StreamResult($is_exhaustive, $result);
         }
     }
 
