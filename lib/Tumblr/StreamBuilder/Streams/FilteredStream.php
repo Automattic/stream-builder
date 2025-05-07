@@ -177,10 +177,9 @@ final class FilteredStream extends WrapStream
      * @param int $depth The number of retries remaining.
      * @param StreamTracer|null $tracer The tracer traces filter process.
      * @param EnumerationOptions|null $option Enumeration option for inner stream
-     * @param bool|null &$child_is_exhaustive Populated by reference during recursion. Indicates whether the child
-     *         recursive call was exhaustive. Used by the parent to make a more accurate determination of overall stream
-     *         exhaustion, especially in edge cases where the final recursive call returns no elements due to filtering
-     *         but the inner stream itself has no more data.
+     * @param bool|null &$propagated_is_exhaustive Populated by reference during recursion. Carries the inner stream's
+     *        is_exhaustive value from the deepest recursive call, allowing this method to report exhaustion only when
+     *        the inner stream actually ran out-avoiding false-positives if the deepest filtered batch is empty
      * @return StreamResult
      */
     private function _filter_rec(
@@ -190,7 +189,7 @@ final class FilteredStream extends WrapStream
         int $depth,
         ?StreamTracer $tracer = null,
         ?EnumerationOptions $option = null,
-        ?bool &$child_is_exhaustive = null
+        ?bool &$propagated_is_exhaustive = null
     ): StreamResult {
         $fetch_count = intval(ceil($want_count * (1.0 + max(0.0, $this->overfetch_ratio))));
 
@@ -240,7 +239,7 @@ final class FilteredStream extends WrapStream
             } else {
                 $result = $derived;
             }
-            $child_is_exhaustive = $is_exhaustive;
+            $propagated_is_exhaustive = $is_exhaustive;
             return new StreamResult($is_exhaustive, $result);
         } else {
 
@@ -265,11 +264,11 @@ final class FilteredStream extends WrapStream
                 $depth - 1,
                 $tracer,
                 $option,
-                $child_is_exhaustive
+                $propagated_is_exhaustive
             );
 
             $result = array_merge($derived, $rec_result->get_elements());
-            return new StreamResult($child_is_exhaustive, $result);
+            return new StreamResult($propagated_is_exhaustive, $result);
         }
     }
 
