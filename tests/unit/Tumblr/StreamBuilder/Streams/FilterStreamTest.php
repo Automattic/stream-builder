@@ -22,7 +22,6 @@
 namespace Test\Tumblr\StreamBuilder;
 
 use Test\Mock\Tumblr\StreamBuilder\StreamElements\MockedPostRefElement;
-use Tests\mock\tumblr\StreamBuilder\StreamElements\MockLeafStreamElement;
 use Tumblr\StreamBuilder\Exceptions\InappropriateCursorException;
 use Tumblr\StreamBuilder\StreamCursors\StreamCursor;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
