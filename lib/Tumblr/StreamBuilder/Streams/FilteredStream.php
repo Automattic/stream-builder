@@ -200,6 +200,7 @@ final class FilteredStream extends WrapStream
         // if we got nothing, abort. we can't recurse because the cursor would be unchanged:
         if ($inner_result->get_size() == 0) {
             $tracer and $tracer->filter_abort($this, $want_count, $inner_cursor, $depth);
+            $propagated_is_exhaustive = true;
             return new StreamResult(true, []);
         }
 
