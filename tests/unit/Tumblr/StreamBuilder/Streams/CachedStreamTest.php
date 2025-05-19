@@ -23,6 +23,7 @@ namespace Tests\Unit\Tumblr\StreamBuilder\Streams;
 
 use Test\Mock\Tumblr\StreamBuilder\StreamElements\MockedPostRefElement;
 use Tumblr\StreamBuilder\CacheProvider;
+use Tumblr\StreamBuilder\EnumerationOptions\EnumerationOptions;
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamCursors\StreamCursor;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
@@ -30,6 +31,7 @@ use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\Streams\CachedStream;
 use Tumblr\StreamBuilder\Streams\NullStream;
 use Tumblr\StreamBuilder\Streams\Stream;
+use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
 use Tumblr\StreamBuilder\TransientCacheProvider;
 
 /**
