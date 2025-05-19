@@ -121,6 +121,37 @@ class CachedStreamTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test when the inner stream returns false for `can_enumerate`,
+     * CachedStream returns empty results when enumerating, even when cache is hit.
+     */
+    public function testCacheHitCannotEnumerateInner()
+    {
+        $inner_stream = $this->getMockBuilder(Stream::class)
+            ->setConstructorArgs(['ello'])
+            ->getMockForAbstractClass();
+        $inner_stream->method('_enumerate')
+            ->willReturn(new StreamResult(false, []));
+        $inner_stream->method('can_enumerate')
+            ->willReturn(false);
+        $cache_provider = $this->getMockBuilder(CacheProvider::class)
+            ->getMock();
+        $cache_provider
+            ->expects($this->never())
+            ->method('set')
+            ->willReturn('');
+        $cache_provider
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn('sgnwjgnwj');
+        $stream = $this->getMockBuilder(CachedStream::class)
+            ->setConstructorArgs([$inner_stream, $cache_provider, 5, 10, 10, 'ello'])
+            ->getMock();
+        $stream->method('deserialize')
+            ->willReturn(new StreamResult(false, []));
+        $stream->enumerate(10);
+    }
+
+    /**
      * Test to_template
      */
     public function testToTemplate()
