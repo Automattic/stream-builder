@@ -150,8 +150,9 @@ class CachedStreamTest extends \PHPUnit\Framework\TestCase
             ->expects($this->never())
             ->method('set')
             ->willReturn('');
+        // should not read from cache when "can_enumerate" returns false
         $cache_provider
-            ->expects($this->once())
+            ->expects($this->never())
             ->method('get')
             ->willReturn('sgnwjgnwj');
         $stream = $this->getMockBuilder(CachedStream::class)
