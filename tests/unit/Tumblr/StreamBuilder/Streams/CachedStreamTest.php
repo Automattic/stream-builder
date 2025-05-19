@@ -23,6 +23,8 @@ namespace Tests\Unit\Tumblr\StreamBuilder\Streams;
 
 use Test\Mock\Tumblr\StreamBuilder\StreamElements\MockedPostRefElement;
 use Tumblr\StreamBuilder\CacheProvider;
+use Tumblr\StreamBuilder\StreamContext;
+use Tumblr\StreamBuilder\StreamCursors\StreamCursor;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\Streams\CachedStream;
@@ -126,13 +128,20 @@ class CachedStreamTest extends \PHPUnit\Framework\TestCase
      */
     public function testCacheHitCannotEnumerateInner()
     {
-        $inner_stream = $this->getMockBuilder(Stream::class)
-            ->setConstructorArgs(['ello'])
-            ->getMockForAbstractClass();
-        $inner_stream->method('_enumerate')
-            ->willReturn(new StreamResult(false, []));
-        $inner_stream->method('can_enumerate')
-            ->willReturn(false);
+        // Create a test double for the inner stream that overrides can_enumerate
+        $inner_stream = new class('ello') extends Stream {
+            protected function _enumerate(int $count, ?StreamCursor $cursor = null, ?StreamTracer $tracer = null, ?EnumerationOptions $option = null): StreamResult {
+                return new StreamResult(false, []);
+            }
+            protected function can_enumerate(): bool {
+                return false;
+            }
+
+            public static function from_template(StreamContext $context)
+            {
+                return new self($context->get_current_identity());
+            }
+        };
         $cache_provider = $this->getMockBuilder(CacheProvider::class)
             ->getMock();
         $cache_provider
