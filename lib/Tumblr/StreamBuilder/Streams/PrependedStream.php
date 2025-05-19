@@ -154,4 +154,13 @@ class PrependedStream extends Stream
     {
         return $this->after->estimate_count();
     }
+
+    /**
+     * @inheritDoc
+     */
+    protected function can_enumerate(): bool
+    {
+        return parent::can_enumerate()
+            && ($this->before->can_enumerate() || $this->after->can_enumerate());
+    }
 }

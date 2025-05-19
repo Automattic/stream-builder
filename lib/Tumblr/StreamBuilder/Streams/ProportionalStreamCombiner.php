@@ -167,4 +167,23 @@ final class ProportionalStreamCombiner extends StreamCombiner
         // we are exhausted if the mixture became null
         return new StreamResult(is_null($current_mixture), $results);
     }
+
+    /**
+     * @return bool
+     */
+    protected function can_enumerate(): bool
+    {
+        if (!parent::can_enumerate()) {
+            return false;
+        }
+        foreach ($this->weights as $weight) {
+            $stream = $weight->get_stream();
+            if ($stream->can_enumerate()) {
+                // as long as at least one stream from the mix can be enumerated,
+                // the proportional stream combiner will be able to enumerate elements.
+                return true;
+            }
+        }
+        return false;
+    }
 }

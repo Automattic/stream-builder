@@ -129,4 +129,12 @@ final class BufferedRankedStream extends Stream
             $context->get_cache_provider()
         );
     }
+
+    /**
+     * @inheritDoc
+     */
+    protected function can_enumerate(): bool
+    {
+        return $this->inner->can_enumerate() && parent::can_enumerate();
+    }
 }

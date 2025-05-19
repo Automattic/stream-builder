@@ -73,6 +73,14 @@ class TemplateReferenceStream extends WrapStream
     /**
      * @inheritDoc
      */
+    protected function can_enumerate(): bool
+    {
+        return $this->getInner()->can_enumerate() && parent::can_enumerate();
+    }
+
+    /**
+     * @inheritDoc
+     */
     protected function can_enumerate_with_time_range(): bool
     {
         return $this->getInner()->can_enumerate_with_time_range();

@@ -170,4 +170,12 @@ final class ChronologicalBackfillStream extends Stream
     {
         return true;
     }
+
+    /**
+     * @inheritDoc
+     */
+    protected function can_enumerate(): bool
+    {
+        return parent::can_enumerate() && ($this->main_stream->can_enumerate() || $this->backfill_stream->can_enumerate());
+    }
 }

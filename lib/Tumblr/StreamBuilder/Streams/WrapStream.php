@@ -57,4 +57,12 @@ abstract class WrapStream extends Stream
         $base['inner'] = $this->getInner()->to_template();
         return $base;
     }
+
+    /**
+     * @inheritDoc
+     */
+    protected function can_enumerate(): bool
+    {
+        return $this->inner->can_enumerate() && parent::can_enumerate();
+    }
 }
