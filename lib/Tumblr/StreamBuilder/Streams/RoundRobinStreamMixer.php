@@ -178,6 +178,6 @@ abstract class RoundRobinStreamMixer extends StreamMixer
     #[\Override]
     protected function can_enumerate(): bool
     {
-        return $this->main->can_enumerate() && parent::can_enumerate();
+        return parent::can_enumerate() && $this->main->can_enumerate();
     }
 }

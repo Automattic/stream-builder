@@ -152,6 +152,6 @@ class SizeLimitedStream extends Stream
     #[\Override]
     protected function can_enumerate(): bool
     {
-        return $this->stream->can_enumerate() && parent::can_enumerate();
+        return parent::can_enumerate() && $this->stream->can_enumerate();
     }
 }

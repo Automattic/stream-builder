@@ -78,7 +78,7 @@ class TemplateReferenceStream extends WrapStream
     #[\Override]
     protected function can_enumerate(): bool
     {
-        return $this->getInner()->can_enumerate() && parent::can_enumerate();
+        return parent::can_enumerate() && $this->getInner()->can_enumerate();
     }
 
     /**
