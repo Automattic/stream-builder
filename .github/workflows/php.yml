@@ -12,7 +12,7 @@ on:
 jobs:
   build:
     name: Test with PHP ${{ matrix.php-version }}
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:

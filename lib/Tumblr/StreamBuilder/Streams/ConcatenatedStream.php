@@ -76,6 +76,7 @@ class ConcatenatedStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _enumerate(
         int $count,
         ?StreamCursor $cursor = null,
@@ -149,6 +150,7 @@ class ConcatenatedStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -164,6 +166,7 @@ class ConcatenatedStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         $stream_templates = $context->get_required_property('streams');

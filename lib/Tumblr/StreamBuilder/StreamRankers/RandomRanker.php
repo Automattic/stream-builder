@@ -32,6 +32,7 @@ final class RandomRanker extends StreamRanker
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function rank_inner(array $stream_elements, ?StreamTracer $tracer = null): array
     {
         shuffle($stream_elements);
@@ -41,6 +42,7 @@ final class RandomRanker extends StreamRanker
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return ['_type' => get_class($this)];
@@ -49,6 +51,7 @@ final class RandomRanker extends StreamRanker
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context)
     {
         return new self($context->get_current_identity());
@@ -57,6 +60,7 @@ final class RandomRanker extends StreamRanker
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function pre_fetch(array $elements)
     {
         // No need to do anything

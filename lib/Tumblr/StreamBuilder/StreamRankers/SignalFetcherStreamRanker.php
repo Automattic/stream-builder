@@ -49,6 +49,7 @@ abstract class SignalFetcherStreamRanker extends StreamRanker
     /**
      * @inheritDoc
      */
+    #[\Override]
     final protected function rank_inner(array $stream_elements, ?StreamTracer $tracer = null): array
     {
         /** @var StreamElement[] $stream_elements */
@@ -74,6 +75,7 @@ abstract class SignalFetcherStreamRanker extends StreamRanker
      * to_template functionality shared by inheritors.
      * @return array
      */
+    #[\Override]
     public function to_template(): array
     {
         return [

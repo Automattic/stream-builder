@@ -45,6 +45,7 @@ final class TransientCacheProvider implements CacheProvider
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function get(int $object_type, string $key)
     {
         [$expiration, $value] = $this->caches[$object_type][$key] ?? [0, null];
@@ -54,6 +55,7 @@ final class TransientCacheProvider implements CacheProvider
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function get_multi(int $object_type, array $keys, array &$not_found = []): array
     {
         $found = [];
@@ -72,6 +74,7 @@ final class TransientCacheProvider implements CacheProvider
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function set(int $object_type, string $key, $value, int $ttl_seconds = 0)
     {
         if ($ttl_seconds <= 0) {
@@ -83,6 +86,7 @@ final class TransientCacheProvider implements CacheProvider
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function set_multi(int $object_type, array $key_value_pairs, int $ttl_seconds = 0)
     {
         foreach ($key_value_pairs as $key => $value) {
@@ -93,6 +97,7 @@ final class TransientCacheProvider implements CacheProvider
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function delete(int $object_type, string $key)
     {
         if (isset($this->caches[$object_type][$key])) {

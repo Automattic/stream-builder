@@ -53,6 +53,7 @@ final class CompositeSignalFetcher extends SignalFetcher
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function fetch_inner(array $stream_elements, ?StreamTracer $tracer = null): SignalBundle
     {
         $bundles = [];
@@ -65,6 +66,7 @@ final class CompositeSignalFetcher extends SignalFetcher
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -78,6 +80,7 @@ final class CompositeSignalFetcher extends SignalFetcher
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         $template = $context->get_template();

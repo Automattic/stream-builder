@@ -57,6 +57,7 @@ final class DebugStreamTracer extends StreamTracer
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function trace_event(
         string $event_category,
         Identifiable $sender,

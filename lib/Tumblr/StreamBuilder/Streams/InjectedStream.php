@@ -58,6 +58,7 @@ final class InjectedStream extends WrapStream
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _enumerate(
         int $count,
         ?StreamCursor $cursor = null,
@@ -96,6 +97,7 @@ final class InjectedStream extends WrapStream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -108,6 +110,7 @@ final class InjectedStream extends WrapStream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         $injector   = $context->deserialize_required_property('injector');
@@ -119,6 +122,7 @@ final class InjectedStream extends WrapStream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function estimate_count(): ?int
     {
         // TODO: update with injection

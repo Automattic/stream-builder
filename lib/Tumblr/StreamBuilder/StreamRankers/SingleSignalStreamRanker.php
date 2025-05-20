@@ -62,6 +62,7 @@ final class SingleSignalStreamRanker extends SignalFetcherStreamRanker
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function rank_by_signals(array $stream_elements, SignalBundle $signals): array
     {
         usort($stream_elements, function (StreamElement $a, StreamElement $b) use ($signals) {
@@ -82,6 +83,7 @@ final class SingleSignalStreamRanker extends SignalFetcherStreamRanker
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         $base = parent::to_template();
@@ -93,6 +95,7 @@ final class SingleSignalStreamRanker extends SignalFetcherStreamRanker
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         return new self(
@@ -106,6 +109,7 @@ final class SingleSignalStreamRanker extends SignalFetcherStreamRanker
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function pre_fetch(array $elements)
     {
         // no need to do anything

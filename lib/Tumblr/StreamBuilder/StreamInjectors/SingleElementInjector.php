@@ -50,6 +50,7 @@ abstract class SingleElementInjector extends StreamInjector
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _plan_injection(
         int $page_size,
         Stream $requesting_stream,
@@ -76,6 +77,7 @@ abstract class SingleElementInjector extends StreamInjector
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         $base = parent::to_template();

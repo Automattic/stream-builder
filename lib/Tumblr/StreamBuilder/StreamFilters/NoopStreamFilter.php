@@ -34,6 +34,7 @@ class NoopStreamFilter extends StreamFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     final public function filter_inner(array $elements, ?StreamFilterState $state = null, ?StreamTracer $tracer = null): StreamFilterResult
     {
         $retained = $elements;
@@ -44,6 +45,7 @@ class NoopStreamFilter extends StreamFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function get_cache_key()
     {
         return 'NoopStreamFilter';
@@ -52,6 +54,7 @@ class NoopStreamFilter extends StreamFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context)
     {
         return new self($context->get_current_identity());
