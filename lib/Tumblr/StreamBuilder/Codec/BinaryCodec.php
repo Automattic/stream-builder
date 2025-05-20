@@ -101,9 +101,9 @@ final class BinaryCodec extends Codec
     }
 
     /**
-     * #[\Override]
      * @inheritDoc
      */
+    #[\Override]
     public function encode(Templatable $obj): string
     {
         $json = Helpers::json_encode($obj->to_template());
@@ -115,9 +115,9 @@ final class BinaryCodec extends Codec
     }
 
     /**
-     * #[\Override]
      * @inheritDoc
      */
+    #[\Override]
     public function decode(string $encoded): Templatable
     {
         $actual_signature = substr($encoded, strlen(self::BINARY_PREFIX), self::SIGNATURE_LENGTH);
