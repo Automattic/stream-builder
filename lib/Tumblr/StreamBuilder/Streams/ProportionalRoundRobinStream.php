@@ -257,6 +257,6 @@ final class ProportionalRoundRobinStream extends Stream
      */
     protected function can_enumerate(): bool
     {
-        return $this->major_stream->can_enumerate() && parent::can_enumerate();
+        return parent::can_enumerate() && $this->major_stream->can_enumerate();
     }
 }
