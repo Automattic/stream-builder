@@ -80,6 +80,7 @@ final class CacheCodec extends Codec
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function encode(Templatable $obj): string
     {
         switch ($this->serialization_type) {
@@ -102,6 +103,7 @@ final class CacheCodec extends Codec
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function decode(string $encoded): Templatable
     {
         $cached = $this->cache_provider->get($this->cache_type, $encoded);

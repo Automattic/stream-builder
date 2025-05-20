@@ -44,6 +44,7 @@ class TemplateReferenceStream extends WrapStream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context) // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     {
         $template_name = $context->get_required_property('name');
@@ -61,6 +62,7 @@ class TemplateReferenceStream extends WrapStream
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _enumerate(
         int $count,
         ?StreamCursor $cursor = null,
@@ -73,6 +75,16 @@ class TemplateReferenceStream extends WrapStream
     /**
      * @inheritDoc
      */
+    #[\Override]
+    protected function can_enumerate(): bool
+    {
+        return parent::can_enumerate() && $this->getInner()->can_enumerate();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    #[\Override]
     protected function can_enumerate_with_time_range(): bool
     {
         return $this->getInner()->can_enumerate_with_time_range();

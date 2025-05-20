@@ -71,6 +71,7 @@ abstract class RoundRobinStreamMixer extends StreamMixer
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         $minor_templates = array_map(function (Stream $stream) {
@@ -88,6 +89,7 @@ abstract class RoundRobinStreamMixer extends StreamMixer
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function mix(
         int $count,
         MultiCursor $cursor,
@@ -169,4 +171,13 @@ abstract class RoundRobinStreamMixer extends StreamMixer
      * @return int[] The position array.
      */
     abstract protected function get_main_stream_positions(int $count, ?StreamTracer $tracer = null): array;
+
+    /**
+     * @inheritDoc
+     */
+    #[\Override]
+    protected function can_enumerate(): bool
+    {
+        return parent::can_enumerate() && $this->main->can_enumerate();
+    }
 }

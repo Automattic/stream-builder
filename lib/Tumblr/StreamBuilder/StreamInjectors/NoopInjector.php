@@ -33,6 +33,7 @@ final class NoopInjector extends StreamInjector
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _plan_injection(int $page_size, Stream $requesting_stream, ?array $state = null, ?StreamTracer $tracer = null): InjectionPlan
     {
         return new InjectionPlan([], null);
@@ -41,6 +42,7 @@ final class NoopInjector extends StreamInjector
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -51,6 +53,7 @@ final class NoopInjector extends StreamInjector
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         return new self($context->get_current_identity());

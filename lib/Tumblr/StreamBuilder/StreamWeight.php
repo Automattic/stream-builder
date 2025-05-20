@@ -57,6 +57,7 @@ final class StreamWeight extends Templatable
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -69,6 +70,7 @@ final class StreamWeight extends Templatable
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         $stream_weight = $context->get_optional_property('weight');

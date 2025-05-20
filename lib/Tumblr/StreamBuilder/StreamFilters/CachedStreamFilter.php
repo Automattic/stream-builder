@@ -93,6 +93,7 @@ final class CachedStreamFilter extends StreamFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function get_cache_key()
     {
         return sprintf('Cached(%s,%s)', $this->inner_cache_key, $this->version);
@@ -101,6 +102,7 @@ final class CachedStreamFilter extends StreamFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_string(): string
     {
         return sprintf('Cached(%s)', $this->inner->to_string());
@@ -109,6 +111,7 @@ final class CachedStreamFilter extends StreamFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -123,6 +126,7 @@ final class CachedStreamFilter extends StreamFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         $filter = $context->deserialize_required_property('stream_filter');
@@ -139,6 +143,7 @@ final class CachedStreamFilter extends StreamFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     final public function filter_inner(array $elements, ?StreamFilterState $state = null, ?StreamTracer $tracer = null): StreamFilterResult
     {
         $key_to_index = [];

@@ -112,6 +112,7 @@ final class FilteredStream extends WrapStream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -126,6 +127,7 @@ final class FilteredStream extends WrapStream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         $stream = $context->deserialize_required_property('stream');
@@ -146,6 +148,7 @@ final class FilteredStream extends WrapStream
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _enumerate(
         int $count,
         ?StreamCursor $cursor = null,
@@ -276,6 +279,7 @@ final class FilteredStream extends WrapStream
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function can_enumerate_with_time_range(): bool
     {
         return $this->getInner()->can_enumerate_with_time_range();
@@ -284,6 +288,7 @@ final class FilteredStream extends WrapStream
     /**
      * @return int|null
      */
+    #[\Override]
     public function estimate_count(): ?int
     {
         // TODO update with filtered count

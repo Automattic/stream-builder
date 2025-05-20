@@ -34,6 +34,7 @@ final class PushdownCompositeInjector extends CompositeStreamInjector
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _plan_injection(
         int $page_size,
         Stream $requesting_stream,
@@ -78,6 +79,7 @@ final class PushdownCompositeInjector extends CompositeStreamInjector
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         $injectors_template = $context->get_optional_property('stream_injector_array', []);

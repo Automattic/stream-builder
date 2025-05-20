@@ -64,6 +64,7 @@ class ConcatenatedStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _can_combine_with(StreamCursor $other): bool
     {
         if (!$other instanceof ConcatenatedStreamCursor) {
@@ -81,6 +82,7 @@ class ConcatenatedStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _combine_with(StreamCursor $other): StreamCursor
     {
         /** @var ConcatenatedStreamCursor $other */
@@ -99,6 +101,7 @@ class ConcatenatedStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function to_string(): string
     {
         return sprintf('Concat(%d,%s)', $this->source_index, $this->source_cursor);
@@ -107,6 +110,7 @@ class ConcatenatedStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -119,6 +123,7 @@ class ConcatenatedStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         return new self($context->get_required_property('i'), $context->deserialize_optional_property('c'));

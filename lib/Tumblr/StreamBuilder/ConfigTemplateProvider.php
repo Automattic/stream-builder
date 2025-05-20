@@ -54,6 +54,7 @@ class ConfigTemplateProvider extends TemplateProvider
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function getTemplate(string $context, string $name, ?string $component = null): ?array
     {
         $path = $this->getPathForTemplate($context, $name);
@@ -77,6 +78,7 @@ class ConfigTemplateProvider extends TemplateProvider
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getPathForContext(string $context): string
     {
         if (empty($context)) {
@@ -91,6 +93,7 @@ class ConfigTemplateProvider extends TemplateProvider
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getPathForTemplate(string $context, string $template_name): string
     {
         // leading periods are removed and forward slashes are replaced with underscores, to prevent upwards traversal.
@@ -108,6 +111,7 @@ class ConfigTemplateProvider extends TemplateProvider
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function listContexts(): array
     {
         $names = [];

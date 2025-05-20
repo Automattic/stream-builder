@@ -103,6 +103,7 @@ abstract class CachedStream extends WrapStream
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _enumerate(
         int $count,
         ?StreamCursor $cursor = null,
@@ -238,6 +239,7 @@ abstract class CachedStream extends WrapStream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         $base = parent::to_template();

@@ -34,6 +34,7 @@ final class NullStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _enumerate(
         int $count,
         ?StreamCursor $cursor = null,
@@ -46,6 +47,7 @@ final class NullStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -56,6 +58,7 @@ final class NullStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         return new self($context->get_current_identity());

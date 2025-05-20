@@ -77,6 +77,7 @@ final class CacheFencepostProvider extends FencepostProvider
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function get_latest_timestamp(string $fence_id)
     {
         StreamBuilder::getDependencyBag()->getLog()
@@ -94,6 +95,7 @@ final class CacheFencepostProvider extends FencepostProvider
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function set_latest_timestamp(string $fence_id, int $timestamp_ms)
     {
         if ($timestamp_ms < 0) {
@@ -112,6 +114,7 @@ final class CacheFencepostProvider extends FencepostProvider
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function set_fencepost_epoch(string $user_id, int $timestamp_ms)
     {
         $this->cache->set(
@@ -127,6 +130,7 @@ final class CacheFencepostProvider extends FencepostProvider
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function delete_fencepost_epoch(string $user_id)
     {
         $this->cache->delete(
@@ -140,6 +144,7 @@ final class CacheFencepostProvider extends FencepostProvider
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function get_fencepost_epoch(string $user_id)
     {
         StreamBuilder::getDependencyBag()->getLog()
@@ -157,6 +162,7 @@ final class CacheFencepostProvider extends FencepostProvider
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function get_fencepost(string $fence_id, int $timestamp_ms)
     {
         if ($timestamp_ms < 0) {
@@ -179,6 +185,7 @@ final class CacheFencepostProvider extends FencepostProvider
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function set_fencepost(string $fence_id, int $timestamp_ms, Fencepost $fencepost)
     {
         if ($timestamp_ms < 0) {

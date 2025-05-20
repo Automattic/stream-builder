@@ -52,6 +52,7 @@ class MaxIntCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _can_combine_with(StreamCursor $other): bool
     {
         return $other instanceof self;
@@ -60,6 +61,7 @@ class MaxIntCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _combine_with(StreamCursor $other): StreamCursor
     {
         /** @var MaxIntCursor $other */
@@ -69,6 +71,7 @@ class MaxIntCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function to_string(): string
     {
         return sprintf("MaxInt(%d)", $this->value);
@@ -77,6 +80,7 @@ class MaxIntCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         $base = parent::to_template();
@@ -87,6 +91,7 @@ class MaxIntCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context)
     {
         return new self($context->get_required_property('v'));

@@ -124,6 +124,7 @@ final class ProportionalRoundRobinStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _enumerate(
         int $count,
         ?StreamCursor $cursor = null,
@@ -211,6 +212,7 @@ final class ProportionalRoundRobinStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -228,6 +230,7 @@ final class ProportionalRoundRobinStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         $template = $context->get_template();
@@ -250,5 +253,14 @@ final class ProportionalRoundRobinStream extends Stream
             intval($template['minor_remainder']),
             $context->get_current_identity()
         );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    #[\Override]
+    protected function can_enumerate(): bool
+    {
+        return parent::can_enumerate() && $this->major_stream->can_enumerate();
     }
 }

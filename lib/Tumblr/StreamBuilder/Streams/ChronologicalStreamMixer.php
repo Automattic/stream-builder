@@ -76,6 +76,7 @@ final class ChronologicalStreamMixer extends StreamMixer
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function mix(
         int $count,
         MultiCursor $cursor,
@@ -128,6 +129,7 @@ final class ChronologicalStreamMixer extends StreamMixer
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -144,6 +146,7 @@ final class ChronologicalStreamMixer extends StreamMixer
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         /** @var StreamInjector $injector */
@@ -163,8 +166,27 @@ final class ChronologicalStreamMixer extends StreamMixer
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function can_enumerate_with_time_range(): bool
     {
         return true;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    #[\Override]
+    protected function can_enumerate(): bool
+    {
+        if (!parent::can_enumerate()) {
+            return false;
+        }
+        foreach ($this->streams as $stream) {
+            if ($stream->can_enumerate()) {
+                // we need at least one inner stream to enumerate a mix.
+                return true;
+            }
+        }
+        return false;
     }
 }

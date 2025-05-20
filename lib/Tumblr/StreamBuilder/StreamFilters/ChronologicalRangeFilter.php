@@ -70,6 +70,7 @@ final class ChronologicalRangeFilter extends StreamElementFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function pre_fetch(array $elements)
     {
         StreamElement::pre_fetch_all($elements);
@@ -78,6 +79,7 @@ final class ChronologicalRangeFilter extends StreamElementFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function should_release(StreamElement $e): bool
     {
         $orig = $e->get_original_element();
@@ -95,6 +97,7 @@ final class ChronologicalRangeFilter extends StreamElementFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function get_cache_key()
     {
         // probably shouldn't cache this, too many variations.
@@ -104,6 +107,7 @@ final class ChronologicalRangeFilter extends StreamElementFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -117,6 +121,7 @@ final class ChronologicalRangeFilter extends StreamElementFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context)
     {
         return new self(

@@ -58,6 +58,7 @@ class YamlTemplateProvider extends TemplateProvider
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function getTemplate(string $context, string $name, ?string $component = null): ?array
     {
         try {
@@ -80,6 +81,7 @@ class YamlTemplateProvider extends TemplateProvider
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function listContexts(): array
     {
         return array_keys(static::$context_provider);
@@ -88,6 +90,7 @@ class YamlTemplateProvider extends TemplateProvider
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function getPathForTemplate(string $context, string $template_name): string
     {
         // leading periods are removed and forward slashes are replaced with underscores, to prevent upwards traversal.
@@ -105,6 +108,7 @@ class YamlTemplateProvider extends TemplateProvider
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getPathForContext(string $context): string
     {
         if (empty($context)) {

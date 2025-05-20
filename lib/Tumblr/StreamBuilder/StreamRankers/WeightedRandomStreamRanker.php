@@ -34,6 +34,7 @@ class WeightedRandomStreamRanker extends StreamRanker
      * @inheritDoc
      * @psalm-suppress UndefinedDocblockClass
      */
+    #[\Override]
     protected function rank_inner(array $stream_elements, ?StreamTracer $tracer = null): array
     {
         // if there are no stream elements to rank, return early
@@ -85,6 +86,7 @@ class WeightedRandomStreamRanker extends StreamRanker
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         return new self(
@@ -95,6 +97,7 @@ class WeightedRandomStreamRanker extends StreamRanker
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function pre_fetch(array $elements)
     {
         // no need to pre_fetch
