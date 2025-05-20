@@ -63,6 +63,7 @@ abstract class LeafStreamElement extends StreamElement
     /**
      * @inheritDoc
      */
+    #[\Override]
     final public function get_original_element(): StreamElement
     {
         return $this;
@@ -71,6 +72,7 @@ abstract class LeafStreamElement extends StreamElement
     /**
      * @inheritDoc
      */
+    #[\Override]
     final public function get_parent_element(): StreamElement
     {
         return $this;
@@ -79,6 +81,7 @@ abstract class LeafStreamElement extends StreamElement
     /**
      * @inheritDoc
      */
+    #[\Override]
     final public function get_element_id(): string
     {
         return $this->element_id;
@@ -87,6 +90,7 @@ abstract class LeafStreamElement extends StreamElement
     /**
      * @inheritDoc
      */
+    #[\Override]
     final public function add_debug_info(string $header, string $field, $value)
     {
         if (!isset($this->debug_info[$header])) {
@@ -98,6 +102,7 @@ abstract class LeafStreamElement extends StreamElement
     /**
      * @inheritDoc
      */
+    #[\Override]
     final public function get_debug_info(): array
     {
         return $this->debug_info ?? [];

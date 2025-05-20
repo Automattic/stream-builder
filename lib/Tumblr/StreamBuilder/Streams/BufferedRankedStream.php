@@ -66,6 +66,7 @@ final class BufferedRankedStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function _enumerate(
         int $count,
         ?StreamCursor $cursor = null,
@@ -106,6 +107,7 @@ final class BufferedRankedStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -119,6 +121,7 @@ final class BufferedRankedStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         return new self(
@@ -133,6 +136,7 @@ final class BufferedRankedStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function can_enumerate(): bool
     {
         return parent::can_enumerate() && $this->inner->can_enumerate();

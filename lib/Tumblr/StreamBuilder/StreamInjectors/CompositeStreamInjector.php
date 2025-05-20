@@ -49,6 +49,7 @@ abstract class CompositeStreamInjector extends StreamInjector
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         $base = parent::to_template();

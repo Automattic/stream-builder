@@ -72,6 +72,7 @@ final class InjectedStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _can_combine_with(StreamCursor $other): bool
     {
         if (!($other instanceof InjectedStreamCursor)) {
@@ -86,6 +87,7 @@ final class InjectedStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _combine_with(StreamCursor $other): StreamCursor
     {
         /** @var InjectedStreamCursor $other */
@@ -98,6 +100,7 @@ final class InjectedStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function to_string(): string
     {
         return sprintf('InjectedStreamCursor(%s)', $this->inner_cursor);
@@ -106,6 +109,7 @@ final class InjectedStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -118,6 +122,7 @@ final class InjectedStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         return new self($context->deserialize_optional_property('c'), $context->get_optional_property('i'));

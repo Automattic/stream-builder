@@ -75,6 +75,7 @@ class SizeLimitedStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _can_combine_with(StreamCursor $other): bool
     {
         return ($other instanceof SizeLimitedStreamCursor);
@@ -83,6 +84,7 @@ class SizeLimitedStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _combine_with(StreamCursor $other): StreamCursor
     {
         /** @var SizeLimitedStreamCursor $other */
@@ -95,6 +97,7 @@ class SizeLimitedStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function to_string(): string
     {
         return sprintf('SizeLimited(%s,%d)', $this->cursor, $this->count);
@@ -103,6 +106,7 @@ class SizeLimitedStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         $output = [
@@ -119,6 +123,7 @@ class SizeLimitedStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         $cursor = $context->deserialize_optional_property('c');

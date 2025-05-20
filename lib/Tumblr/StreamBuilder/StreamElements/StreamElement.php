@@ -168,6 +168,7 @@ abstract class StreamElement extends Templatable
     /**
      * @inheritdoc
      */
+    #[\Override]
     public function to_template(): array
     {
         $base = parent::to_template();

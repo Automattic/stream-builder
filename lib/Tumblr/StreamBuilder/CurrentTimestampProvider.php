@@ -28,6 +28,7 @@ final class CurrentTimestampProvider extends TimestampProvider
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function time(): int
     {
         return time();
@@ -36,6 +37,7 @@ final class CurrentTimestampProvider extends TimestampProvider
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function time_ms(): int
     {
         return intval(1000.0 * microtime(true));
@@ -44,6 +46,7 @@ final class CurrentTimestampProvider extends TimestampProvider
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -54,6 +57,7 @@ final class CurrentTimestampProvider extends TimestampProvider
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context)
     {
         return new self();

@@ -83,6 +83,7 @@ class DeduplicatedStreamFilterState extends StreamFilterState
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _can_merge_with(StreamFilterState $other): bool
     {
         return ($other instanceof DeduplicatedStreamFilterState);
@@ -91,6 +92,7 @@ class DeduplicatedStreamFilterState extends StreamFilterState
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _merge_with(StreamFilterState $other): StreamFilterState
     {
         /** @var DeduplicatedStreamFilterState $other */
@@ -127,6 +129,7 @@ class DeduplicatedStreamFilterState extends StreamFilterState
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function to_string(): string
     {
         return sprintf('Dedup(%s)', implode(',', array_keys($this->seen_items_set)));
@@ -135,6 +138,7 @@ class DeduplicatedStreamFilterState extends StreamFilterState
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         $output = [
@@ -155,6 +159,7 @@ class DeduplicatedStreamFilterState extends StreamFilterState
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         // base64 reserves `=`, `/`,  and `+`, so we'll use `.` as a delimiter.

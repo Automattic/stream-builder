@@ -42,6 +42,7 @@ final class ProbabilisticInjectionAllocator extends InjectionAllocator
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -53,6 +54,7 @@ final class ProbabilisticInjectionAllocator extends InjectionAllocator
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         return new self($context->get_required_property('slot_injection_probability'));
@@ -61,6 +63,7 @@ final class ProbabilisticInjectionAllocator extends InjectionAllocator
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function allocate(int $page_size, ?array $state = null): InjectionAllocatorResult
     {
         $out = [];

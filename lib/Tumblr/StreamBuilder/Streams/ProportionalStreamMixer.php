@@ -67,6 +67,7 @@ final class ProportionalStreamMixer extends StreamMixer
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -82,6 +83,7 @@ final class ProportionalStreamMixer extends StreamMixer
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         $template = $context->get_template();
@@ -117,6 +119,7 @@ final class ProportionalStreamMixer extends StreamMixer
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function mix(
         int $count,
         MultiCursor $cursor,
@@ -158,6 +161,7 @@ final class ProportionalStreamMixer extends StreamMixer
     /**
      * @return bool
      */
+    #[\Override]
     protected function can_enumerate(): bool
     {
         if (!parent::can_enumerate()) {

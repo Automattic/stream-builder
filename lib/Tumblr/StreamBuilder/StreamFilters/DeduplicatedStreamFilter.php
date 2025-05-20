@@ -53,12 +53,14 @@ class DeduplicatedStreamFilter extends StreamFilter
     }
 
     /** @inheritDoc */
+    #[\Override]
     public function get_cache_key()
     {
         return null;
     }
 
     /** @inheritDoc */
+    #[\Override]
     public function get_state_id()
     {
         return 'Dedupe';
@@ -67,6 +69,7 @@ class DeduplicatedStreamFilter extends StreamFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     final public function filter_inner(array $elements, ?StreamFilterState $state = null, ?StreamTracer $tracer = null): StreamFilterResult
     {
         /** @var DeduplicatedStreamFilterState $state */
@@ -121,6 +124,7 @@ class DeduplicatedStreamFilter extends StreamFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -132,6 +136,7 @@ class DeduplicatedStreamFilter extends StreamFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context)
     {
         $window_size = $context->get_optional_property('window', 100);

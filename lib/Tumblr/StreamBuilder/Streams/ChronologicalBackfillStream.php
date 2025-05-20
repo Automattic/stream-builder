@@ -70,6 +70,7 @@ final class ChronologicalBackfillStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _enumerate(
         int $count,
         ?StreamCursor $cursor = null,
@@ -141,6 +142,7 @@ final class ChronologicalBackfillStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -153,6 +155,7 @@ final class ChronologicalBackfillStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         return new self(
@@ -166,6 +169,7 @@ final class ChronologicalBackfillStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function can_enumerate_with_time_range(): bool
     {
         return true;
@@ -174,6 +178,7 @@ final class ChronologicalBackfillStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function can_enumerate(): bool
     {
         return parent::can_enumerate() && ($this->main_stream->can_enumerate() || $this->backfill_stream->can_enumerate());

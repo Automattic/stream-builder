@@ -32,6 +32,7 @@ class GlobalFixedInjectionAllocator extends FixedInjectionAllocator
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function allocate(int $page_size, ?array $state = null): InjectionAllocatorResult
     {
         $pos_base = $state['pos_base'] ?? 0;

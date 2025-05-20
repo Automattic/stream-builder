@@ -164,6 +164,7 @@ abstract class FencepostRankedStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _enumerate(
         int $count,
         ?StreamCursor $cursor = null,
@@ -670,6 +671,7 @@ abstract class FencepostRankedStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         $base = parent::to_template();
@@ -687,6 +689,7 @@ abstract class FencepostRankedStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function can_enumerate_with_time_range(): bool
     {
         return true;
