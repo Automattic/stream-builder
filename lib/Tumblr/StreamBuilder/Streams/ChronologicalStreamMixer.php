@@ -178,7 +178,7 @@ final class ChronologicalStreamMixer extends StreamMixer
         }
         foreach ($this->streams as $stream) {
             if ($stream->can_enumerate()) {
-                // as long as we can enumerate one stream, we can enumerate the concatenated stream.
+                // we need at least one inner stream to enumerate a mix.
                 return true;
             }
         }
