@@ -49,6 +49,7 @@ final class InverseFilter extends StreamFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function can_filter(): bool
     {
         return $this->inner->can_filter();
@@ -57,6 +58,7 @@ final class InverseFilter extends StreamFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function get_cache_key()
     {
         return sprintf('Inverse(%s)', $this->inner->get_cache_key());
@@ -65,6 +67,7 @@ final class InverseFilter extends StreamFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_string(): string
     {
         return sprintf('Inverse(%s)', $this->inner);
@@ -73,6 +76,7 @@ final class InverseFilter extends StreamFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -84,6 +88,7 @@ final class InverseFilter extends StreamFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         $filter = $context->deserialize_required_property('stream_filter');
@@ -93,6 +98,7 @@ final class InverseFilter extends StreamFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     final public function filter_inner(array $elements, ?StreamFilterState $state = null, ?StreamTracer $tracer = null): StreamFilterResult
     {
         return $this->inner->filter($elements, $state, $tracer)->get_inverse();

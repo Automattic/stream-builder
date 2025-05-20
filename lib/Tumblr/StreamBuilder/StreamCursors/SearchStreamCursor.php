@@ -54,6 +54,7 @@ class SearchStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -66,6 +67,7 @@ class SearchStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         $template = $context->get_template();
@@ -87,6 +89,7 @@ class SearchStreamCursor extends StreamCursor
      * @inheritDoc
      * Wrapped in __toString() method
      */
+    #[\Override]
     protected function to_string(): string
     {
         return sprintf('SearchStreamCursor(%d, %d)', $this->offset, intval($this->recent_search));
@@ -95,6 +98,7 @@ class SearchStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _can_combine_with(StreamCursor $other): bool
     {
         return ($other instanceof SearchStreamCursor && $other->recent_search === $this->recent_search);
@@ -103,6 +107,7 @@ class SearchStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _combine_with(StreamCursor $other): StreamCursor
     {
         /** @var SearchStreamCursor $other */

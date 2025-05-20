@@ -88,6 +88,7 @@ class CappedPostRanker extends StreamRanker
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function rank_inner(array $stream_elements, ?StreamTracer $tracer = null): array
     {
         if ($this->can_rank()) {
@@ -99,6 +100,7 @@ class CappedPostRanker extends StreamRanker
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return ['_type' => get_class($this)];
@@ -107,6 +109,7 @@ class CappedPostRanker extends StreamRanker
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context)
     {
         return new self(
@@ -123,6 +126,7 @@ class CappedPostRanker extends StreamRanker
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function pre_fetch(array $elements)
     {
         foreach ($elements as $element) {

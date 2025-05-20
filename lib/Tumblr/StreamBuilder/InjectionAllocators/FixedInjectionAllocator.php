@@ -52,6 +52,7 @@ abstract class FixedInjectionAllocator extends InjectionAllocator
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -63,6 +64,7 @@ abstract class FixedInjectionAllocator extends InjectionAllocator
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         return new static($context->get_optional_property('positions', []));

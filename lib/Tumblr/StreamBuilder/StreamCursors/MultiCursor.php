@@ -50,6 +50,7 @@ final class MultiCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         $stream_to_cursor_array = [];
@@ -68,6 +69,7 @@ final class MultiCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         $template = $context->get_template();
@@ -123,6 +125,7 @@ final class MultiCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _can_combine_with(StreamCursor $other): bool
     {
         return ($other instanceof MultiCursor);
@@ -131,6 +134,7 @@ final class MultiCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _combine_with(StreamCursor $other): StreamCursor
     {
         /** @var MultiCursor $other */
@@ -150,6 +154,7 @@ final class MultiCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function to_string(): string
     {
         $desc = [];

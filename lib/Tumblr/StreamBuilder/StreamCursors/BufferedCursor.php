@@ -72,6 +72,7 @@ final class BufferedCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _can_combine_with(StreamCursor $other): bool
     {
         if ($other instanceof BufferedCursor) {
@@ -84,6 +85,7 @@ final class BufferedCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _combine_with(StreamCursor $other): StreamCursor
     {
         /** @var BufferedCursor $other */
@@ -102,6 +104,7 @@ final class BufferedCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function to_string(): string
     {
         $elem_strings = [];
@@ -114,6 +117,7 @@ final class BufferedCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         $base = [ '_type' => get_class($this) ];
@@ -136,6 +140,7 @@ final class BufferedCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         $cache = $context->get_cache_provider();

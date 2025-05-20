@@ -55,6 +55,7 @@ final class CompositeStreamFilter extends StreamFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function can_filter(): bool
     {
         foreach ($this->filters as $f) {
@@ -68,6 +69,7 @@ final class CompositeStreamFilter extends StreamFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function get_cache_key()
     {
         $ids = [];
@@ -85,6 +87,7 @@ final class CompositeStreamFilter extends StreamFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -99,6 +102,7 @@ final class CompositeStreamFilter extends StreamFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         $filters_template = $context->get_required_property('stream_filter_array');
@@ -113,6 +117,7 @@ final class CompositeStreamFilter extends StreamFilter
     /**
      * @inheritDoc
      */
+    #[\Override]
     final public function filter_inner(array $elements, ?StreamFilterState $state = null, ?StreamTracer $tracer = null): StreamFilterResult
     {
         /** @var CompositeStreamFilterState $state */

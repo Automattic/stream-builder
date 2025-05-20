@@ -72,6 +72,7 @@ class GeneralStreamInjector extends StreamInjector
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _plan_injection(
         int $page_size,
         Stream $requesting_stream,
@@ -151,6 +152,7 @@ class GeneralStreamInjector extends StreamInjector
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         $base = parent::to_template();
@@ -162,6 +164,7 @@ class GeneralStreamInjector extends StreamInjector
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context)
     {
         $user = $context->get_meta_by_key('user');

@@ -176,6 +176,7 @@ class StreamResult extends Templatable
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -190,6 +191,7 @@ class StreamResult extends Templatable
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         $element_templates = $context->get_required_property('elements');

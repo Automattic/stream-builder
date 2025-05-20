@@ -68,6 +68,7 @@ class DitheringRanker extends StreamRanker
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function rank_inner(array $stream_elements, ?StreamTracer $tracer = null): array
     {
         if (empty($stream_elements)) {
@@ -158,6 +159,7 @@ class DitheringRanker extends StreamRanker
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function pre_fetch(array $elements)
     {
         // No need to pre_fetch
@@ -166,6 +168,7 @@ class DitheringRanker extends StreamRanker
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         $base = parent::to_template();
@@ -176,6 +179,7 @@ class DitheringRanker extends StreamRanker
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context)
     {
         return new self(

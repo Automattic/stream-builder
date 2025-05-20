@@ -152,6 +152,7 @@ final class ProportionalRoundRobinStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _can_combine_with(StreamCursor $other): bool
     {
         return ($other instanceof ProportionalRoundRobinStreamCursor);
@@ -160,6 +161,7 @@ final class ProportionalRoundRobinStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _combine_with(StreamCursor $other): StreamCursor
     {
         /** @var ProportionalRoundRobinStreamCursor $other */
@@ -182,6 +184,7 @@ final class ProportionalRoundRobinStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function to_string(): string
     {
         $minors = [];
@@ -199,6 +202,7 @@ final class ProportionalRoundRobinStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         $base = [
@@ -226,6 +230,7 @@ final class ProportionalRoundRobinStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         $template = $context->get_template();
