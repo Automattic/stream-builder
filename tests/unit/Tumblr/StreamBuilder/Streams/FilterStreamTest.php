@@ -21,6 +21,7 @@
 
 namespace Test\Tumblr\StreamBuilder;
 
+use Test\Mock\Tumblr\StreamBuilder\StreamElements\MockedPostRefElement;
 use Tumblr\StreamBuilder\Exceptions\InappropriateCursorException;
 use Tumblr\StreamBuilder\StreamCursors\StreamCursor;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
@@ -173,5 +174,52 @@ class FilterStreamTest extends \PHPUnit\Framework\TestCase
         $stream = new FilteredStream($inner_stream, $filter, 'bar_foo', 0, 0, true);
         $result = $stream->enumerate(5);
         $this->assertSame(5, $result->get_size());
+    }
+
+    /**
+     * @dataProvider final_retry_filters_all_provider
+     */
+    public function test_final_retry_filters_all(
+        bool $final_inner_exhausted,
+        bool $expected_exhaustive
+    ) {
+        $keep = new MockedPostRefElement(123, 234);
+        $drop = new MockedPostRefElement(567, 899);
+
+        $inner_stream = $this->createMock(Stream::class);
+        $inner_stream->expects($this->exactly(2))
+            ->method('_enumerate')
+            ->willReturnOnConsecutiveCalls(
+                new StreamResult(false,            [$keep]),
+                new StreamResult($final_inner_exhausted, [$drop])
+            );
+
+        $filter = $this->createMock(StreamFilter::class);
+        $filter->expects($this->exactly(2))
+            ->method('filter_inner')
+            ->willReturnOnConsecutiveCalls(
+                new StreamFilterResult([$keep], []),
+                new StreamFilterResult([],      [])
+            );
+
+        $filtered_stream = new FilteredStream($inner_stream, $filter, 'test', 1, 0.0);
+        $stream_result = $filtered_stream->enumerate(3);
+
+        $this->assertSame(1, $stream_result->get_size());
+        $this->assertSame($expected_exhaustive, $stream_result->is_exhaustive());
+
+        $elements = $stream_result->get_elements();
+        $this->assertCount(1, $elements);
+        $this->assertSame($keep, $elements[0]->get_original_element());
+    }
+
+    /**
+     * Data provider for testRetainThenFilterAll
+     * @return iterable
+     */
+    public function final_retry_filters_all_provider(): iterable
+    {
+        yield 'inner_not_exhausted' => [false, false];
+        yield 'inner_exhausted' => [true,  true];
     }
 }
