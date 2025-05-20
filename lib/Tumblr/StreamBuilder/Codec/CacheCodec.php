@@ -78,6 +78,7 @@ final class CacheCodec extends Codec
     }
 
     /**
+     * #[\Override]
      * @inheritDoc
      */
     public function encode(Templatable $obj): string
@@ -100,6 +101,7 @@ final class CacheCodec extends Codec
     }
 
     /**
+     * #[\Override]
      * @inheritDoc
      */
     public function decode(string $encoded): Templatable

@@ -101,6 +101,7 @@ final class BinaryCodec extends Codec
     }
 
     /**
+     * #[\Override]
      * @inheritDoc
      */
     public function encode(Templatable $obj): string
@@ -114,6 +115,7 @@ final class BinaryCodec extends Codec
     }
 
     /**
+     * #[\Override]
      * @inheritDoc
      */
     public function decode(string $encoded): Templatable
