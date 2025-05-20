@@ -171,4 +171,22 @@ final class ChronologicalStreamMixer extends StreamMixer
     {
         return true;
     }
+
+    /**
+     * @inheritDoc
+     */
+    #[\Override]
+    protected function can_enumerate(): bool
+    {
+        if (!parent::can_enumerate()) {
+            return false;
+        }
+        foreach ($this->streams as $stream) {
+            if ($stream->can_enumerate()) {
+                // we need at least one inner stream to enumerate a mix.
+                return true;
+            }
+        }
+        return false;
+    }
 }

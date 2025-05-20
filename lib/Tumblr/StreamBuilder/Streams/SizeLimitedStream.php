@@ -145,4 +145,13 @@ class SizeLimitedStream extends Stream
                 ->warning('Trying to fetch posts from stream without setting the query string');
         }
     }
+
+    /**
+     * @inheritDoc
+     */
+    #[\Override]
+    protected function can_enumerate(): bool
+    {
+        return parent::can_enumerate() && $this->stream->can_enumerate();
+    }
 }

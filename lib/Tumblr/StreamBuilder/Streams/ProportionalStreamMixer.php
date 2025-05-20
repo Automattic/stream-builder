@@ -157,4 +157,24 @@ final class ProportionalStreamMixer extends StreamMixer
 
         return new StreamResult(empty($feeds), $results);
     }
+
+    /**
+     * @return bool
+     */
+    #[\Override]
+    protected function can_enumerate(): bool
+    {
+        if (!parent::can_enumerate()) {
+            return false;
+        }
+        foreach ($this->weights as $weight) {
+            $stream = $weight->get_stream();
+            if ($stream->can_enumerate()) {
+                // as long as at least one stream from the mix can be enumerated,
+                // the proportional stream mixer will be able to enumerate elements.
+                return true;
+            }
+        }
+        return false;
+    }
 }

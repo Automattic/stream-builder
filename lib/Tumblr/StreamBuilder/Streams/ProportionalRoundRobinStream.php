@@ -254,4 +254,13 @@ final class ProportionalRoundRobinStream extends Stream
             $context->get_current_identity()
         );
     }
+
+    /**
+     * @inheritDoc
+     */
+    #[\Override]
+    protected function can_enumerate(): bool
+    {
+        return parent::can_enumerate() && $this->major_stream->can_enumerate();
+    }
 }
