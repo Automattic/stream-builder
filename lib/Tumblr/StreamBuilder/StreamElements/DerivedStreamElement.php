@@ -67,6 +67,7 @@ class DerivedStreamElement extends StreamElement
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function get_original_element(): StreamElement
     {
         return $this->original_element;
@@ -75,6 +76,7 @@ class DerivedStreamElement extends StreamElement
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function get_cache_key()
     {
         // any derived element is cached as it's original
@@ -85,6 +87,7 @@ class DerivedStreamElement extends StreamElement
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function get_parent_element(): StreamElement
     {
         return $this->parent_element;
@@ -93,6 +96,7 @@ class DerivedStreamElement extends StreamElement
     /**
      * @inheritDoc
      */
+    #[\Override]
     final public function get_element_id(): string
     {
         return $this->original_element->get_element_id();
@@ -101,6 +105,7 @@ class DerivedStreamElement extends StreamElement
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function to_string(): string
     {
         // any derived element is stringified as it's original.
@@ -110,6 +115,7 @@ class DerivedStreamElement extends StreamElement
     /**
      * @inheritDoc
      */
+    #[\Override]
     final public function add_debug_info(string $header, string $field, $value)
     {
         $this->original_element->add_debug_info($header, $field, $value);
@@ -118,6 +124,7 @@ class DerivedStreamElement extends StreamElement
     /**
      * @inheritDoc
      */
+    #[\Override]
     final public function get_debug_info(): array
     {
         return $this->original_element->get_debug_info();
@@ -126,6 +133,7 @@ class DerivedStreamElement extends StreamElement
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         $base = parent::to_template();
@@ -136,6 +144,7 @@ class DerivedStreamElement extends StreamElement
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         return new self(

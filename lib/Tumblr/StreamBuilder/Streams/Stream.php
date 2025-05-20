@@ -43,6 +43,7 @@ abstract class Stream extends Templatable implements StreamInterface
      * @throws \RuntimeException If enumeration is impossible for any reason.
      * @throws \InvalidArgumentException If the requested count is less or equal to 0.
      */
+    #[\Override]
     final public function enumerate(
         int $count,
         ?StreamCursor $cursor = null,
@@ -122,6 +123,7 @@ abstract class Stream extends Templatable implements StreamInterface
      * Zero is Zero.
      * Null means unknown.
      */
+    #[\Override]
     public function estimate_count(): ?int
     {
         // TODO go to streams and combiners etc used on blog pages and implement this method.

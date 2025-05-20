@@ -51,6 +51,7 @@ final class FilteredStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         $output = ['_type' => get_class($this)];
@@ -66,6 +67,7 @@ final class FilteredStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         $template = $context->get_template();
@@ -120,6 +122,7 @@ final class FilteredStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _combine_with(StreamCursor $other): StreamCursor
     {
         /** @var FilteredStreamCursor $other */
@@ -132,6 +135,7 @@ final class FilteredStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _can_combine_with(StreamCursor $other): bool
     {
         return (($other instanceof FilteredStreamCursor)
@@ -142,6 +146,7 @@ final class FilteredStreamCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function to_string(): string
     {
         return sprintf('Filtered(%s,%s)', $this->cursor, $this->filter_state);

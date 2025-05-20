@@ -70,6 +70,7 @@ class GlobalPositionCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _can_combine_with(StreamCursor $other): bool
     {
         return false;
@@ -78,6 +79,7 @@ class GlobalPositionCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _combine_with(StreamCursor $other): StreamCursor
     {
         throw new UncombinableCursorException($this, $other);
@@ -86,6 +88,7 @@ class GlobalPositionCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function to_string(): string
     {
         return sprintf(
@@ -98,6 +101,7 @@ class GlobalPositionCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -110,6 +114,7 @@ class GlobalPositionCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context)
     {
         $inner_cursor = $context->deserialize_required_property('o');

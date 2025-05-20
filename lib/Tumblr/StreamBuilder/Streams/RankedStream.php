@@ -51,6 +51,7 @@ final class RankedStream extends WrapStream
     /**
      * @inheritDoc
      */
+    #[\Override]
     final protected function _enumerate(
         int $count,
         ?StreamCursor $cursor = null,
@@ -74,6 +75,7 @@ final class RankedStream extends WrapStream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -86,6 +88,7 @@ final class RankedStream extends WrapStream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         return new self(

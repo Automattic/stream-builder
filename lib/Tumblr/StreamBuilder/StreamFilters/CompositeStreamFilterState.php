@@ -52,12 +52,14 @@ class CompositeStreamFilterState extends StreamFilterState
     }
 
     /** @inheritDoc */
+    #[\Override]
     protected function _can_merge_with(StreamFilterState $other): bool
     {
         return ($other instanceof CompositeStreamFilterState);
     }
 
     /** @inheritDoc */
+    #[\Override]
     protected function _merge_with(StreamFilterState $other): StreamFilterState
     {
         /** @var CompositeStreamFilterState $other */
@@ -89,6 +91,7 @@ class CompositeStreamFilterState extends StreamFilterState
     }
 
     /** @inheritDoc */
+    #[\Override]
     protected function to_string(): string
     {
         $inners = [];
@@ -99,6 +102,7 @@ class CompositeStreamFilterState extends StreamFilterState
     }
 
     /** @inheritDoc */
+    #[\Override]
     public function to_template(): array
     {
         $inner = [];
@@ -112,6 +116,7 @@ class CompositeStreamFilterState extends StreamFilterState
     }
 
     /** @inheritDoc */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         $template = $context->get_template();

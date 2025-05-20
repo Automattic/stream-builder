@@ -31,6 +31,7 @@ class LocalFixedInjectionAllocator extends FixedInjectionAllocator
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function allocate(int $page_size, ?array $state = null): InjectionAllocatorResult
     {
         $out = [];

@@ -93,6 +93,7 @@ class PrependedStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _enumerate(
         int $count,
         ?StreamCursor $cursor = null,
@@ -123,6 +124,7 @@ class PrependedStream extends Stream
      * Convert an object to a template.
      * @return array A serialized representative template for an object.
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -138,6 +140,7 @@ class PrependedStream extends Stream
      * @param StreamContext $context The context stores the stream template and other necessary data.
      * @return PrependedStream The Prepend stream object corresponding to input.
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         /** @var Stream $before */
@@ -150,6 +153,7 @@ class PrependedStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function estimate_count(): ?int
     {
         return $this->after->estimate_count();

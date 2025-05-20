@@ -36,6 +36,7 @@ abstract class EquivalentStreamCombiner extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     final protected function _enumerate(
         int $count,
         ?StreamCursor $cursor = null,

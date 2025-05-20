@@ -63,6 +63,7 @@ final class ProportionalStreamCombiner extends StreamCombiner
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -77,6 +78,7 @@ final class ProportionalStreamCombiner extends StreamCombiner
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         $template = $context->get_template();
@@ -120,6 +122,7 @@ final class ProportionalStreamCombiner extends StreamCombiner
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function combine(
         int $count,
         MultiCursor $cursor,

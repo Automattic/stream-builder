@@ -140,6 +140,7 @@ final class FencepostCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     final protected function _can_combine_with(StreamCursor $other): bool
     {
         return ($other instanceof FencepostCursor);
@@ -148,6 +149,7 @@ final class FencepostCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _combine_with(StreamCursor $other): StreamCursor
     {
         // prefer lesser fencepost timestamp:
@@ -178,6 +180,7 @@ final class FencepostCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function to_string(): string
     {
         if ($this->inject_cursor) {
@@ -198,6 +201,7 @@ final class FencepostCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         $base = [
@@ -220,6 +224,7 @@ final class FencepostCursor extends StreamCursor
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context)
     {
         return new self(

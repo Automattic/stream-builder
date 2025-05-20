@@ -35,6 +35,7 @@ final class TimestampFetcher extends SignalFetcher
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function fetch_inner(array $stream_elements, ?StreamTracer $tracer = null): SignalBundle
     {
         $builder = new SignalBundleBuilder();
@@ -51,6 +52,7 @@ final class TimestampFetcher extends SignalFetcher
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [ '_type' => get_class($this) ];
@@ -59,6 +61,7 @@ final class TimestampFetcher extends SignalFetcher
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         return new self($context->get_current_identity());

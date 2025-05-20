@@ -51,6 +51,7 @@ abstract class WrapStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         $base = parent::to_template();

@@ -68,6 +68,7 @@ class SizeLimitedStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _enumerate(
         int $count,
         ?StreamCursor $cursor = null,
@@ -108,6 +109,7 @@ class SizeLimitedStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         return [
@@ -120,6 +122,7 @@ class SizeLimitedStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context): self
     {
         $limit = $context->get_required_property('limit');

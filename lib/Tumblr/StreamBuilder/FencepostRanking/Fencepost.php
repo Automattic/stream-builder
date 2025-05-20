@@ -83,6 +83,7 @@ final class Fencepost extends Templatable
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function to_template(): array
     {
         $base = [
@@ -122,6 +123,7 @@ final class Fencepost extends Templatable
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function from_template(StreamContext $context)
     {
         return new self(

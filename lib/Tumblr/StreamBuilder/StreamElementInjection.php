@@ -47,6 +47,7 @@ class StreamElementInjection extends StreamInjection
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function execute(int $position, array $elements)
     {
         return $this->element;
