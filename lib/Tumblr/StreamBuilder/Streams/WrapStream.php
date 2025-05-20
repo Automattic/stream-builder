@@ -62,6 +62,7 @@ abstract class WrapStream extends Stream
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function can_enumerate(): bool
     {
         return parent::can_enumerate() && $this->inner->can_enumerate();
