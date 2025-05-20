@@ -135,6 +135,6 @@ final class BufferedRankedStream extends Stream
      */
     protected function can_enumerate(): bool
     {
-        return $this->inner->can_enumerate() && parent::can_enumerate();
+        return parent::can_enumerate() && $this->inner->can_enumerate();
     }
 }
