@@ -132,13 +132,32 @@ class CachedStreamTest extends \PHPUnit\Framework\TestCase
     {
         // Create a test double for the inner stream that overrides can_enumerate
         $inner_stream = new class('ello') extends Stream {
-            protected function _enumerate(int $count, ?StreamCursor $cursor = null, ?StreamTracer $tracer = null, ?EnumerationOptions $option = null): StreamResult {
+            /**
+             * @inheritDoc
+             */
+            #[\Override]
+            protected function _enumerate(
+                int $count,
+                ?StreamCursor $cursor = null,
+                ?StreamTracer $tracer = null,
+                ?EnumerationOptions $option = null
+            ): StreamResult {
                 return new StreamResult(false, []);
             }
-            protected function can_enumerate(): bool {
+
+            /**
+             * @inheritDoc
+             */
+            #[\Override]
+            protected function can_enumerate(): bool
+            {
                 return false;
             }
 
+            /**
+             * @inheritDoc
+             */
+            #[\Override]
             public static function from_template(StreamContext $context)
             {
                 return new self($context->get_current_identity());
