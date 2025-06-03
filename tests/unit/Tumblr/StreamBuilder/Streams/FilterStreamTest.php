@@ -177,12 +177,17 @@ class FilterStreamTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider final_retry_filters_all_provider
+     * Tests the is_exhaustive behavior when the final retry filters out all elements.
+     *
+     * When the last inner stream result is filtered to nothing, the result should
+     * still be marked as exhaustive only if the inner stream declared it so.
+     *
+     * @dataProvider provide_final_retry_exhaustion_cases
+     * @param bool $final_inner_exhausted Whether the final inner stream result is marked as exhaustive.
+     * @param bool $expected_exhaustive The expected value of the is_exhaustive flag in the result.
+     * /
      */
-    public function test_final_retry_filters_all(
-        bool $final_inner_exhausted,
-        bool $expected_exhaustive
-    ) {
+    public function test_is_exhaustive_when_final_retry_filters_all(bool $final_inner_exhausted, bool $expected_exhaustive) {
         $keep = new MockedPostRefElement(123, 234);
         $drop = new MockedPostRefElement(567, 899);
 
@@ -214,12 +219,12 @@ class FilterStreamTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Data provider for testRetainThenFilterAll
+     * Data provider for test_is_exhaustive_when_final_retry_filters_all
      * @return iterable
      */
-    public function final_retry_filters_all_provider(): iterable
+    public function provide_final_retry_exhaustion_cases(): iterable
     {
         yield 'inner_not_exhausted' => [false, false];
-        yield 'inner_exhausted' => [true,  true];
+        yield 'inner_exhausted' => [true, true];
     }
 }
