@@ -187,7 +187,8 @@ class FilterStreamTest extends \PHPUnit\Framework\TestCase
      * @param bool $expected_exhaustive The expected value of the is_exhaustive flag in the result.
      * /
      */
-    public function test_is_exhaustive_when_final_retry_filters_all(bool $final_inner_exhausted, bool $expected_exhaustive) {
+    public function test_is_exhaustive_when_final_retry_filters_all(bool $final_inner_exhausted, bool $expected_exhaustive)
+    {
         $keep = new MockedPostRefElement(123, 234);
         $drop = new MockedPostRefElement(567, 899);
 
@@ -195,7 +196,7 @@ class FilterStreamTest extends \PHPUnit\Framework\TestCase
         $inner_stream->expects($this->exactly(2))
             ->method('_enumerate')
             ->willReturnOnConsecutiveCalls(
-                new StreamResult(false,            [$keep]),
+                new StreamResult(false, [$keep]),
                 new StreamResult($final_inner_exhausted, [$drop])
             );
 
@@ -204,7 +205,7 @@ class FilterStreamTest extends \PHPUnit\Framework\TestCase
             ->method('filter_inner')
             ->willReturnOnConsecutiveCalls(
                 new StreamFilterResult([$keep], []),
-                new StreamFilterResult([],      [])
+                new StreamFilterResult([], [])
             );
 
         $filtered_stream = new FilteredStream($inner_stream, $filter, 'test', 1, 0.0);
