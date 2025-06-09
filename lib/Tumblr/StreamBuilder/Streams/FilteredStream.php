@@ -178,8 +178,11 @@ final class FilteredStream extends WrapStream
      * @param StreamCursor|null $inner_cursor The cursor from which to fetch the inner stream.
      * @param StreamFilterState|null $filter_state Previous filter state.
      * @param int $depth The number of retries remaining.
-     * @param StreamTracer $tracer The tracer traces filter process.
-     * @param EnumerationOptions $option Enumeration option for inner stream
+     * @param StreamTracer|null $tracer The tracer traces filter process.
+     * @param EnumerationOptions|null $option Enumeration option for inner stream
+     * @param bool|null &$propagated_is_exhaustive Populated by reference during recursion. Carries the inner stream's
+     *        is_exhaustive value from the deepest recursive call, allowing this method to report exhaustion only when
+     *        the inner stream actually ran out-avoiding false-positives if the deepest filtered batch is empty
      * @return StreamResult
      */
     private function _filter_rec(
@@ -188,7 +191,8 @@ final class FilteredStream extends WrapStream
         ?StreamFilterState $filter_state,
         int $depth,
         ?StreamTracer $tracer = null,
-        ?EnumerationOptions $option = null
+        ?EnumerationOptions $option = null,
+        ?bool &$propagated_is_exhaustive = null
     ): StreamResult {
         $fetch_count = intval(ceil($want_count * (1.0 + max(0.0, $this->overfetch_ratio))));
 
@@ -199,6 +203,7 @@ final class FilteredStream extends WrapStream
         // if we got nothing, abort. we can't recurse because the cursor would be unchanged:
         if ($inner_result->get_size() == 0) {
             $tracer and $tracer->filter_abort($this, $want_count, $inner_cursor, $depth);
+            $propagated_is_exhaustive = true;
             return new StreamResult(true, []);
         }
 
@@ -238,6 +243,7 @@ final class FilteredStream extends WrapStream
             } else {
                 $result = $derived;
             }
+            $propagated_is_exhaustive = $is_exhaustive;
             return new StreamResult($is_exhaustive, $result);
         } else {
 
@@ -255,13 +261,18 @@ final class FilteredStream extends WrapStream
 
             $tracer and $tracer->filter_retry($this, $inner_cursor, $retry_cursor, $depth, $want_count, $inner_result->get_size(), count($retained));
 
-            return StreamResult::prepend($derived, $this->_filter_rec(
+            $rec_result = $this->_filter_rec(
                 $want_count - count($derived),
                 $retry_cursor,
                 $retry_filter_state,
                 $depth - 1,
-                $tracer
-            ));
+                $tracer,
+                $option,
+                $propagated_is_exhaustive
+            );
+
+            $result = array_merge($derived, $rec_result->get_elements());
+            return new StreamResult($propagated_is_exhaustive, $result);
         }
     }
 
