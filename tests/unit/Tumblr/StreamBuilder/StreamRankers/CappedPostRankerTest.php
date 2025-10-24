@@ -76,12 +76,12 @@ class CappedPostRankerTest extends \PHPUnit\Framework\TestCase
         $this->invalid_stream_elements = $this->setup_capped_invalid_stream_elements($blog_ids);
 
         $this->enabled_ranker_instance = $this->getMockBuilder(CappedPostRanker::class)
-            ->setConstructorArgs([$this->mock_user, $this->identity, false, true, 2, 'dashboard', false])
+            ->setConstructorArgs([$this->mock_user, $this->identity, true, 2, 'dashboard', false, false])
             ->getMock();
         $this->enabled_ranker_instance->method('can_rank')->willReturn(true);
 
         $this->disabled_ranker_instance = $this->getMockBuilder(CappedPostRanker::class)
-            ->setConstructorArgs([$this->mock_user, $this->identity, false, true, 2, 'dashboard', false])
+            ->setConstructorArgs([$this->mock_user, $this->identity, true, 2, 'dashboard', false, false])
             ->getMock();
         $this->disabled_ranker_instance->method('can_rank')->willReturn(false);
     }
