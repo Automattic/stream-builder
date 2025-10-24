@@ -165,7 +165,7 @@ class CappedPostRankerTest extends \PHPUnit\Framework\TestCase
     public function test_invalid_elements(): void
     {
         $this->expectException(TypeMismatchException::class);
-        $this->invokeMethod($this->enabled_ranker_instance, 'pre_fetch', $this->invalid_stream_elements);
+        $this->invokeMethod($this->enabled_ranker_instance, 'pre_fetch', [$this->invalid_stream_elements]);
     }
 
     /**
@@ -176,7 +176,7 @@ class CappedPostRankerTest extends \PHPUnit\Framework\TestCase
         $dictionaries = $this->invokeMethod(
             $this->enabled_ranker_instance,
             'get_blog_dictionaries',
-            $this->stream_elements
+            [$this->stream_elements]
         );
         $post_to_element = $dictionaries[0];
         $blog_to_posts_ids = $dictionaries[1];
@@ -193,21 +193,94 @@ class CappedPostRankerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test that invalidate_post_id properly removes posts from blog_to_posts_ids
+     */
+    public function test_invalidate_post_id_removes_posts(): void
+    {
+        $ranker = new CappedPostRanker($this->mock_user, $this->identity, true, 2, 'dashboard', false);
+
+        // Get initial blog dictionaries using reflection
+        $dictionaries = $this->invokeMethod($ranker, 'get_blog_dictionaries', [$this->stream_elements]);
+        $blog_to_posts_ids = $dictionaries[1];
+
+        // Verify initial state
+        $expected_initial = [111 => ['1', '2', '3', '4', '5'], 222 => ['6', '7'], 333 => ['8']];
+        $expected_post_counts = [111 => [5, 0], 222 => [2, 0], 333 => [1, 0]];
+        $this->assertSame($expected_initial, $blog_to_posts_ids);
+        $this->assertSame($expected_post_counts, $dictionaries[2]);
+
+        // Test invalidating a specific post using reflection
+        $violated_post_id = $this->invokeMethod($ranker, 'invalidate_post_id', ['111', '3', &$blog_to_posts_ids]);
+        // The method returns null when a specific post ID is provided, but the post should be removed
+        $this->assertNull($violated_post_id);
+
+        // Verify post was removed from blog 111
+        $this->assertCount(4, $blog_to_posts_ids[111]); // Should have 4 posts instead of 5
+        $this->assertContains('1', $blog_to_posts_ids[111]);
+        $this->assertContains('2', $blog_to_posts_ids[111]);
+        $this->assertContains('4', $blog_to_posts_ids[111]);
+        $this->assertContains('5', $blog_to_posts_ids[111]);
+    }
+
+    /**
+     * Test that invalidate_post_id returns the first available post when no specific post is provided
+     */
+    public function test_invalidate_post_id_returns_first_available(): void
+    {
+        $ranker = new CappedPostRanker($this->mock_user, $this->identity, true, 2, 'dashboard', false);
+
+        $dictionaries = $this->invokeMethod($ranker, 'get_blog_dictionaries', [$this->stream_elements]);
+        $blog_to_posts_ids = $dictionaries[1];
+
+        // Test getting first available post from blog 111 using reflection
+        $first_post = $this->invokeMethod($ranker, 'invalidate_post_id', ['111', null, &$blog_to_posts_ids]);
+        $this->assertSame(1, $first_post); // Returns integer, not string
+
+        // Verify first post was removed
+        $this->assertNotContains('1', $blog_to_posts_ids[111]);
+        $this->assertCount(4, $blog_to_posts_ids[111]);
+        $this->assertContains('2', $blog_to_posts_ids[111]);
+        $this->assertContains('3', $blog_to_posts_ids[111]);
+        $this->assertContains('4', $blog_to_posts_ids[111]);
+        $this->assertContains('5', $blog_to_posts_ids[111]);
+    }
+
+    /**
+     * Test that invalidate_post_id handles non-existent posts gracefully
+     */
+    public function test_invalidate_post_id_nonexistent_post(): void
+    {
+        $ranker = new CappedPostRanker($this->mock_user, $this->identity, true, 2, 'dashboard', false, false);
+
+        $dictionaries = $this->invokeMethod($ranker, 'get_blog_dictionaries', [$this->stream_elements]);
+        $blog_to_posts_ids = $dictionaries[1];
+
+        // Try to invalidate a non-existent post using reflection
+        $result = $this->invokeMethod($ranker, 'invalidate_post_id', ['111', '999', &$blog_to_posts_ids]);
+        $this->assertNull($result);
+
+        // Verify no changes were made
+        $this->assertCount(5, $blog_to_posts_ids[111]);
+        $this->assertContains('1', $blog_to_posts_ids[111]);
+        $this->assertContains('2', $blog_to_posts_ids[111]);
+        $this->assertContains('3', $blog_to_posts_ids[111]);
+        $this->assertContains('4', $blog_to_posts_ids[111]);
+        $this->assertContains('5', $blog_to_posts_ids[111]);
+    }
+
+    /**
      * Helper method to enable testing private and protected methods
-     * @param object $object The object that the private method belongs to
+     * @param CappedPostRanker $object The object that the private method belongs to
      * @param string $method_name The name of the method we want to test
      * @param array $parameters List of parameters passed to the method
      * @return mixed Whatever the method would return
      * @throws \ReflectionException Something went wrong with reflection
      */
-    public function invokeMethod(object &$object, string $method_name, array $parameters = [])
+    public function invokeMethod(CappedPostRanker &$object, string $method_name, array $parameters = [])
     {
-        $reflection = new \ReflectionClass(get_class($object));
+        $reflection = new \ReflectionClass(CappedPostRanker::class);
         $method = $reflection->getMethod($method_name);
         $method->setAccessible(true);
-        if ($method_name = 'get_blog_dictionaries') {
-            $parameters = [$parameters];
-        }
         return $method->invokeArgs($object, $parameters);
     }
 }
