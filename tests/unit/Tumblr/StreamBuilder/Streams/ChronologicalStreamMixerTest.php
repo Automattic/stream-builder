@@ -73,9 +73,9 @@ class ChronologicalStreamMixerTest extends \PHPUnit\Framework\TestCase
             /**
              * @inheritDoc
              */
-            public function get_cache_key()
+            public function get_cache_key(): string
             {
-                // TODO: Implement get_cache_key() method.
+                return '';
             }
 
             /**
@@ -83,7 +83,7 @@ class ChronologicalStreamMixerTest extends \PHPUnit\Framework\TestCase
              */
             protected function to_string(): string
             {
-                // TODO: Implement to_string() method.
+                return '';
             }
 
             /**
@@ -91,7 +91,7 @@ class ChronologicalStreamMixerTest extends \PHPUnit\Framework\TestCase
              */
             public function to_template(): array
             {
-                // Testing Shim
+                return [];
             }
 
             /**
@@ -99,7 +99,7 @@ class ChronologicalStreamMixerTest extends \PHPUnit\Framework\TestCase
              */
             public static function from_template(StreamContext $context): self
             {
-                // Testing Shim
+                return new self();
             }
         };
     }
@@ -325,5 +325,206 @@ class ChronologicalStreamMixerTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($result1->is_exhaustive());
         $result2 = $stream->enumerate(10);
         $this->assertFalse($result2->is_exhaustive());
+    }
+
+    /**
+     * Test that pre_fetch_all is called on elements during mixing
+     * This test verifies that the escaped mutant (removal of pre_fetch_all call) would be caught
+     */
+    public function test_pre_fetch_all_is_called_on_elements(): void
+    {
+        // Create a test element that tracks pre_fetch calls
+        $test_element = new class('test_provider', null, 1400000000000) extends LeafStreamElement implements ChronologicalStreamElement {
+            public $pre_fetch_called = false;
+            private $ts;
+
+            public function __construct(string $provider_identity, $cursor, int $ts)
+            {
+                parent::__construct($provider_identity, $cursor);
+                $this->ts = $ts;
+            }
+
+            public function get_timestamp_ms(): int
+            {
+                return $this->ts;
+            }
+
+            public static function pre_fetch(array $elements): void
+            {
+                // Mark that pre_fetch was called by setting a static property
+                // We'll use a simple approach to track this
+                foreach ($elements as $element) {
+                    if ($element instanceof self) {
+                        $element->pre_fetch_called = true;
+                    }
+                }
+            }
+
+            public function get_cache_key(): string
+            {
+                return 'test_cache_key';
+            }
+
+            protected function to_string(): string
+            {
+                return 'test_element';
+            }
+
+            public function to_template(): array
+            {
+                return [];
+            }
+
+            public static function from_template(StreamContext $context): self
+            {
+                return new self('test_provider', null, 1400000000000);
+            }
+        };
+
+        // Create a mock stream that returns our test element
+        $stream = $this->getMockBuilder(Stream::class)
+            ->setConstructorArgs(['test_stream'])
+            ->getMockForAbstractClass();
+
+        $stream->method('_enumerate')
+            ->willReturn(new StreamResult(false, [$test_element]));
+
+        $mixer = new ChronologicalStreamMixer(
+            new NoopInjector('test_injector'),
+            'test_mixer',
+            [$stream],
+            QUERY_SORT_DESC
+        );
+
+        // Enumerate to trigger the mixing process
+        $result = $mixer->enumerate(1);
+
+        // Verify that pre_fetch was called on the element
+        $this->assertTrue($test_element->pre_fetch_called);
+        $this->assertCount(1, $result->get_elements());
+    }
+
+    /**
+     * Test that pre_fetch_all is called on multiple elements during mixing
+     */
+    public function test_pre_fetch_all_is_called_on_multiple_elements(): void
+    {
+        // Create test elements that track pre_fetch calls
+        $element1 = new class('test_provider1', null, 1400000000000) extends LeafStreamElement implements ChronologicalStreamElement {
+            public $pre_fetch_called = false;
+            private $ts;
+
+            public function __construct(string $provider_identity, $cursor, int $ts)
+            {
+                parent::__construct($provider_identity, $cursor);
+                $this->ts = $ts;
+            }
+
+            public function get_timestamp_ms(): int
+            {
+                return $this->ts;
+            }
+
+            public static function pre_fetch(array $elements): void
+            {
+                // Mark that pre_fetch was called by setting a static property
+                // We'll use a simple approach to track this
+                foreach ($elements as $element) {
+                    if ($element instanceof self) {
+                        $element->pre_fetch_called = true;
+                    }
+                }
+            }
+
+            public function get_cache_key(): string
+            {
+                return 'test_cache_key1';
+            }
+
+            protected function to_string(): string
+            {
+                return 'test_element1';
+            }
+
+            public function to_template(): array
+            {
+                return [];
+            }
+
+            public static function from_template(StreamContext $context): self
+            {
+                return new self('test_provider1', null, 1400000000000);
+            }
+        };
+
+        $element2 = new class('test_provider2', null, 1400000000001) extends LeafStreamElement implements ChronologicalStreamElement {
+            public $pre_fetch_called = false;
+            private $ts;
+
+            public function __construct(string $provider_identity, $cursor, int $ts)
+            {
+                parent::__construct($provider_identity, $cursor);
+                $this->ts = $ts;
+            }
+
+            public function get_timestamp_ms(): int
+            {
+                return $this->ts;
+            }
+
+            public static function pre_fetch(array $elements): void
+            {
+                // Mark that pre_fetch was called by setting a static property
+                // We'll use a simple approach to track this
+                foreach ($elements as $element) {
+                    if ($element instanceof self) {
+                        $element->pre_fetch_called = true;
+                    }
+                }
+            }
+
+            public function get_cache_key(): string
+            {
+                return 'test_cache_key2';
+            }
+
+            protected function to_string(): string
+            {
+                return 'test_element2';
+            }
+
+            public function to_template(): array
+            {
+                return [];
+            }
+
+            public static function from_template(StreamContext $context): self
+            {
+                return new self('test_provider2', null, 1400000000001);
+            }
+        };
+
+        // Create a mock stream that returns our test elements
+        $stream = $this->getMockBuilder(Stream::class)
+            ->setConstructorArgs(['test_stream'])
+            ->getMockForAbstractClass();
+
+        $stream->method('_enumerate')
+            ->willReturn(new StreamResult(false, [$element1, $element2]));
+
+        $mixer = new ChronologicalStreamMixer(
+            new NoopInjector('test_injector'),
+            'test_mixer',
+            [$stream],
+            QUERY_SORT_DESC
+        );
+
+        // Enumerate to trigger the mixing process
+        $result = $mixer->enumerate(2);
+
+        // Verify that pre_fetch was called on both elements
+        $this->assertTrue($element1->pre_fetch_called);
+        $this->assertTrue($element2->pre_fetch_called);
+        $this->assertCount(2, $result->get_elements());
     }
 }
