@@ -171,4 +171,13 @@ abstract class RoundRobinStreamMixer extends StreamMixer
      * @return int[] The position array.
      */
     abstract protected function get_main_stream_positions(int $count, ?StreamTracer $tracer = null): array;
+
+    /**
+     * @inheritDoc
+     */
+    #[\Override]
+    protected function can_enumerate(): bool
+    {
+        return parent::can_enumerate() && $this->main->can_enumerate();
+    }
 }

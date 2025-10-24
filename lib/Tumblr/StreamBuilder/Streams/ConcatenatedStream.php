@@ -202,4 +202,22 @@ class ConcatenatedStream extends Stream
             }
         }
     }
+
+    /**
+     * @inheritDoc
+     */
+    #[\Override]
+    protected function can_enumerate(): bool
+    {
+        if (!parent::can_enumerate()) {
+            return false;
+        }
+        foreach ($this->streams as $stream) {
+            if ($stream->can_enumerate()) {
+                // as long as we can enumerate one stream, we can enumerate the concatenated stream.
+                return true;
+            }
+        }
+        return false;
+    }
 }

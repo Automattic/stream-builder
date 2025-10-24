@@ -135,8 +135,11 @@ final class CursorlessFilteredStream extends WrapStream
      * @param int $want_count How many elements are desired
      * @param StreamCursor|null $inner_cursor The cursor from which to fetch the inner stream.
      * @param int $depth The number of retries remaining.
-     * @param StreamTracer $tracer The tracer traces filter process.
-     * @param EnumerationOptions $option The option for enumeration
+     * @param StreamTracer|null $tracer The tracer traces filter process.
+     * @param EnumerationOptions|null $option The option for enumeration
+     * @param bool|null &$propagated_is_exhaustive Populated by reference during recursion. Carries the inner stream's
+     *        is_exhaustive value from the deepest recursive call, allowing this method to report exhaustion only when
+     *        the inner stream actually ran out-avoiding false-positives if the deepest filtered batch is empty
      * @return StreamResult
      */
     private function _filter_rec(
@@ -144,7 +147,8 @@ final class CursorlessFilteredStream extends WrapStream
         ?StreamCursor $inner_cursor,
         int $depth,
         ?StreamTracer $tracer = null,
-        ?EnumerationOptions $option = null
+        ?EnumerationOptions $option = null,
+        ?bool &$propagated_is_exhaustive = null
     ): StreamResult {
         $fetch_count = intval(ceil($want_count * (1.0 + max(0.0, $this->overfetch_ratio))));
 
@@ -155,6 +159,7 @@ final class CursorlessFilteredStream extends WrapStream
         // if we got nothing, abort. we can't recurse because the cursor would be unchanged:
         if ($inner_result->get_size() == 0) {
             $tracer && $tracer->filter_abort($this, $want_count, $inner_cursor, $depth);
+            $propagated_is_exhaustive = true;
             return new StreamResult(true, []);
         }
 
@@ -176,6 +181,7 @@ final class CursorlessFilteredStream extends WrapStream
             $tracer && $tracer->filter_terminate($this, $inner_cursor, $depth, $is_exhaustive);
 
             // we're done, return all the elements.
+            $propagated_is_exhaustive = $is_exhaustive;
             return new StreamResult($is_exhaustive, array_splice($retained, 0, $want_count));
         } else {
             // not done yet. need to figure out the next cursor and filter state with which to recurse!
@@ -184,12 +190,17 @@ final class CursorlessFilteredStream extends WrapStream
 
             $tracer && $tracer->filter_retry($this, $inner_cursor, $retry_cursor, $depth, $want_count, $inner_result->get_size(), count($retained));
 
-            return StreamResult::prepend($retained, $this->_filter_rec(
+            $rec_result = $this->_filter_rec(
                 $want_count - count($retained),
                 $retry_cursor,
                 $depth - 1,
-                $tracer
-            ));
+                $tracer,
+                $option,
+                $propagated_is_exhaustive
+            );
+
+            $result = array_merge($retained, $rec_result->get_elements());
+            return new StreamResult($propagated_is_exhaustive, $result);
         }
     }
 

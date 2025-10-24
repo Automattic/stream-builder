@@ -23,11 +23,15 @@ namespace Tests\Unit\Tumblr\StreamBuilder\Streams;
 
 use Test\Mock\Tumblr\StreamBuilder\StreamElements\MockedPostRefElement;
 use Tumblr\StreamBuilder\CacheProvider;
+use Tumblr\StreamBuilder\EnumerationOptions\EnumerationOptions;
+use Tumblr\StreamBuilder\StreamContext;
+use Tumblr\StreamBuilder\StreamCursors\StreamCursor;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\Streams\CachedStream;
 use Tumblr\StreamBuilder\Streams\NullStream;
 use Tumblr\StreamBuilder\Streams\Stream;
+use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
 use Tumblr\StreamBuilder\TransientCacheProvider;
 
 /**
@@ -117,6 +121,64 @@ class CachedStreamTest extends \PHPUnit\Framework\TestCase
                 $mocked_element,
                 $mocked_element,
             ]));
+        $stream->enumerate(10);
+    }
+
+    /**
+     * Test when the inner stream returns false for `can_enumerate`,
+     * CachedStream returns empty results when enumerating, even when cache is hit.
+     */
+    public function testCacheHitCannotEnumerateInner()
+    {
+        // Create a test double for the inner stream that overrides can_enumerate
+        $inner_stream = new class('ello') extends Stream {
+            /**
+             * @inheritDoc
+             */
+            #[\Override]
+            protected function _enumerate(
+                int $count,
+                ?StreamCursor $cursor = null,
+                ?StreamTracer $tracer = null,
+                ?EnumerationOptions $option = null
+            ): StreamResult {
+                return new StreamResult(false, []);
+            }
+
+            /**
+             * @inheritDoc
+             */
+            #[\Override]
+            protected function can_enumerate(): bool
+            {
+                return false;
+            }
+
+            /**
+             * @inheritDoc
+             */
+            #[\Override]
+            public static function from_template(StreamContext $context)
+            {
+                return new self($context->get_current_identity());
+            }
+        };
+        $cache_provider = $this->getMockBuilder(CacheProvider::class)
+            ->getMock();
+        $cache_provider
+            ->expects($this->never())
+            ->method('set')
+            ->willReturn('');
+        // should not read from cache when "can_enumerate" returns false
+        $cache_provider
+            ->expects($this->never())
+            ->method('get')
+            ->willReturn('sgnwjgnwj');
+        $stream = $this->getMockBuilder(CachedStream::class)
+            ->setConstructorArgs([$inner_stream, $cache_provider, 5, 10, 10, 'ello'])
+            ->getMock();
+        $stream->method('deserialize')
+            ->willReturn(new StreamResult(false, []));
         $stream->enumerate(10);
     }
 
