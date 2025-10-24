@@ -186,10 +186,10 @@ class CappedPostRankerTest extends \PHPUnit\Framework\TestCase
             $this->assertSame($post_id, $original_element->get_post_id());
         }
         # Which posts belong to which blogs
-        $expected_blog_to_posts_ids = [111 => [1, 2, 3, 4, 5], 222 => [6, 7], 333 => [8]];
-        $this->assertEquals($blog_to_posts_ids, $expected_blog_to_posts_ids);
+        $expected_blog_to_posts_ids = [111 => ['1', '2', '3', '4', '5'], 222 => ['6', '7'], 333 => ['8']];
+        $this->assertSame($expected_blog_to_posts_ids, $blog_to_posts_ids);
         $expected_stats_per_blog = [111 => [5, 0], 222 => [2, 0], 333 => [1, 0]];
-        $this->assertEquals($stats_per_blog, $expected_stats_per_blog);
+        $this->assertSame($expected_stats_per_blog, $stats_per_blog);
     }
 
     /**
