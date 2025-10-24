@@ -55,4 +55,4 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           git fetch --depth=1 origin $GITHUB_BASE_REF
-          vendor/bin/infection --coverage=build/logs --threads=$(nproc) --show-mutations --no-interaction --only-covered --only-covering-test-cases --skip-initial-tests --git-diff-lines --git-diff-base=origin/$GITHUB_BASE_REF
+          vendor/bin/infection --coverage=build/logs --threads=$(nproc) --show-mutations --no-interaction --only-covering-test-cases --skip-initial-tests --git-diff-lines --git-diff-base=origin/$GITHUB_BASE_REF
