@@ -99,4 +99,68 @@ class StreamTest extends \PHPUnit\Framework\TestCase
             ->setConstructorArgs([''])
             ->getMockForAbstractClass();
     }
+
+    /**
+     * Test that the array_map function in enumerate method is executed
+     * This test verifies that the escaped mutant (removal of setComponent call) would be caught
+     */
+    public function test_enumerate_executes_array_map_function()
+    {
+        // Create a mock stream that tracks if _enumerate was called
+        $stream = $this->getMockBuilder(Stream::class)
+            ->setConstructorArgs(['test_stream'])
+            ->setMethods(['_enumerate'])
+            ->getMockForAbstractClass();
+
+        // Create a mock element that tracks component setting
+        $mock_element = $this->getMockBuilder(\Tumblr\StreamBuilder\StreamElements\StreamElement::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $mock_element->method('getComponent')->willReturn(null);
+        $mock_element->expects($this->once())
+            ->method('setComponent')
+            ->with('test_component');
+
+        $stream->method('_enumerate')
+            ->willReturn(new \Tumblr\StreamBuilder\StreamResult(false, [$mock_element]));
+
+        // Set the component on the stream
+        $stream->setComponent('test_component');
+
+        // Enumerate and verify the element's setComponent was called
+        $result = $stream->enumerate(1);
+        $this->assertCount(1, $result->get_elements());
+    }
+
+    /**
+     * Test that elements with existing components are not overridden
+     */
+    public function test_enumerate_does_not_override_existing_component()
+    {
+        // Create a mock stream
+        $stream = $this->getMockBuilder(Stream::class)
+            ->setConstructorArgs(['test_stream'])
+            ->setMethods(['_enumerate'])
+            ->getMockForAbstractClass();
+
+        // Create a mock element that already has a component
+        $mock_element = $this->getMockBuilder(\Tumblr\StreamBuilder\StreamElements\StreamElement::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $mock_element->method('getComponent')->willReturn('existing_component');
+        $mock_element->expects($this->never())
+            ->method('setComponent');
+
+        $stream->method('_enumerate')
+            ->willReturn(new \Tumblr\StreamBuilder\StreamResult(false, [$mock_element]));
+
+        // Set a component on the stream
+        $stream->setComponent('test_component');
+
+        // Enumerate and verify setComponent was not called
+        $result = $stream->enumerate(1);
+        $this->assertCount(1, $result->get_elements());
+    }
 }
