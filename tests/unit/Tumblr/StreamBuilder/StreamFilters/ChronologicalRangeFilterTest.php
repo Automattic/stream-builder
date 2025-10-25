@@ -173,6 +173,116 @@ class ChronologicalRangeFilterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test that pre_fetch_all is called on elements during filtering
+     * This test verifies that the escaped mutant (removal of pre_fetch_all call) would be caught
+     */
+    public function test_pre_fetch_all_is_called_on_elements(): void
+    {
+        // Create test elements that track pre_fetch calls
+        $test_element1 = new class(1000) extends LeafStreamElement implements ChronologicalStreamElement {
+            public $pre_fetch_called = false;
+            private $ts;
+            
+            public function __construct(int $timestamp_ms)
+            {
+                parent::__construct('test_provider', null);
+                $this->ts = $timestamp_ms;
+            }
+            
+            public function get_timestamp_ms(): int
+            {
+                return $this->ts;
+            }
+            
+            public static function pre_fetch(array $elements): void
+            {
+                // Mark that pre_fetch was called by setting a static property
+                foreach ($elements as $element) {
+                    if ($element instanceof self) {
+                        $element->pre_fetch_called = true;
+                    }
+                }
+            }
+            
+            public function get_cache_key(): string
+            {
+                return 'test_cache_key1';
+            }
+            
+            protected function to_string(): string
+            {
+                return 'test_element1';
+            }
+            
+            public function to_template(): array
+            {
+                return [];
+            }
+            
+            public static function from_template(StreamContext $context): self
+            {
+                return new self(1000);
+            }
+        };
+
+        $test_element2 = new class(2000) extends LeafStreamElement implements ChronologicalStreamElement {
+            public $pre_fetch_called = false;
+            private $ts;
+            
+            public function __construct(int $timestamp_ms)
+            {
+                parent::__construct('test_provider', null);
+                $this->ts = $timestamp_ms;
+            }
+            
+            public function get_timestamp_ms(): int
+            {
+                return $this->ts;
+            }
+            
+            public static function pre_fetch(array $elements): void
+            {
+                // Mark that pre_fetch was called by setting a static property
+                foreach ($elements as $element) {
+                    if ($element instanceof self) {
+                        $element->pre_fetch_called = true;
+                    }
+                }
+            }
+            
+            public function get_cache_key(): string
+            {
+                return 'test_cache_key2';
+            }
+            
+            protected function to_string(): string
+            {
+                return 'test_element2';
+            }
+            
+            public function to_template(): array
+            {
+                return [];
+            }
+            
+            public static function from_template(StreamContext $context): self
+            {
+                return new self(2000);
+            }
+        };
+
+        $elements = [$test_element1, $test_element2];
+        $filter = new ChronologicalRangeFilter('test_filter', 3000, 500, true);
+
+        // Call filter to trigger pre_fetch
+        $result = $filter->filter($elements);
+
+        // Verify that pre_fetch was called on both elements
+        $this->assertTrue($test_element1->pre_fetch_called);
+        $this->assertTrue($test_element2->pre_fetch_called);
+    }
+
+    /**
      * @param int $timestamp_ms The timestamp.
      * @return LeafStreamElement|ChronologicalStreamElement
      * @throws \BadMethodCallException JUST KIDDING, it doesn't, but PHPCBF thinks it does :D.
