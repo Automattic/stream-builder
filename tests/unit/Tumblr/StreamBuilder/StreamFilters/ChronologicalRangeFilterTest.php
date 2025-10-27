@@ -180,20 +180,33 @@ class ChronologicalRangeFilterTest extends \PHPUnit\Framework\TestCase
     {
         // Create test elements that track pre_fetch calls
         $test_element1 = new class(1000) extends LeafStreamElement implements ChronologicalStreamElement {
-            public $pre_fetch_called = false;
-            private $ts;
-            
+            /** @var bool $pre_fetch_called */
+            public bool $pre_fetch_called = false;
+            /** @var int $ts */
+            private int $ts;
+
+            /**
+             * @param int $timestamp_ms Timestamp
+             */
             public function __construct(int $timestamp_ms)
             {
                 parent::__construct('test_provider', null);
                 $this->ts = $timestamp_ms;
             }
-            
+
+            /**
+             * @inheritDoc
+             */
+            #[\Override]
             public function get_timestamp_ms(): int
             {
                 return $this->ts;
             }
-            
+
+            /**
+             * @param array $elements Elements
+             * @return void
+             */
             public static function pre_fetch(array $elements): void
             {
                 // Mark that pre_fetch was called by setting a static property
@@ -203,22 +216,38 @@ class ChronologicalRangeFilterTest extends \PHPUnit\Framework\TestCase
                     }
                 }
             }
-            
+
+            /**
+             * @inheritDoc
+             */
+            #[\Override]
             public function get_cache_key(): string
             {
                 return 'test_cache_key1';
             }
-            
+
+            /**
+             * @inheritDoc
+             */
+            #[\Override]
             protected function to_string(): string
             {
                 return 'test_element1';
             }
-            
+
+            /**
+             * @inheritDoc
+             */
+            #[\Override]
             public function to_template(): array
             {
                 return [];
             }
-            
+
+            /**
+             * @inheritDoc
+             */
+            #[\Override]
             public static function from_template(StreamContext $context): self
             {
                 return new self(1000);
@@ -226,20 +255,33 @@ class ChronologicalRangeFilterTest extends \PHPUnit\Framework\TestCase
         };
 
         $test_element2 = new class(2000) extends LeafStreamElement implements ChronologicalStreamElement {
-            public $pre_fetch_called = false;
-            private $ts;
-            
+            /** @var bool $pre_fetch_called */
+            public bool $pre_fetch_called = false;
+            /** @var int $ts */
+            private int $ts;
+
+            /**
+             * @param int $timestamp_ms Ts
+             */
             public function __construct(int $timestamp_ms)
             {
                 parent::__construct('test_provider', null);
                 $this->ts = $timestamp_ms;
             }
-            
+
+            /**
+             * @inheritDoc
+             */
+            #[\Override]
             public function get_timestamp_ms(): int
             {
                 return $this->ts;
             }
-            
+
+            /**
+             * @param array $elements Elements
+             * @return void
+             */
             public static function pre_fetch(array $elements): void
             {
                 // Mark that pre_fetch was called by setting a static property
@@ -249,22 +291,38 @@ class ChronologicalRangeFilterTest extends \PHPUnit\Framework\TestCase
                     }
                 }
             }
-            
+
+            /**
+             * @inheritDoc
+             */
+            #[\Override]
             public function get_cache_key(): string
             {
                 return 'test_cache_key2';
             }
-            
+
+            /**
+             * @inheritDoc
+             */
+            #[\Override]
             protected function to_string(): string
             {
                 return 'test_element2';
             }
-            
+
+            /**
+             * @inheritDoc
+             */
+            #[\Override]
             public function to_template(): array
             {
                 return [];
             }
-            
+
+            /**
+             * @inheritDoc
+             */
+            #[\Override]
             public static function from_template(StreamContext $context): self
             {
                 return new self(2000);

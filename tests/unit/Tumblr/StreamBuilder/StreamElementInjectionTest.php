@@ -108,7 +108,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
         $injector = $this->getMockBuilder(StreamInjector::class)
             ->setConstructorArgs(['awesome_injector'])
             ->getMock();
-        
+
         $injector->method('getComponent')
             ->willReturn('injector_component');
 
@@ -118,7 +118,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             public $component_set_called = false;
             /** @var string|null */
             public $component_value = null;
-            
+
             /**
              * @param string|null $component The component to set
              * @return void
@@ -129,7 +129,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
                 $this->component_value = $component;
                 parent::setComponent($component);
             }
-            
+
             /**
              * @return string|null
              */
@@ -137,7 +137,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             {
                 return $this->component_value;
             }
-            
+
             /**
              * @return string
              */
@@ -145,7 +145,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             {
                 return 'test_element';
             }
-            
+
             /**
              * @return StreamElement
              */
@@ -153,7 +153,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             {
                 return $this;
             }
-            
+
             /**
              * @return StreamElement
              */
@@ -161,7 +161,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             {
                 return $this;
             }
-            
+
             /**
              * @return string
              */
@@ -169,7 +169,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             {
                 return 'test_cache_key';
             }
-            
+
             /**
              * @param string $header The debug header
              * @param string $field The debug field
@@ -180,7 +180,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             {
                 // No-op
             }
-            
+
             /**
              * @return array
              */
@@ -188,7 +188,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             {
                 return [];
             }
-            
+
             /**
              * @return string
              */
@@ -196,7 +196,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             {
                 return 'test_element';
             }
-            
+
             /**
              * @param \Tumblr\StreamBuilder\StreamContext $context The stream context
              * @return self The created instance
@@ -208,7 +208,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
         };
 
         new StreamElementInjection($injector, $element);
-        
+
         // Verify that setComponent was called
         $this->assertTrue($element->component_set_called);
         $this->assertSame('injector_component', $element->component_value);
@@ -223,7 +223,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
         $injector = $this->getMockBuilder(StreamInjector::class)
             ->setConstructorArgs(['awesome_injector'])
             ->getMock();
-        
+
         $injector->method('getComponent')
             ->willReturn('injector_component');
 
@@ -231,7 +231,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
         $element = new class('test_provider') extends StreamElement {
             /** @var bool */
             public $component_set_called = false;
-            
+
             /**
              * @param string|null $component The component to set
              * @return void
@@ -241,7 +241,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
                 $this->component_set_called = true;
                 parent::setComponent($component);
             }
-            
+
             /**
              * @return string
              */
@@ -249,7 +249,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             {
                 return 'existing_component';
             }
-            
+
             /**
              * @return string
              */
@@ -257,7 +257,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             {
                 return 'test_element';
             }
-            
+
             /**
              * @return StreamElement
              */
@@ -265,7 +265,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             {
                 return $this;
             }
-            
+
             /**
              * @return StreamElement
              */
@@ -273,7 +273,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             {
                 return $this;
             }
-            
+
             /**
              * @return string
              */
@@ -281,7 +281,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             {
                 return 'test_cache_key';
             }
-            
+
             /**
              * @param string $header The debug header
              * @param string $field The debug field
@@ -292,7 +292,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             {
                 // No-op
             }
-            
+
             /**
              * @return array
              */
@@ -300,7 +300,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             {
                 return [];
             }
-            
+
             /**
              * @return string
              */
@@ -308,7 +308,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             {
                 return 'test_element';
             }
-            
+
             /**
              * @param \Tumblr\StreamBuilder\StreamContext $context The stream context
              * @return self The created instance
@@ -320,7 +320,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
         };
 
         new StreamElementInjection($injector, $element);
-        
+
         // Verify that setComponent was not called
         $this->assertFalse($element->component_set_called);
     }
@@ -334,7 +334,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
         $injector = $this->getMockBuilder(StreamInjector::class)
             ->setConstructorArgs(['awesome_injector'])
             ->getMock();
-        
+
         $injector->method('getComponent')
             ->willReturn('injector_component');
 
@@ -344,7 +344,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             public $component_set_called = false;
             /** @var string|null */
             public $component_value = null;
-            
+
             /**
              * @param string|null $component The component to set
              * @return void
@@ -355,7 +355,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
                 $this->component_value = $component;
                 parent::setComponent($component);
             }
-            
+
             /**
              * @return string
              */
@@ -363,7 +363,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             {
                 return '';
             }
-            
+
             /**
              * @return string
              */
@@ -371,7 +371,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             {
                 return 'test_element';
             }
-            
+
             /**
              * @return StreamElement
              */
@@ -379,7 +379,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             {
                 return $this;
             }
-            
+
             /**
              * @return StreamElement
              */
@@ -387,7 +387,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             {
                 return $this;
             }
-            
+
             /**
              * @return string
              */
@@ -395,7 +395,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             {
                 return 'test_cache_key';
             }
-            
+
             /**
              * @param string $header The debug header
              * @param string $field The debug field
@@ -406,7 +406,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             {
                 // No-op
             }
-            
+
             /**
              * @return array
              */
@@ -414,7 +414,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             {
                 return [];
             }
-            
+
             /**
              * @return string
              */
@@ -422,7 +422,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             {
                 return 'test_element';
             }
-            
+
             /**
              * @param \Tumblr\StreamBuilder\StreamContext $context The stream context
              * @return self The created instance
@@ -434,7 +434,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
         };
 
         new StreamElementInjection($injector, $element);
-        
+
         // Verify that setComponent was called
         $this->assertTrue($element->component_set_called);
         $this->assertSame('injector_component', $element->component_value);
