@@ -114,48 +114,95 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
 
         // Create a test element that tracks component setting
         $element = new class('test_provider') extends StreamElement {
+            /** @var bool */
             public $component_set_called = false;
+            /** @var string|null */
             public $component_value = null;
             
-            public function setComponent(?string $component): void {
+            /**
+             * @param string|null $component The component to set
+             * @return void
+             */
+            public function setComponent(?string $component): void
+            {
                 $this->component_set_called = true;
                 $this->component_value = $component;
                 parent::setComponent($component);
             }
             
-            public function getComponent(): ?string {
+            /**
+             * @return string|null
+             */
+            public function getComponent(): ?string
+            {
                 return $this->component_value;
             }
             
-            public function get_element_id(): string {
+            /**
+             * @return string
+             */
+            public function get_element_id(): string
+            {
                 return 'test_element';
             }
             
-            public function get_original_element(): StreamElement {
+            /**
+             * @return StreamElement
+             */
+            public function get_original_element(): StreamElement
+            {
                 return $this;
             }
             
-            public function get_parent_element(): StreamElement {
+            /**
+             * @return StreamElement
+             */
+            public function get_parent_element(): StreamElement
+            {
                 return $this;
             }
             
-            public function get_cache_key(): string {
+            /**
+             * @return string
+             */
+            public function get_cache_key(): string
+            {
                 return 'test_cache_key';
             }
             
-            public function add_debug_info(string $header, string $field, $value): void {
+            /**
+             * @param string $header The debug header
+             * @param string $field The debug field
+             * @param mixed $value The debug value
+             * @return void
+             */
+            public function add_debug_info(string $header, string $field, mixed $value): void
+            {
                 // No-op
             }
             
-            public function get_debug_info(): array {
+            /**
+             * @return array
+             */
+            public function get_debug_info(): array
+            {
                 return [];
             }
             
-            public function to_string(): string {
+            /**
+             * @return string
+             */
+            public function to_string(): string
+            {
                 return 'test_element';
             }
             
-            public static function from_template(\Tumblr\StreamBuilder\StreamContext $context) {
+            /**
+             * @param \Tumblr\StreamBuilder\StreamContext $context The stream context
+             * @return self The created instance
+             */
+            public static function from_template(\Tumblr\StreamBuilder\StreamContext $context)
+            {
                 return new self('test_provider');
             }
         };
@@ -164,7 +211,7 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
         
         // Verify that setComponent was called
         $this->assertTrue($element->component_set_called);
-        $this->assertEquals('injector_component', $element->component_value);
+        $this->assertSame('injector_component', $element->component_value);
     }
 
     /**
@@ -182,46 +229,92 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
 
         // Create a test element that already has a component
         $element = new class('test_provider') extends StreamElement {
+            /** @var bool */
             public $component_set_called = false;
             
-            public function setComponent(?string $component): void {
+            /**
+             * @param string|null $component The component to set
+             * @return void
+             */
+            public function setComponent(?string $component): void
+            {
                 $this->component_set_called = true;
                 parent::setComponent($component);
             }
             
-            public function getComponent(): ?string {
+            /**
+             * @return string
+             */
+            public function getComponent(): ?string
+            {
                 return 'existing_component';
             }
             
-            public function get_element_id(): string {
+            /**
+             * @return string
+             */
+            public function get_element_id(): string
+            {
                 return 'test_element';
             }
             
-            public function get_original_element(): StreamElement {
+            /**
+             * @return StreamElement
+             */
+            public function get_original_element(): StreamElement
+            {
                 return $this;
             }
             
-            public function get_parent_element(): StreamElement {
+            /**
+             * @return StreamElement
+             */
+            public function get_parent_element(): StreamElement
+            {
                 return $this;
             }
             
-            public function get_cache_key(): string {
+            /**
+             * @return string
+             */
+            public function get_cache_key(): string
+            {
                 return 'test_cache_key';
             }
             
-            public function add_debug_info(string $header, string $field, $value): void {
+            /**
+             * @param string $header The debug header
+             * @param string $field The debug field
+             * @param mixed $value The debug value
+             * @return void
+             */
+            public function add_debug_info(string $header, string $field, mixed $value): void
+            {
                 // No-op
             }
             
-            public function get_debug_info(): array {
+            /**
+             * @return array
+             */
+            public function get_debug_info(): array
+            {
                 return [];
             }
             
-            public function to_string(): string {
+            /**
+             * @return string
+             */
+            public function to_string(): string
+            {
                 return 'test_element';
             }
             
-            public static function from_template(\Tumblr\StreamBuilder\StreamContext $context) {
+            /**
+             * @param \Tumblr\StreamBuilder\StreamContext $context The stream context
+             * @return self The created instance
+             */
+            public static function from_template(\Tumblr\StreamBuilder\StreamContext $context)
+            {
                 return new self('test_provider');
             }
         };
@@ -247,48 +340,95 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
 
         // Create a test element with empty component
         $element = new class('test_provider') extends StreamElement {
+            /** @var bool */
             public $component_set_called = false;
+            /** @var string|null */
             public $component_value = null;
             
-            public function setComponent(?string $component): void {
+            /**
+             * @param string|null $component The component to set
+             * @return void
+             */
+            public function setComponent(?string $component): void
+            {
                 $this->component_set_called = true;
                 $this->component_value = $component;
                 parent::setComponent($component);
             }
             
-            public function getComponent(): ?string {
+            /**
+             * @return string
+             */
+            public function getComponent(): ?string
+            {
                 return '';
             }
             
-            public function get_element_id(): string {
+            /**
+             * @return string
+             */
+            public function get_element_id(): string
+            {
                 return 'test_element';
             }
             
-            public function get_original_element(): StreamElement {
+            /**
+             * @return StreamElement
+             */
+            public function get_original_element(): StreamElement
+            {
                 return $this;
             }
             
-            public function get_parent_element(): StreamElement {
+            /**
+             * @return StreamElement
+             */
+            public function get_parent_element(): StreamElement
+            {
                 return $this;
             }
             
-            public function get_cache_key(): string {
+            /**
+             * @return string
+             */
+            public function get_cache_key(): string
+            {
                 return 'test_cache_key';
             }
             
-            public function add_debug_info(string $header, string $field, $value): void {
+            /**
+             * @param string $header The debug header
+             * @param string $field The debug field
+             * @param mixed $value The debug value
+             * @return void
+             */
+            public function add_debug_info(string $header, string $field, mixed $value): void
+            {
                 // No-op
             }
             
-            public function get_debug_info(): array {
+            /**
+             * @return array
+             */
+            public function get_debug_info(): array
+            {
                 return [];
             }
             
-            public function to_string(): string {
+            /**
+             * @return string
+             */
+            public function to_string(): string
+            {
                 return 'test_element';
             }
             
-            public static function from_template(\Tumblr\StreamBuilder\StreamContext $context) {
+            /**
+             * @param \Tumblr\StreamBuilder\StreamContext $context The stream context
+             * @return self The created instance
+             */
+            public static function from_template(\Tumblr\StreamBuilder\StreamContext $context)
+            {
                 return new self('test_provider');
             }
         };
@@ -297,6 +437,6 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
         
         // Verify that setComponent was called
         $this->assertTrue($element->component_set_called);
-        $this->assertEquals('injector_component', $element->component_value);
+        $this->assertSame('injector_component', $element->component_value);
     }
 }
