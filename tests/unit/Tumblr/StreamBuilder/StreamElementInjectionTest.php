@@ -21,6 +21,7 @@
 
 namespace Test\Tumblr\StreamBuilder;
 
+use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamElementInjection;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamInjectors\StreamInjector;
@@ -170,17 +171,6 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
                 return 'test_cache_key';
             }
 
-            /**
-             * @param string $header The debug header
-             * @param string $field The debug field
-             * @param mixed $value The debug value
-             * @return void
-             * @phpcs:ignore TumblrApp.Commenting.FunctionComment.TypeHintMissing -- mixed type hint is valid in PHP 8.0+
-             */
-            public function add_debug_info(string $header, string $field, mixed $value): void
-            {
-                // No-op
-            }
 
             /**
              * @return array
@@ -205,6 +195,14 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             public static function from_template(\Tumblr\StreamBuilder\StreamContext $context)
             {
                 return new self('test_provider');
+            }
+
+            /**
+             * @inheritDoc
+             */
+            public function add_debug_info(string $header, string $field, $value)
+            {
+                // no op
             }
         };
 
@@ -284,13 +282,9 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             }
 
             /**
-             * @param string $header The debug header
-             * @param string $field The debug field
-             * @param mixed $value The debug value
-             * @return void
-             * @phpcs:ignore TumblrApp.Commenting.FunctionComment.TypeHintMissing -- mixed type hint is valid in PHP 8.0+
+             * @inheritDoc
              */
-            public function add_debug_info(string $header, string $field, mixed $value): void
+            public function add_debug_info(string $header, string $field, $value): void
             {
                 // No-op
             }
@@ -312,10 +306,10 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             }
 
             /**
-             * @param \Tumblr\StreamBuilder\StreamContext $context The stream context
-             * @return self The created instance
+             * @param StreamContext $context The stream context
+             * @return StreamElement The created instance
              */
-            public static function from_template(\Tumblr\StreamBuilder\StreamContext $context)
+            public static function from_template(StreamContext $context): self
             {
                 return new self('test_provider');
             }
@@ -399,13 +393,9 @@ class StreamElementInjectionTest extends \PHPUnit\Framework\TestCase
             }
 
             /**
-             * @param string $header The debug header
-             * @param string $field The debug field
-             * @param mixed $value The debug value
-             * @return void
-             * @phpcs:ignore TumblrApp.Commenting.FunctionComment.TypeHintMissing -- mixed type hint is valid in PHP 8.0+
+             * @inheritDoc
              */
-            public function add_debug_info(string $header, string $field, mixed $value): void
+            public function add_debug_info(string $header, string $field, $value): void
             {
                 // No-op
             }
