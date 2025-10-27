@@ -335,7 +335,7 @@ class ChronologicalStreamMixerTest extends \PHPUnit\Framework\TestCase
     public function test_pre_fetch_all_is_called_on_elements(): void
     {
         // Create a test element that tracks pre_fetch calls
-        $test_element = new class('test_provider', null, 1400000000000) extends LeafStreamElement implements ChronologicalStreamElement {
+        $test_element = new class('test_provider', 1400000000000, null) extends LeafStreamElement implements ChronologicalStreamElement {
             /** @var bool $pre_fetch_called */
             public bool $pre_fetch_called = false;
 
@@ -344,10 +344,10 @@ class ChronologicalStreamMixerTest extends \PHPUnit\Framework\TestCase
 
             /**
              * @param string $provider_identity Identity
-             * @param StreamCursor $cursor Cursor
              * @param int $ts Timestamp
+             * @param StreamCursor $cursor Cursor
              */
-            public function __construct(string $provider_identity, StreamCursor $cursor, int $ts)
+            public function __construct(string $provider_identity, int $ts, ?StreamCursor $cursor = null)
             {
                 parent::__construct($provider_identity, $cursor);
                 $this->ts = $ts;
@@ -437,7 +437,7 @@ class ChronologicalStreamMixerTest extends \PHPUnit\Framework\TestCase
     public function test_pre_fetch_all_is_called_on_multiple_elements(): void
     {
         // Create test elements that track pre_fetch calls
-        $element1 = new class('test_provider1', null, 1400000000000) extends LeafStreamElement implements ChronologicalStreamElement {
+        $element1 = new class('test_provider1', 1400000000000, null) extends LeafStreamElement implements ChronologicalStreamElement {
             /** @var bool $pre_fetch_called */
             public $pre_fetch_called = false;
             /** @var int $ts */
@@ -445,10 +445,10 @@ class ChronologicalStreamMixerTest extends \PHPUnit\Framework\TestCase
 
             /**
              * @param string $provider_identity Identity
-             * @param StreamCursor $cursor Cursor
              * @param int $ts Timestamp
+             * @param StreamCursor|null $cursor Cursor
              */
-            public function __construct(string $provider_identity, StreamCursor $cursor, int $ts)
+            public function __construct(string $provider_identity, int $ts, ?StreamCursor $cursor = null)
             {
                 parent::__construct($provider_identity, $cursor);
                 $this->ts = $ts;
@@ -514,7 +514,7 @@ class ChronologicalStreamMixerTest extends \PHPUnit\Framework\TestCase
             }
         };
 
-        $element2 = new class('test_provider2', null, 1400000000001) extends LeafStreamElement implements ChronologicalStreamElement {
+        $element2 = new class('test_provider2', 1400000000001, null) extends LeafStreamElement implements ChronologicalStreamElement {
             /** @var bool $pre_fetch_called */
             public $pre_fetch_called = false;
             /** @var int $ts */
@@ -522,10 +522,10 @@ class ChronologicalStreamMixerTest extends \PHPUnit\Framework\TestCase
 
             /**
              * @param string $provider_identity Identity
-             * @param StreamCursor $cursor Cursor
              * @param int $ts Timestamp
+             * @param StreamCursor|null $cursor Cursor
              */
-            public function __construct(string $provider_identity, StreamCursor $cursor, int $ts)
+            public function __construct(string $provider_identity, int $ts, ?StreamCursor $cursor = null)
             {
                 parent::__construct($provider_identity, $cursor);
                 $this->ts = $ts;
