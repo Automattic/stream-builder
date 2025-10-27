@@ -37,31 +37,51 @@ class StreamElementFilterTest extends \PHPUnit\Framework\TestCase
     {
         // Create a test filter that tracks pre_fetch calls
         $test_filter = new class('test_filter') extends StreamElementFilter {
+            /** @var bool */
             public $pre_fetch_called = false;
+            /** @var array */
             public $pre_fetch_elements = [];
             
+            /**
+             * @param array $elements The elements to pre-fetch
+             * @return void
+             */
             protected function pre_fetch(array $elements): void
             {
                 $this->pre_fetch_called = true;
                 $this->pre_fetch_elements = $elements;
             }
             
+            /**
+             * @param StreamElement $e The element to check
+             * @return bool Whether to release the element
+             */
             protected function should_release(StreamElement $e): bool
             {
                 // Always retain elements for this test
                 return false;
             }
             
+            /**
+             * @return string|null The cache key
+             */
             public function get_cache_key(): ?string
             {
                 return 'test_filter_cache_key';
             }
             
+            /**
+             * @return array The template array
+             */
             public function to_template(): array
             {
                 return ['_type' => 'TestFilter'];
             }
             
+            /**
+             * @param \Tumblr\StreamBuilder\StreamContext $context The stream context
+             * @return self The created instance
+             */
             public static function from_template(\Tumblr\StreamBuilder\StreamContext $context): self
             {
                 return new self('test_filter');
@@ -95,31 +115,51 @@ class StreamElementFilterTest extends \PHPUnit\Framework\TestCase
     {
         // Create a test filter that tracks pre_fetch calls
         $test_filter = new class('test_filter') extends StreamElementFilter {
+            /** @var bool */
             public $pre_fetch_called = false;
+            /** @var array */
             public $pre_fetch_elements = [];
             
+            /**
+             * @param array $elements The elements to pre-fetch
+             * @return void
+             */
             protected function pre_fetch(array $elements): void
             {
                 $this->pre_fetch_called = true;
                 $this->pre_fetch_elements = $elements;
             }
             
+            /**
+             * @param StreamElement $e The element to check
+             * @return bool Whether to release the element
+             */
             protected function should_release(StreamElement $e): bool
             {
                 // Always retain elements for this test
                 return false;
             }
             
+            /**
+             * @return string|null The cache key
+             */
             public function get_cache_key(): ?string
             {
                 return 'test_filter_cache_key';
             }
             
+            /**
+             * @return array The template array
+             */
             public function to_template(): array
             {
                 return ['_type' => 'TestFilter'];
             }
             
+            /**
+             * @param \Tumblr\StreamBuilder\StreamContext $context The stream context
+             * @return self The created instance
+             */
             public static function from_template(\Tumblr\StreamBuilder\StreamContext $context): self
             {
                 return new self('test_filter');
@@ -152,31 +192,51 @@ class StreamElementFilterTest extends \PHPUnit\Framework\TestCase
     {
         // Create a test filter that tracks pre_fetch calls
         $test_filter = new class('test_filter') extends StreamElementFilter {
+            /** @var bool */
             public $pre_fetch_called = false;
+            /** @var array */
             public $pre_fetch_elements = [];
             
+            /**
+             * @param array $elements The elements to pre-fetch
+             * @return void
+             */
             protected function pre_fetch(array $elements): void
             {
                 $this->pre_fetch_called = true;
                 $this->pre_fetch_elements = $elements;
             }
             
+            /**
+             * @param StreamElement $e The element to check
+             * @return bool Whether to release the element
+             */
             protected function should_release(StreamElement $e): bool
             {
                 // Release elements with '2' or '4' in their identity
                 return (strpos($e->get_element_id(), '2') !== false || strpos($e->get_element_id(), '4') !== false);
             }
             
+            /**
+             * @return string|null The cache key
+             */
             public function get_cache_key(): ?string
             {
                 return 'test_filter_cache_key';
             }
             
+            /**
+             * @return array The template array
+             */
             public function to_template(): array
             {
                 return ['_type' => 'TestFilter'];
             }
             
+            /**
+             * @param \Tumblr\StreamBuilder\StreamContext $context The stream context
+             * @return self The created instance
+             */
             public static function from_template(\Tumblr\StreamBuilder\StreamContext $context): self
             {
                 return new self('test_filter');
