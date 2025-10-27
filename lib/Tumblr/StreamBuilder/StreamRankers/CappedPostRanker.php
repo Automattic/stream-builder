@@ -61,20 +61,20 @@ class CappedPostRanker extends StreamRanker
      * CappedPostRanker constructor.
      * @param User $user User
      * @param string $identity The identity of this ranker
-     * @param bool $debug Need extra debug infos or not. e.g. Ranking score
      * @param bool $cap_desc Whether we are looking for the first violated blog post in descending order (top-down)
      * @param int $cap The cap applied (higher values are making the reranking less strict)
      * @param string $ranking_context The context that ranking is being applied to e.g. dashboard
      * @param bool $panel_allow_ranking Whether the meta key on panel regarding ranking is enabled or not
+     * @param bool $debug Need extra debug infos or not. e.g. Ranking score
      */
     public function __construct(
         User $user,
         string $identity,
-        ?bool $debug = null,
         bool $cap_desc,
         int $cap,
         string $ranking_context,
-        bool $panel_allow_ranking
+        bool $panel_allow_ranking,
+        ?bool $debug = null
     ) {
         parent::__construct($identity);
         $this->user = $user;
@@ -115,11 +115,11 @@ class CappedPostRanker extends StreamRanker
         return new self(
             $context->get_meta_by_key('user'),
             $context->get_current_identity(),
-            $context->get_meta_by_key('client_meta')->is_panel(),
             $context->get_optional_property('cap_desc', true),
             $context->get_optional_property('cap', 2),
             $context->get_optional_property('ranking_context', 'dashboard'),
             $context->get_meta_by_key('allow_ranking'),
+            $context->get_meta_by_key('client_meta')->is_panel()
         );
     }
 
