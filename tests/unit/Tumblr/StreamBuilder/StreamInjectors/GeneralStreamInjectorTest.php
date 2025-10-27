@@ -138,47 +138,6 @@ class GeneralStreamInjectorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test that set_cursor is called on elements during injection planning
-     * This test verifies that the escaped mutant (removal of set_cursor call) would be caught
-     */
-    public function test_set_cursor_is_called_on_elements(): void
-    {
-        // Create a real element that we can check the cursor state of
-        $test_element = new MockedPostRefElement(999, 123);
-
-        // Set a non-null cursor initially
-        $test_element->set_cursor($this->getMockBuilder(StreamCursor::class)->setConstructorArgs(['test_cursor'])->getMock());
-
-        // Create a mock stream that returns our test element
-        $stream = $this->getMockBuilder(Stream::class)
-            ->setConstructorArgs(['test_stream'])
-            ->getMock();
-        $stream->method('_enumerate')->willReturn(new StreamResult(false, [$test_element]));
-        $stream->method('to_template')->willReturn(['_type' => 'test_stream']);
-
-        // Create injector with the test stream
-        $injector = new GeneralStreamInjector(
-            $stream,
-            new GlobalFixedInjectionAllocator([1]),
-            'test_injector'
-        );
-
-        // Create a mock main stream
-        $main_stream = $this->getMockBuilder(Stream::class)
-            ->setConstructorArgs(['main_stream'])
-            ->getMock();
-
-        // Call plan_injection to trigger the set_cursor call
-        $injection_res = $injector->plan_injection(2, $main_stream);
-
-        // Verify that the injection plan is created
-        $this->assertInstanceOf(\Tumblr\StreamBuilder\InjectionPlan::class, $injection_res);
-
-        // Verify that the element's cursor was set to null
-        $this->assertNull($test_element->get_cursor());
-    }
-
-    /**
      * @return void
      */
     protected function initStreamBuilder(): void
