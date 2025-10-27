@@ -139,14 +139,14 @@ class StreamSerializerTest extends \PHPUnit\Framework\TestCase
         // Use a real class that can be instantiated
         $template = [
             '_type' => NullStream::class,
-            StreamContext::COMPONENT_NAME => 'test_component'
+            StreamContext::COMPONENT_NAME => 'test_component',
         ];
         
         $context = new StreamContext($template, []);
         $result = StreamSerializer::from_template($context);
         
         // Verify that the component was set
-        $this->assertEquals('test_component', $result->getComponent());
+        $this->assertSame('test_component', $result->getComponent());
     }
 
     /**
@@ -155,7 +155,7 @@ class StreamSerializerTest extends \PHPUnit\Framework\TestCase
     public function test_component_is_not_set_when_no_component_specified(): void
     {
         $template = [
-            '_type' => NullStream::class
+            '_type' => NullStream::class,
         ];
         
         $context = new StreamContext($template, []);
@@ -172,7 +172,7 @@ class StreamSerializerTest extends \PHPUnit\Framework\TestCase
     {
         $template = [
             '_type' => NullStream::class,
-            StreamContext::COMPONENT_NAME => null
+            StreamContext::COMPONENT_NAME => null,
         ];
         
         $context = new StreamContext($template, []);
@@ -189,13 +189,13 @@ class StreamSerializerTest extends \PHPUnit\Framework\TestCase
     {
         $template = [
             '_type' => NullStream::class,
-            StreamContext::COMPONENT_NAME => ''
+            StreamContext::COMPONENT_NAME => '',
         ];
         
         $context = new StreamContext($template, []);
         $result = StreamSerializer::from_template($context);
         
         // Verify that component was set to empty string
-        $this->assertEquals('', $result->getComponent());
+        $this->assertSame('', $result->getComponent());
     }
 }

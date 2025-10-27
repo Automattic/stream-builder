@@ -22,7 +22,6 @@
 namespace Tests\Unit\Tumblr\StreamBuilder\StreamRankers;
 
 use Test\Mock\Tumblr\StreamBuilder\StreamElements\MockedPostRefElement;
-use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamRankers\StreamRanker;
 use Tumblr\StreamBuilder\StreamTracers\StreamTracer;
 
@@ -39,26 +38,44 @@ class StreamRankerTest extends \PHPUnit\Framework\TestCase
     {
         // Create a test ranker that tracks pre_fetch calls
         $test_ranker = new class('test_ranker') extends StreamRanker {
+            /** @var bool */
             public $pre_fetch_called = false;
+            /** @var array */
             public $pre_fetch_elements = [];
             
+            /**
+             * @param array $elements The elements to pre-fetch
+             * @return void
+             */
             protected function pre_fetch(array $elements): void
             {
                 $this->pre_fetch_called = true;
                 $this->pre_fetch_elements = $elements;
             }
             
+            /**
+             * @param array $stream_elements The stream elements to rank
+             * @param StreamTracer|null $tracer Optional tracer for debugging
+             * @return array The ranked elements
+             */
             protected function rank_inner(array $stream_elements, ?StreamTracer $tracer = null): array
             {
                 // Just return the elements in the same order
                 return $stream_elements;
             }
             
+            /**
+             * @return array The template array
+             */
             public function to_template(): array
             {
                 return ['_type' => 'TestRanker'];
             }
             
+            /**
+             * @param \Tumblr\StreamBuilder\StreamContext $context The stream context
+             * @return self The created instance
+             */
             public static function from_template(\Tumblr\StreamBuilder\StreamContext $context): self
             {
                 return new self('test_ranker');
@@ -86,26 +103,44 @@ class StreamRankerTest extends \PHPUnit\Framework\TestCase
     {
         // Create a test ranker that tracks pre_fetch calls
         $test_ranker = new class('test_ranker') extends StreamRanker {
+            /** @var bool */
             public $pre_fetch_called = false;
+            /** @var array */
             public $pre_fetch_elements = [];
             
+            /**
+             * @param array $elements The elements to pre-fetch
+             * @return void
+             */
             protected function pre_fetch(array $elements): void
             {
                 $this->pre_fetch_called = true;
                 $this->pre_fetch_elements = $elements;
             }
             
+            /**
+             * @param array $stream_elements The stream elements to rank
+             * @param StreamTracer|null $tracer Optional tracer for debugging
+             * @return array The ranked elements
+             */
             protected function rank_inner(array $stream_elements, ?StreamTracer $tracer = null): array
             {
                 // Just return the elements in the same order
                 return $stream_elements;
             }
             
+            /**
+             * @return array The template array
+             */
             public function to_template(): array
             {
                 return ['_type' => 'TestRanker'];
             }
             
+            /**
+             * @param \Tumblr\StreamBuilder\StreamContext $context The stream context
+             * @return self The created instance
+             */
             public static function from_template(\Tumblr\StreamBuilder\StreamContext $context): self
             {
                 return new self('test_ranker');
@@ -138,26 +173,45 @@ class StreamRankerTest extends \PHPUnit\Framework\TestCase
     {
         // Create a test ranker that tracks pre_fetch calls and throws exception
         $test_ranker = new class('test_ranker') extends StreamRanker {
+            /** @var bool */
             public $pre_fetch_called = false;
+            /** @var array */
             public $pre_fetch_elements = [];
             
+            /**
+             * @param array $elements The elements to pre-fetch
+             * @return void
+             */
             protected function pre_fetch(array $elements): void
             {
                 $this->pre_fetch_called = true;
                 $this->pre_fetch_elements = $elements;
             }
             
+            /**
+             * @param array $stream_elements The stream elements to rank
+             * @param StreamTracer|null $tracer Optional tracer for debugging
+             * @return never Always throws exception
+             * @throws \Exception Always throws test exception
+             */
             protected function rank_inner(array $stream_elements, ?StreamTracer $tracer = null): array
             {
                 // Throw an exception to test that pre_fetch is still called
                 throw new \Exception('Test exception');
             }
             
+            /**
+             * @return array The template array
+             */
             public function to_template(): array
             {
                 return ['_type' => 'TestRanker'];
             }
             
+            /**
+             * @param \Tumblr\StreamBuilder\StreamContext $context The stream context
+             * @return self The created instance
+             */
             public static function from_template(\Tumblr\StreamBuilder\StreamContext $context): self
             {
                 return new self('test_ranker');
@@ -189,26 +243,44 @@ class StreamRankerTest extends \PHPUnit\Framework\TestCase
     {
         // Create a test ranker that tracks pre_fetch calls
         $test_ranker = new class('test_ranker') extends StreamRanker {
+            /** @var bool */
             public $pre_fetch_called = false;
+            /** @var array */
             public $pre_fetch_elements = [];
             
+            /**
+             * @param array $elements The elements to pre-fetch
+             * @return void
+             */
             protected function pre_fetch(array $elements): void
             {
                 $this->pre_fetch_called = true;
                 $this->pre_fetch_elements = $elements;
             }
             
+            /**
+             * @param array $stream_elements The stream elements to rank
+             * @param StreamTracer|null $tracer Optional tracer for debugging
+             * @return array The ranked elements
+             */
             protected function rank_inner(array $stream_elements, ?StreamTracer $tracer = null): array
             {
                 // Just return the elements in the same order
                 return $stream_elements;
             }
             
+            /**
+             * @return array The template array
+             */
             public function to_template(): array
             {
                 return ['_type' => 'TestRanker'];
             }
             
+            /**
+             * @param \Tumblr\StreamBuilder\StreamContext $context The stream context
+             * @return self The created instance
+             */
             public static function from_template(\Tumblr\StreamBuilder\StreamContext $context): self
             {
                 return new self('test_ranker');

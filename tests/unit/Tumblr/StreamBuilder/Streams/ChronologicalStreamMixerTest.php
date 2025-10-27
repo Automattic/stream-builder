@@ -23,6 +23,7 @@ namespace Tests\Unit\Tumblr\StreamBuilder\Streams;
 
 use Test\Mock\Tumblr\StreamBuilder\StreamElements\MockedPostRefElement;
 use Tumblr\StreamBuilder\StreamContext;
+use Tumblr\StreamBuilder\StreamCursors\StreamCursor;
 use Tumblr\StreamBuilder\StreamElements\ChronologicalStreamElement;
 use Tumblr\StreamBuilder\StreamElements\DerivedStreamElement;
 use Tumblr\StreamBuilder\StreamElements\LeafStreamElement;
@@ -335,20 +336,34 @@ class ChronologicalStreamMixerTest extends \PHPUnit\Framework\TestCase
     {
         // Create a test element that tracks pre_fetch calls
         $test_element = new class('test_provider', null, 1400000000000) extends LeafStreamElement implements ChronologicalStreamElement {
-            public $pre_fetch_called = false;
-            private $ts;
+            /** @var bool $pre_fetch_called */
+            public bool $pre_fetch_called = false;
 
-            public function __construct(string $provider_identity, $cursor, int $ts)
+            /** @var int $ts */
+            private int $ts;
+
+            /**
+             * @param string $provider_identity Identity
+             * @param StreamCursor $cursor Cursor
+             * @param int $ts Timestamp
+             */
+            public function __construct(string $provider_identity, StreamCursor $cursor, int $ts)
             {
                 parent::__construct($provider_identity, $cursor);
                 $this->ts = $ts;
             }
 
+            /**
+             * @return int
+             */
             public function get_timestamp_ms(): int
             {
                 return $this->ts;
             }
 
+            /**
+             * @param array $elements Elements
+             */
             public static function pre_fetch(array $elements): void
             {
                 // Mark that pre_fetch was called by setting a static property
@@ -360,21 +375,33 @@ class ChronologicalStreamMixerTest extends \PHPUnit\Framework\TestCase
                 }
             }
 
+            /**
+             * @inheritDoc
+             */
             public function get_cache_key(): string
             {
                 return 'test_cache_key';
             }
 
+            /**
+             * @inheritDoc
+             */
             protected function to_string(): string
             {
                 return 'test_element';
             }
 
+            /**
+             * @inheritDoc
+             */
             public function to_template(): array
             {
                 return [];
             }
 
+            /**
+             * @inheritDoc
+             */
             public static function from_template(StreamContext $context): self
             {
                 return new self('test_provider', null, 1400000000000);
@@ -411,20 +438,34 @@ class ChronologicalStreamMixerTest extends \PHPUnit\Framework\TestCase
     {
         // Create test elements that track pre_fetch calls
         $element1 = new class('test_provider1', null, 1400000000000) extends LeafStreamElement implements ChronologicalStreamElement {
+            /** @var bool $pre_fetch_called */
             public $pre_fetch_called = false;
-            private $ts;
+            /** @var int $ts */
+            private int $ts;
 
-            public function __construct(string $provider_identity, $cursor, int $ts)
+            /**
+             * @param string $provider_identity Identity
+             * @param StreamCursor $cursor Cursor
+             * @param int $ts Timestamp
+             */
+            public function __construct(string $provider_identity, StreamCursor $cursor, int $ts)
             {
                 parent::__construct($provider_identity, $cursor);
                 $this->ts = $ts;
             }
 
+            /**
+             * @return int
+             */
             public function get_timestamp_ms(): int
             {
                 return $this->ts;
             }
 
+            /**
+             * @param array $elements Elements
+             * @return void
+             */
             public static function pre_fetch(array $elements): void
             {
                 // Mark that pre_fetch was called by setting a static property
@@ -436,21 +477,37 @@ class ChronologicalStreamMixerTest extends \PHPUnit\Framework\TestCase
                 }
             }
 
+            /**
+             * @inheritDoc
+             */
+            #[\Override]
             public function get_cache_key(): string
             {
                 return 'test_cache_key1';
             }
 
+            /**
+             * @inheritDoc
+             */
+            #[\Override]
             protected function to_string(): string
             {
                 return 'test_element1';
             }
 
+            /**
+             * @inheritDoc
+             */
+            #[\Override]
             public function to_template(): array
             {
                 return [];
             }
 
+            /**
+             * @inheritDoc
+             */
+            #[\Override]
             public static function from_template(StreamContext $context): self
             {
                 return new self('test_provider1', null, 1400000000000);
@@ -458,20 +515,34 @@ class ChronologicalStreamMixerTest extends \PHPUnit\Framework\TestCase
         };
 
         $element2 = new class('test_provider2', null, 1400000000001) extends LeafStreamElement implements ChronologicalStreamElement {
+            /** @var bool $pre_fetch_called */
             public $pre_fetch_called = false;
-            private $ts;
+            /** @var int $ts */
+            private int $ts;
 
-            public function __construct(string $provider_identity, $cursor, int $ts)
+            /**
+             * @param string $provider_identity Identity
+             * @param StreamCursor $cursor Cursor
+             * @param int $ts Timestamp
+             */
+            public function __construct(string $provider_identity, StreamCursor $cursor, int $ts)
             {
                 parent::__construct($provider_identity, $cursor);
                 $this->ts = $ts;
             }
 
+            /**
+             * @return int
+             */
             public function get_timestamp_ms(): int
             {
                 return $this->ts;
             }
 
+            /**
+             * @param array $elements Elements
+             * @return void
+             */
             public static function pre_fetch(array $elements): void
             {
                 // Mark that pre_fetch was called by setting a static property
@@ -483,21 +554,37 @@ class ChronologicalStreamMixerTest extends \PHPUnit\Framework\TestCase
                 }
             }
 
+            /**
+             * @inheritDoc
+             */
+            #[\Override]
             public function get_cache_key(): string
             {
                 return 'test_cache_key2';
             }
 
+            /**
+             * @inheritDoc
+             */
+            #[\Override]
             protected function to_string(): string
             {
                 return 'test_element2';
             }
 
+            /**
+             * @inheritDoc
+             */
+            #[\Override]
             public function to_template(): array
             {
                 return [];
             }
 
+            /**
+             * @inheritDoc
+             */
+            #[\Override]
             public static function from_template(StreamContext $context): self
             {
                 return new self('test_provider2', null, 1400000000001);
