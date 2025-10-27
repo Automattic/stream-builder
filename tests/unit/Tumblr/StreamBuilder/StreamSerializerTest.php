@@ -141,10 +141,10 @@ class StreamSerializerTest extends \PHPUnit\Framework\TestCase
             '_type' => NullStream::class,
             StreamContext::COMPONENT_NAME => 'test_component',
         ];
-        
+
         $context = new StreamContext($template, []);
         $result = StreamSerializer::from_template($context);
-        
+
         // Verify that the component was set
         $this->assertSame('test_component', $result->getComponent());
     }
@@ -154,13 +154,11 @@ class StreamSerializerTest extends \PHPUnit\Framework\TestCase
      */
     public function test_component_is_not_set_when_no_component_specified(): void
     {
-        $template = [
-            '_type' => NullStream::class,
-        ];
-        
+        $template = ['_type' => NullStream::class];
+
         $context = new StreamContext($template, []);
         $result = StreamSerializer::from_template($context);
-        
+
         // Verify that no component was set
         $this->assertNull($result->getComponent());
     }
@@ -170,14 +168,11 @@ class StreamSerializerTest extends \PHPUnit\Framework\TestCase
      */
     public function test_component_is_set_to_null_when_explicitly_null(): void
     {
-        $template = [
-            '_type' => NullStream::class,
-            StreamContext::COMPONENT_NAME => null,
-        ];
-        
+        $template = ['_type' => NullStream::class, StreamContext::COMPONENT_NAME => null];
+
         $context = new StreamContext($template, []);
         $result = StreamSerializer::from_template($context);
-        
+
         // Verify that component was set to null
         $this->assertNull($result->getComponent());
     }
@@ -191,10 +186,10 @@ class StreamSerializerTest extends \PHPUnit\Framework\TestCase
             '_type' => NullStream::class,
             StreamContext::COMPONENT_NAME => '',
         ];
-        
+
         $context = new StreamContext($template, []);
         $result = StreamSerializer::from_template($context);
-        
+
         // Verify that component was set to empty string
         $this->assertSame('', $result->getComponent());
     }

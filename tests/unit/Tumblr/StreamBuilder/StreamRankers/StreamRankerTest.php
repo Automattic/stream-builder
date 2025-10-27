@@ -42,7 +42,7 @@ class StreamRankerTest extends \PHPUnit\Framework\TestCase
             public $pre_fetch_called = false;
             /** @var array */
             public $pre_fetch_elements = [];
-            
+
             /**
              * @param array $elements The elements to pre-fetch
              * @return void
@@ -52,7 +52,7 @@ class StreamRankerTest extends \PHPUnit\Framework\TestCase
                 $this->pre_fetch_called = true;
                 $this->pre_fetch_elements = $elements;
             }
-            
+
             /**
              * @param array $stream_elements The stream elements to rank
              * @param StreamTracer|null $tracer Optional tracer for debugging
@@ -63,7 +63,7 @@ class StreamRankerTest extends \PHPUnit\Framework\TestCase
                 // Just return the elements in the same order
                 return $stream_elements;
             }
-            
+
             /**
              * @return array The template array
              */
@@ -71,7 +71,7 @@ class StreamRankerTest extends \PHPUnit\Framework\TestCase
             {
                 return ['_type' => 'TestRanker'];
             }
-            
+
             /**
              * @param \Tumblr\StreamBuilder\StreamContext $context The stream context
              * @return self The created instance
@@ -107,7 +107,7 @@ class StreamRankerTest extends \PHPUnit\Framework\TestCase
             public $pre_fetch_called = false;
             /** @var array */
             public $pre_fetch_elements = [];
-            
+
             /**
              * @param array $elements The elements to pre-fetch
              * @return void
@@ -117,7 +117,7 @@ class StreamRankerTest extends \PHPUnit\Framework\TestCase
                 $this->pre_fetch_called = true;
                 $this->pre_fetch_elements = $elements;
             }
-            
+
             /**
              * @param array $stream_elements The stream elements to rank
              * @param StreamTracer|null $tracer Optional tracer for debugging
@@ -128,7 +128,7 @@ class StreamRankerTest extends \PHPUnit\Framework\TestCase
                 // Just return the elements in the same order
                 return $stream_elements;
             }
-            
+
             /**
              * @return array The template array
              */
@@ -136,7 +136,7 @@ class StreamRankerTest extends \PHPUnit\Framework\TestCase
             {
                 return ['_type' => 'TestRanker'];
             }
-            
+
             /**
              * @param \Tumblr\StreamBuilder\StreamContext $context The stream context
              * @return self The created instance
@@ -177,7 +177,7 @@ class StreamRankerTest extends \PHPUnit\Framework\TestCase
             public $pre_fetch_called = false;
             /** @var array */
             public $pre_fetch_elements = [];
-            
+
             /**
              * @param array $elements The elements to pre-fetch
              * @return void
@@ -187,7 +187,7 @@ class StreamRankerTest extends \PHPUnit\Framework\TestCase
                 $this->pre_fetch_called = true;
                 $this->pre_fetch_elements = $elements;
             }
-            
+
             /**
              * @param array $stream_elements The stream elements to rank
              * @param StreamTracer|null $tracer Optional tracer for debugging
@@ -199,7 +199,7 @@ class StreamRankerTest extends \PHPUnit\Framework\TestCase
                 // Throw an exception to test that pre_fetch is still called
                 throw new \Exception('Test exception');
             }
-            
+
             /**
              * @return array The template array
              */
@@ -207,7 +207,7 @@ class StreamRankerTest extends \PHPUnit\Framework\TestCase
             {
                 return ['_type' => 'TestRanker'];
             }
-            
+
             /**
              * @param \Tumblr\StreamBuilder\StreamContext $context The stream context
              * @return self The created instance
@@ -247,7 +247,7 @@ class StreamRankerTest extends \PHPUnit\Framework\TestCase
             public $pre_fetch_called = false;
             /** @var array */
             public $pre_fetch_elements = [];
-            
+
             /**
              * @param array $elements The elements to pre-fetch
              * @return void
@@ -257,7 +257,7 @@ class StreamRankerTest extends \PHPUnit\Framework\TestCase
                 $this->pre_fetch_called = true;
                 $this->pre_fetch_elements = $elements;
             }
-            
+
             /**
              * @param array $stream_elements The stream elements to rank
              * @param StreamTracer|null $tracer Optional tracer for debugging
@@ -268,7 +268,7 @@ class StreamRankerTest extends \PHPUnit\Framework\TestCase
                 // Just return the elements in the same order
                 return $stream_elements;
             }
-            
+
             /**
              * @return array The template array
              */
@@ -276,7 +276,7 @@ class StreamRankerTest extends \PHPUnit\Framework\TestCase
             {
                 return ['_type' => 'TestRanker'];
             }
-            
+
             /**
              * @param \Tumblr\StreamBuilder\StreamContext $context The stream context
              * @return self The created instance

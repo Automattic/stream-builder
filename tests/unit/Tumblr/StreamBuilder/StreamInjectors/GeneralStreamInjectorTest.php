@@ -145,7 +145,7 @@ class GeneralStreamInjectorTest extends \PHPUnit\Framework\TestCase
     {
         // Create a real element that we can check the cursor state of
         $test_element = new MockedPostRefElement(999, 123);
-        
+
         // Set a non-null cursor initially
         $test_element->set_cursor($this->getMockBuilder(StreamCursor::class)->setConstructorArgs(['test_cursor'])->getMock());
 
@@ -173,7 +173,7 @@ class GeneralStreamInjectorTest extends \PHPUnit\Framework\TestCase
 
         // Verify that the injection plan is created
         $this->assertInstanceOf(\Tumblr\StreamBuilder\InjectionPlan::class, $injection_res);
-        
+
         // Verify that the element's cursor was set to null
         $this->assertNull($test_element->get_cursor());
     }

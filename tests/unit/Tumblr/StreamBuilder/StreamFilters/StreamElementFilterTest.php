@@ -41,7 +41,7 @@ class StreamElementFilterTest extends \PHPUnit\Framework\TestCase
             public $pre_fetch_called = false;
             /** @var array */
             public $pre_fetch_elements = [];
-            
+
             /**
              * @param array $elements The elements to pre-fetch
              * @return void
@@ -51,7 +51,7 @@ class StreamElementFilterTest extends \PHPUnit\Framework\TestCase
                 $this->pre_fetch_called = true;
                 $this->pre_fetch_elements = $elements;
             }
-            
+
             /**
              * @param StreamElement $e The element to check
              * @return bool Whether to release the element
@@ -61,7 +61,7 @@ class StreamElementFilterTest extends \PHPUnit\Framework\TestCase
                 // Always retain elements for this test
                 return false;
             }
-            
+
             /**
              * @return string|null The cache key
              */
@@ -69,7 +69,7 @@ class StreamElementFilterTest extends \PHPUnit\Framework\TestCase
             {
                 return 'test_filter_cache_key';
             }
-            
+
             /**
              * @return array The template array
              */
@@ -77,7 +77,7 @@ class StreamElementFilterTest extends \PHPUnit\Framework\TestCase
             {
                 return ['_type' => 'TestFilter'];
             }
-            
+
             /**
              * @param \Tumblr\StreamBuilder\StreamContext $context The stream context
              * @return self The created instance
@@ -95,7 +95,7 @@ class StreamElementFilterTest extends \PHPUnit\Framework\TestCase
         $element2 = $this->getMockBuilder(StreamElement::class)
             ->setConstructorArgs(['test2'])
             ->getMockForAbstractClass();
-        
+
         $elements = [$element1, $element2];
 
         // Call filter method
@@ -119,7 +119,7 @@ class StreamElementFilterTest extends \PHPUnit\Framework\TestCase
             public $pre_fetch_called = false;
             /** @var array */
             public $pre_fetch_elements = [];
-            
+
             /**
              * @param array $elements The elements to pre-fetch
              * @return void
@@ -129,7 +129,7 @@ class StreamElementFilterTest extends \PHPUnit\Framework\TestCase
                 $this->pre_fetch_called = true;
                 $this->pre_fetch_elements = $elements;
             }
-            
+
             /**
              * @param StreamElement $e The element to check
              * @return bool Whether to release the element
@@ -139,7 +139,7 @@ class StreamElementFilterTest extends \PHPUnit\Framework\TestCase
                 // Always retain elements for this test
                 return false;
             }
-            
+
             /**
              * @return string|null The cache key
              */
@@ -147,7 +147,7 @@ class StreamElementFilterTest extends \PHPUnit\Framework\TestCase
             {
                 return 'test_filter_cache_key';
             }
-            
+
             /**
              * @return array The template array
              */
@@ -155,7 +155,7 @@ class StreamElementFilterTest extends \PHPUnit\Framework\TestCase
             {
                 return ['_type' => 'TestFilter'];
             }
-            
+
             /**
              * @param \Tumblr\StreamBuilder\StreamContext $context The stream context
              * @return self The created instance
@@ -196,7 +196,7 @@ class StreamElementFilterTest extends \PHPUnit\Framework\TestCase
             public $pre_fetch_called = false;
             /** @var array */
             public $pre_fetch_elements = [];
-            
+
             /**
              * @param array $elements The elements to pre-fetch
              * @return void
@@ -206,7 +206,7 @@ class StreamElementFilterTest extends \PHPUnit\Framework\TestCase
                 $this->pre_fetch_called = true;
                 $this->pre_fetch_elements = $elements;
             }
-            
+
             /**
              * @param StreamElement $e The element to check
              * @return bool Whether to release the element
@@ -216,7 +216,7 @@ class StreamElementFilterTest extends \PHPUnit\Framework\TestCase
                 // Release elements with '2' or '4' in their identity
                 return (strpos($e->get_element_id(), '2') !== false || strpos($e->get_element_id(), '4') !== false);
             }
-            
+
             /**
              * @return string|null The cache key
              */
@@ -224,7 +224,7 @@ class StreamElementFilterTest extends \PHPUnit\Framework\TestCase
             {
                 return 'test_filter_cache_key';
             }
-            
+
             /**
              * @return array The template array
              */
@@ -232,7 +232,7 @@ class StreamElementFilterTest extends \PHPUnit\Framework\TestCase
             {
                 return ['_type' => 'TestFilter'];
             }
-            
+
             /**
              * @param \Tumblr\StreamBuilder\StreamContext $context The stream context
              * @return self The created instance
@@ -256,13 +256,13 @@ class StreamElementFilterTest extends \PHPUnit\Framework\TestCase
         $element4 = $this->getMockBuilder(StreamElement::class)
             ->setConstructorArgs(['test4'])
             ->getMockForAbstractClass();
-        
+
         // Mock the get_element_id method to return the identity
         $element1->method('get_element_id')->willReturn('test1');
         $element2->method('get_element_id')->willReturn('test2');
         $element3->method('get_element_id')->willReturn('test3');
         $element4->method('get_element_id')->willReturn('test4');
-        
+
         $elements = [$element1, $element2, $element3, $element4];
 
         // Call filter method
