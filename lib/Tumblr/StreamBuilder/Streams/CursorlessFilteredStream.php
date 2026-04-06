@@ -53,6 +53,9 @@ final class CursorlessFilteredStream extends WrapStream
      */
     private float $overfetch_ratio;
 
+    /** @var bool */
+    private bool $skip_empty_pages;
+
     /**
      * @param Stream $inner The stream to filter.
      * @param StreamFilter $filter The filter to apply to the stream.
@@ -64,13 +67,17 @@ final class CursorlessFilteredStream extends WrapStream
      * is relatively cheap to over-enumerate, you can crank this up to preemptively over-fetch.
      * A value of zero means to not over-fetch, whereas a value of 1.0 means to fetch double the
      * number of results requested. No more than $count results will be returned.
+     * @param bool|null $skip_empty_pages If true (default), fully-filtered pages do not count
+     * against the retry budget, allowing the stream to scan past long runs of filtered content.
+     * Set to `false` to count every inner enumeration as a retry.
      */
     public function __construct(
         Stream $inner,
         StreamFilter $filter,
         string $identity,
         ?int $retry_count = null,
-        ?float $overfetch_ratio = null
+        ?float $overfetch_ratio = null,
+        ?bool $skip_empty_pages = true
     ) {
         if (is_null($retry_count)) {
             $retry_count = FilteredStream::DEFAULT_RETRY_COUNT;
@@ -82,6 +89,7 @@ final class CursorlessFilteredStream extends WrapStream
         $this->filter = $filter;
         $this->retry_count = $retry_count;
         $this->overfetch_ratio = $overfetch_ratio;
+        $this->skip_empty_pages = $skip_empty_pages ?? true;
     }
 
     /**
@@ -96,6 +104,7 @@ final class CursorlessFilteredStream extends WrapStream
             'stream_filter' => $this->filter->to_template(),
             'retry_count' => $this->retry_count,
             'overfetch_ratio' => $this->overfetch_ratio,
+            'skip_empty_pages' => $this->skip_empty_pages,
         ];
     }
 
@@ -113,7 +122,8 @@ final class CursorlessFilteredStream extends WrapStream
             $filter,
             $context->get_current_identity(),
             $context->get_optional_property('retry_count'),
-            $context->get_optional_property('overfetch_ratio')
+            $context->get_optional_property('overfetch_ratio'),
+            $context->get_optional_property('skip_empty_pages', true)
         );
     }
 
@@ -190,10 +200,13 @@ final class CursorlessFilteredStream extends WrapStream
 
             $tracer && $tracer->filter_retry($this, $inner_cursor, $retry_cursor, $depth, $want_count, $inner_result->get_size(), count($retained));
 
+            // Don't count fully-filtered pages against retry budget
+            $new_depth = count($retained) === 0 && $this->skip_empty_pages ? $depth : $depth - 1;
+
             $rec_result = $this->_filter_rec(
                 $want_count - count($retained),
                 $retry_cursor,
-                $depth - 1,
+                $new_depth,
                 $tracer,
                 $option,
                 $propagated_is_exhaustive
