@@ -123,7 +123,7 @@ final class CursorlessFilteredStream extends WrapStream
             $context->get_current_identity(),
             $context->get_optional_property('retry_count'),
             $context->get_optional_property('overfetch_ratio'),
-            $context->get_optional_property('skip_empty_pages', true)
+            $context->get_optional_property('skip_empty_pages')
         );
     }
 

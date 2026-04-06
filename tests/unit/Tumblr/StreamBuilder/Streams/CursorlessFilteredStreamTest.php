@@ -25,6 +25,7 @@ use Test\Mock\Tumblr\StreamBuilder\StreamElements\MockedPostRefElement;
 use Tests\Unit\Tumblr\StreamBuilder\StreamBuilderTest;
 use Tumblr\StreamBuilder\DependencyBag;
 use Tumblr\StreamBuilder\Interfaces\Log;
+use Tumblr\StreamBuilder\StreamCursors\SearchStreamCursor;
 use Tumblr\StreamBuilder\StreamFilterResult;
 use Tumblr\StreamBuilder\StreamFilters\CompositeStreamFilter;
 use Tumblr\StreamBuilder\StreamFilters\StreamFilter;
@@ -191,14 +192,16 @@ class CursorlessFilteredStreamTest extends \PHPUnit\Framework\TestCase
     public function test_skip_empty_pages_false_preserves_old_behavior()
     {
         $drop1 = new MockedPostRefElement(1, 100);
+        $drop1->set_cursor(new SearchStreamCursor(1));
         $drop2 = new MockedPostRefElement(2, 200);
+        $drop2->set_cursor(new SearchStreamCursor(2));
 
         $inner_stream = $this->createMock(Stream::class);
         $inner_stream->expects($this->exactly(2))
             ->method('_enumerate')
             ->willReturnOnConsecutiveCalls(
                 new StreamResult(false, [$drop1]),
-                new StreamResult(false, [$drop2])
+                new StreamResult(true, [$drop2])
             );
 
         $filter = $this->createMock(StreamFilter::class);
@@ -214,6 +217,7 @@ class CursorlessFilteredStreamTest extends \PHPUnit\Framework\TestCase
 
         $this->assertSame(0, $result->get_size());
         $this->assertTrue($result->is_exhaustive());
+
     }
 
     /**
