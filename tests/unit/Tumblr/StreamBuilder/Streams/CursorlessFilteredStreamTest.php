@@ -139,6 +139,112 @@ class CursorlessFilteredStreamTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests that skip_empty_pages (default true) allows scanning past fully-filtered pages.
+     *
+     * Simulates 3 consecutive batches where all elements are filtered out,
+     * followed by a batch with a passing element. With retry_count=1 and
+     * skip_empty_pages=true, the stream should reach the 4th batch because
+     * empty pages don't consume retries.
+     */
+    public function test_skip_empty_pages_continues_past_filtered_batches()
+    {
+        $keep = new MockedPostRefElement(1, 100);
+        $drop1 = new MockedPostRefElement(2, 200);
+        $drop2 = new MockedPostRefElement(3, 300);
+        $drop3 = new MockedPostRefElement(4, 400);
+
+        $inner_stream = $this->createMock(Stream::class);
+        $inner_stream->expects($this->exactly(4))
+            ->method('_enumerate')
+            ->willReturnOnConsecutiveCalls(
+                new StreamResult(false, [$drop1]),
+                new StreamResult(false, [$drop2]),
+                new StreamResult(false, [$drop3]),
+                new StreamResult(true, [$keep])
+            );
+
+        $filter = $this->createMock(StreamFilter::class);
+        $filter->expects($this->exactly(4))
+            ->method('filter_inner')
+            ->willReturnOnConsecutiveCalls(
+                new StreamFilterResult([], [$drop1]),
+                new StreamFilterResult([], [$drop2]),
+                new StreamFilterResult([], [$drop3]),
+                new StreamFilterResult([$keep], [])
+            );
+
+        // retry_count=1, skip_empty_pages=true (default)
+        $filtered_stream = new CursorlessFilteredStream($inner_stream, $filter, 'test', 1, 0.0);
+        $result = $filtered_stream->enumerate(1);
+
+        $this->assertSame(1, $result->get_size());
+        $this->assertSame($keep, $result->get_elements()[0]->get_original_element());
+    }
+
+    /**
+     * Tests that skip_empty_pages=false preserves the old behavior where
+     * fully-filtered pages consume retries.
+     *
+     * With retry_count=1, only 2 batches are fetched. Both are fully filtered,
+     * so the result is empty.
+     */
+    public function test_skip_empty_pages_false_preserves_old_behavior()
+    {
+        $drop1 = new MockedPostRefElement(1, 100);
+        $drop2 = new MockedPostRefElement(2, 200);
+
+        $inner_stream = $this->createMock(Stream::class);
+        $inner_stream->expects($this->exactly(2))
+            ->method('_enumerate')
+            ->willReturnOnConsecutiveCalls(
+                new StreamResult(false, [$drop1]),
+                new StreamResult(false, [$drop2])
+            );
+
+        $filter = $this->createMock(StreamFilter::class);
+        $filter->expects($this->exactly(2))
+            ->method('filter_inner')
+            ->willReturnOnConsecutiveCalls(
+                new StreamFilterResult([], [$drop1]),
+                new StreamFilterResult([], [$drop2])
+            );
+
+        $filtered_stream = new CursorlessFilteredStream($inner_stream, $filter, 'test', 1, 0.0, false);
+        $result = $filtered_stream->enumerate(1);
+
+        $this->assertSame(0, $result->get_size());
+        $this->assertTrue($result->is_exhaustive());
+    }
+
+    /**
+     * Tests that skip_empty_pages terminates when the inner stream is exhausted,
+     * even if retry budget has not been consumed.
+     */
+    public function test_skip_empty_pages_terminates_on_inner_exhaustion()
+    {
+        $drop = new MockedPostRefElement(1, 100);
+
+        $inner_stream = $this->createMock(Stream::class);
+        $inner_stream->expects($this->exactly(2))
+            ->method('_enumerate')
+            ->willReturnOnConsecutiveCalls(
+                new StreamResult(false, [$drop]),
+                new StreamResult(true, [])
+            );
+
+        $filter = $this->createMock(StreamFilter::class);
+        $filter->expects($this->once())
+            ->method('filter_inner')
+            ->willReturn(new StreamFilterResult([], [$drop]));
+
+        $filtered_stream = new CursorlessFilteredStream($inner_stream, $filter, 'test', 2, 0.0);
+        $result = $filtered_stream->enumerate(1);
+
+        $this->assertSame(0, $result->get_size());
+        $this->assertTrue($result->is_exhaustive());
+    }
+
+    /**
      * Redo the dependency bag injection.
      * @return void
      */
