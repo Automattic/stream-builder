@@ -217,7 +217,6 @@ class CursorlessFilteredStreamTest extends \PHPUnit\Framework\TestCase
 
         $this->assertSame(0, $result->get_size());
         $this->assertTrue($result->is_exhaustive());
-
     }
 
     /**
