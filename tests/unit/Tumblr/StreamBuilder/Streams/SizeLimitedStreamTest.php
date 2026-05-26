@@ -28,6 +28,7 @@ use Tumblr\StreamBuilder\Exceptions\InappropriateCursorException;
 use Tumblr\StreamBuilder\Interfaces\Log;
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamCursors\MultiCursor;
+use Tumblr\StreamBuilder\StreamCursors\SizeLimitedStreamCursor;
 use Tumblr\StreamBuilder\StreamElements\StreamElement;
 use Tumblr\StreamBuilder\StreamResult;
 use Tumblr\StreamBuilder\Streams\ConcatenatedStream;
@@ -111,27 +112,39 @@ class SizeLimitedStreamTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test enumerate when not enough elements are returned.
+     * Test enumerate is exhausted when the inner stream is exhausted, even below the limit.
      */
-    public function test_enumerate_less_count()
+    public function test_enumerate_inner_exhausted()
     {
         /** @var Stream|\PHPUnit\Framework\MockObject\MockObject $stream */
         $stream = $this->getMockBuilder(Stream::class)->disableOriginalConstructor()->getMock();
         $el = $this->getMockBuilder(StreamElement::class)->disableOriginalConstructor()->getMock();
-        $stream->expects($this->any())->method('_enumerate')
-            ->will($this->onConsecutiveCalls(
-                new StreamResult(true, [$el, $el, $el, $el]),
-                new StreamResult(true, [])
-            ));
+        $stream->expects($this->once())
+            ->method('_enumerate')
+            ->willReturn(new StreamResult(true, [$el, $el, $el, $el]));
 
         $size_limited_stream = new SizeLimitedStream($stream, 5, 'amazing_size_limited_stream');
         $result = $size_limited_stream->enumerate(5);
         $this->assertSame(4, $result->get_size());
         $this->assertTrue($result->is_exhaustive());
+    }
 
-        $result = $size_limited_stream->enumerate(4, $result->get_combined_cursor());
-        $this->assertSame(0, $result->get_size());
-        $this->assertTrue($result->is_exhaustive());
+    /**
+     * Test enumerate is not exhausted when the inner stream is not exhausted, even on a short page.
+     */
+    public function test_enumerate_inner_not_exhausted()
+    {
+        /** @var Stream|\PHPUnit\Framework\MockObject\MockObject $stream */
+        $stream = $this->getMockBuilder(Stream::class)->disableOriginalConstructor()->getMock();
+        $el = $this->getMockBuilder(StreamElement::class)->disableOriginalConstructor()->getMock();
+        $stream->expects($this->once())
+            ->method('_enumerate')
+            ->willReturn(new StreamResult(false, [$el, $el, $el]));
+
+        $size_limited_stream = new SizeLimitedStream($stream, 10, 'amazing_size_limited_stream');
+        $result = $size_limited_stream->enumerate(5);
+        $this->assertSame(3, $result->get_size());
+        $this->assertFalse($result->is_exhaustive());
     }
 
     /**
@@ -186,6 +199,44 @@ class SizeLimitedStreamTest extends \PHPUnit\Framework\TestCase
             ->with($this->equalTo(5));
         $size_limited_stream = new SizeLimitedStream($stream, 5, 'amazing_size_limited_stream');
         $size_limited_stream->enumerate(20);
+    }
+
+    /**
+     * Paginating across many pages serves exactly `limit` elements in total, even when each page's
+     * combined cursor is re-combined with the request cursor (as ActionContext::getNextCursor does).
+     */
+    public function testEnumerateReachesLimitAcrossPages(): void
+    {
+        $limit = 20;
+        $page_size = 3;
+
+        /** @var Stream|\PHPUnit\Framework\MockObject\MockObject $stream */
+        $stream = $this->getMockBuilder(Stream::class)->disableOriginalConstructor()->getMock();
+        $el = $this->getMockBuilder(StreamElement::class)->disableOriginalConstructor()->getMock();
+        $stream->expects($this->exactly(7))
+            ->method('_enumerate')
+            ->willReturn(new StreamResult(false, array_fill(0, $page_size, $el)));
+
+        $size_limited_stream = new SizeLimitedStream($stream, $limit, 'amazing_size_limited_stream');
+
+        $cursor = null;
+        $cumulative = 0;
+        $page_sizes = [];
+        while ($cumulative < $limit) {
+            $result = $size_limited_stream->enumerate($page_size, $cursor);
+            $page_sizes[] = $result->get_size();
+            $cumulative += $result->get_size();
+
+            $combined = $result->get_combined_cursor();
+            $this->assertInstanceOf(SizeLimitedStreamCursor::class, $combined);
+            // Mirror ActionContext::getNextCursor: re-combine the page cursor with the request cursor.
+            $cursor = $combined->combine_with($cursor);
+            $this->assertSame($cumulative, $cursor->get_current_size());
+        }
+
+        // Full pages serve `page_size`; the last page is truncated to the remaining budget.
+        $this->assertSame([3, 3, 3, 3, 3, 3, 2], $page_sizes);
+        $this->assertSame($limit, $cumulative);
     }
 
     /**

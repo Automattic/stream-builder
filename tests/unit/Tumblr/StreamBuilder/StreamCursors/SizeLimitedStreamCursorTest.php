@@ -37,10 +37,10 @@ class SizeLimitedStreamCursorTest extends \PHPUnit\Framework\TestCase
     public function combine_with_provider()
     {
         return [
-            [5, 8, 9],
-            [0, 0, 1],
-            [0, 15, 16],
-            [15, 0, 16],
+            [5, 8, 8],
+            [0, 0, 0],
+            [0, 15, 15],
+            [15, 0, 15],
         ];
     }
 
