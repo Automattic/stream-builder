@@ -90,7 +90,8 @@ class SizeLimitedStreamCursor extends StreamCursor
         /** @var SizeLimitedStreamCursor $other */
         return new self(
             StreamCursor::combine_all([$this->cursor, $other->cursor]),
-            max($this->count, $other->count) + 1 // Magic! You should be able to prove it in math.
+            // count is the absolute cumulative position; combining is an idempotent max.
+            max($this->count, $other->count)
         );
     }
 

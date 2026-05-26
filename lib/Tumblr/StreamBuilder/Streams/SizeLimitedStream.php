@@ -93,13 +93,14 @@ class SizeLimitedStream extends Stream
         $elements = $result->get_elements();
         $selected_elements = array_slice($elements, 0, $balance);
 
-        $derived_elements = array_map(function (StreamElement $e) use ($cursor) {
+        $derived_elements = array_map(function (StreamElement $e, int $index) use ($cursor) {
+            // Tag each element with its absolute cumulative position across pages.
             $new_cursor = new SizeLimitedStreamCursor(
                 $e->get_cursor(),
-                $cursor->get_current_size() + 1
+                $cursor->get_current_size() + $index + 1
             );
             return new DerivedStreamElement($e, $this->get_identity(), $new_cursor);
-        }, $selected_elements);
+        }, $selected_elements, array_keys($selected_elements));
 
         // if this page size is greater than stream's limit, we don't want to keep paginating.
         $is_exhausted = count($derived_elements) < $count || count($derived_elements) >= $this->limit;
