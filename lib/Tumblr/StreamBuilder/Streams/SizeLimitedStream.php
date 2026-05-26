@@ -102,8 +102,7 @@ class SizeLimitedStream extends Stream
             return new DerivedStreamElement($e, $this->get_identity(), $new_cursor);
         }, $selected_elements, array_keys($selected_elements));
 
-        // if this page size is greater than stream's limit, we don't want to keep paginating.
-        $is_exhausted = count($derived_elements) < $count || count($derived_elements) >= $this->limit;
+        $is_exhausted = $result->is_exhaustive() || count($derived_elements) >= $this->limit;
         return new StreamResult($is_exhausted, $derived_elements);
     }
 

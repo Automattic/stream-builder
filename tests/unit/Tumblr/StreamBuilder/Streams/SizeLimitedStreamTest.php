@@ -112,27 +112,39 @@ class SizeLimitedStreamTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test enumerate when not enough elements are returned.
+     * Test enumerate is exhausted when the inner stream is exhausted, even below the limit.
      */
-    public function test_enumerate_less_count()
+    public function test_enumerate_inner_exhausted()
     {
         /** @var Stream|\PHPUnit\Framework\MockObject\MockObject $stream */
         $stream = $this->getMockBuilder(Stream::class)->disableOriginalConstructor()->getMock();
         $el = $this->getMockBuilder(StreamElement::class)->disableOriginalConstructor()->getMock();
-        $stream->expects($this->any())->method('_enumerate')
-            ->will($this->onConsecutiveCalls(
-                new StreamResult(true, [$el, $el, $el, $el]),
-                new StreamResult(true, [])
-            ));
+        $stream->expects($this->once())
+            ->method('_enumerate')
+            ->willReturn(new StreamResult(true, [$el, $el, $el, $el]));
 
         $size_limited_stream = new SizeLimitedStream($stream, 5, 'amazing_size_limited_stream');
         $result = $size_limited_stream->enumerate(5);
         $this->assertSame(4, $result->get_size());
         $this->assertTrue($result->is_exhaustive());
+    }
 
-        $result = $size_limited_stream->enumerate(4, $result->get_combined_cursor());
-        $this->assertSame(0, $result->get_size());
-        $this->assertTrue($result->is_exhaustive());
+    /**
+     * Test enumerate is not exhausted when the inner stream is not exhausted, even on a short page.
+     */
+    public function test_enumerate_inner_not_exhausted()
+    {
+        /** @var Stream|\PHPUnit\Framework\MockObject\MockObject $stream */
+        $stream = $this->getMockBuilder(Stream::class)->disableOriginalConstructor()->getMock();
+        $el = $this->getMockBuilder(StreamElement::class)->disableOriginalConstructor()->getMock();
+        $stream->expects($this->once())
+            ->method('_enumerate')
+            ->willReturn(new StreamResult(false, [$el, $el, $el]));
+
+        $size_limited_stream = new SizeLimitedStream($stream, 10, 'amazing_size_limited_stream');
+        $result = $size_limited_stream->enumerate(5);
+        $this->assertSame(3, $result->get_size());
+        $this->assertFalse($result->is_exhaustive());
     }
 
     /**
