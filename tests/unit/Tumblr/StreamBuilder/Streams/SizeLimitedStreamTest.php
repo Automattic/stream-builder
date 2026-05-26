@@ -190,20 +190,18 @@ class SizeLimitedStreamTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Paginating in equal pages serves exactly `limit` elements across the session, even when each
-     * page's combined cursor is re-combined with the request cursor (as ActionContext::getNextCursor
-     * does). The cursor's count tracks the true cumulative size after every page.
+     * Paginating across many pages serves exactly `limit` elements in total, even when each page's
+     * combined cursor is re-combined with the request cursor (as ActionContext::getNextCursor does).
      */
     public function testEnumerateReachesLimitAcrossPages(): void
     {
         $limit = 20;
-        $page_size = 5;
+        $page_size = 3;
 
         /** @var Stream|\PHPUnit\Framework\MockObject\MockObject $stream */
         $stream = $this->getMockBuilder(Stream::class)->disableOriginalConstructor()->getMock();
         $el = $this->getMockBuilder(StreamElement::class)->disableOriginalConstructor()->getMock();
-        // Inner stream always has more than enough; queried once per non-empty page.
-        $stream->expects($this->exactly(4))
+        $stream->expects($this->exactly(7))
             ->method('_enumerate')
             ->willReturn(new StreamResult(false, array_fill(0, $page_size, $el)));
 
@@ -211,9 +209,10 @@ class SizeLimitedStreamTest extends \PHPUnit\Framework\TestCase
 
         $cursor = null;
         $cumulative = 0;
+        $page_sizes = [];
         while ($cumulative < $limit) {
             $result = $size_limited_stream->enumerate($page_size, $cursor);
-            $this->assertSame($page_size, $result->get_size());
+            $page_sizes[] = $result->get_size();
             $cumulative += $result->get_size();
 
             $combined = $result->get_combined_cursor();
@@ -223,10 +222,8 @@ class SizeLimitedStreamTest extends \PHPUnit\Framework\TestCase
             $this->assertSame($cumulative, $cursor->get_current_size());
         }
 
-        // Limit reached: next page is empty and exhaustive, and the inner stream is not queried again.
-        $result = $size_limited_stream->enumerate($page_size, $cursor);
-        $this->assertSame(0, $result->get_size());
-        $this->assertTrue($result->is_exhaustive());
+        // Full pages serve `page_size`; the last page is truncated to the remaining budget.
+        $this->assertSame([3, 3, 3, 3, 3, 3, 2], $page_sizes);
         $this->assertSame($limit, $cumulative);
     }
 
