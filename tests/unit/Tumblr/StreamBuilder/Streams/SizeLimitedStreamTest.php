@@ -203,7 +203,7 @@ class SizeLimitedStreamTest extends \PHPUnit\Framework\TestCase
         $stream = $this->getMockBuilder(Stream::class)->disableOriginalConstructor()->getMock();
         $el = $this->getMockBuilder(StreamElement::class)->disableOriginalConstructor()->getMock();
         // Inner stream always has more than enough; queried once per non-empty page.
-        $stream->expects($this->exactly($limit / $page_size))
+        $stream->expects($this->exactly(4))
             ->method('_enumerate')
             ->willReturn(new StreamResult(false, array_fill(0, $page_size, $el)));
 
