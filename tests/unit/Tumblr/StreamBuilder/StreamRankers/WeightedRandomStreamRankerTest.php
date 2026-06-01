@@ -105,6 +105,7 @@ class WeightedRandomStreamRankerTest extends \PHPUnit\Framework\TestCase
             1234 => 1.0,
             2345 => 2.0,
             3456 => 3.0,
+            4567 => 0.0,
         ];
         $stream_elements = $this->build_blog_stream_elements($bid2score);
         mt_srand(0);
