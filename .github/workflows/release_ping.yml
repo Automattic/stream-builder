@@ -22,7 +22,7 @@ jobs:
     steps:
       - name: Send notification for new release
         id: slack
-        uses: slackapi/slack-github-action@v1.24.0
+        uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117 # v1.24.0
         env:
           release_icon: ${{ ':released:' }}
         with:
