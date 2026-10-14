@@ -25,6 +25,7 @@ use Test\Tumblr\StreamBuilder\StreamCursors\MockMaxCursor;
 use Test\Tumblr\StreamBuilder\StreamElements\MockMaxStreamElement;
 use Test\Tumblr\StreamBuilder\StreamRankers\DummyStreamRanker;
 use Tumblr\StreamBuilder\CacheProvider;
+use Tumblr\StreamBuilder\EnumerationOptions\EnumerationPreFilteringOptions;
 use Tumblr\StreamBuilder\Exceptions\InappropriateCursorException;
 use Tumblr\StreamBuilder\StreamContext;
 use Tumblr\StreamBuilder\StreamCursors\MultiCursor;
@@ -142,5 +143,31 @@ class BufferedRankedStreamTest extends \PHPUnit\Framework\TestCase
     {
         $context = new StreamContext($template, []);
         $this->assertSame($template, BufferedRankedStream::from_template($context)->to_template());
+    }
+
+    /**
+     * Test that enumerate passes the enumeration options to the inner stream when refilling the buffer.
+     */
+    public function test_enumerate_passes_option_to_inner_stream()
+    {
+        $e1 = new MockMaxStreamElement(1, 'p1', new MockMaxCursor(1));
+        $option = new EnumerationPreFilteringOptions([42], null, null);
+
+        /** @var StreamRanker|\PHPUnit\Framework\MockObject\MockObject $ranker */
+        $ranker = $this->getMockBuilder(StreamRanker::class)->disableOriginalConstructor()->getMockForAbstractClass();
+        $ranker->method('rank_inner')->willReturn([$e1]);
+
+        /** @var Stream|\PHPUnit\Framework\MockObject\MockObject $inner_stream */
+        $inner_stream = $this->getMockBuilder(Stream::class)->disableOriginalConstructor()->getMockForAbstractClass();
+        $inner_stream->expects($this->once())
+            ->method('_enumerate')
+            ->with(4, null, null, $this->identicalTo($option))
+            ->willReturn(new StreamResult(true, [$e1]));
+
+        /** @var CacheProvider|\PHPUnit\Framework\MockObject\MockObject $cache_provider */
+        $cache_provider = $this->getMockBuilder(CacheProvider::class)->disableOriginalConstructor()->getMockForAbstractClass();
+
+        $ranked_stream = new BufferedRankedStream($inner_stream, $ranker, 3, 'amazing_ranked_stream', $cache_provider);
+        $ranked_stream->enumerate(1, null, null, $option);
     }
 }
