@@ -85,7 +85,7 @@ final class BufferedRankedStream extends Stream
         $pool_deficit = ($count + $this->overfetch_count) - count($pool);
         if ($pool_deficit > 0) {
             // need to refill!
-            $refill_result = $this->inner->enumerate($pool_deficit, $inner_cursor, $tracer);
+            $refill_result = $this->inner->enumerate($pool_deficit, $inner_cursor, $tracer, $option);
             $refill_elements = $refill_result->get_elements();
             $inner_cursor = $refill_result->get_combined_cursor();
             $pool = array_merge($pool, $refill_elements);
