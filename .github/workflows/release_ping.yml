@@ -34,7 +34,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "${{ env.release_icon }} New stream-builder release:\n<${{ env.release_url }}|#${{ env.release_name }}>"
+                    "text": "${{ env.release_icon }} New stream-builder release:\n<${{ env.release_url }}|#${{ env.release_name }}>\n(Run bin/stream-builder-update on your sandbox to update wpcom)"
                   }
                 }
               ]
